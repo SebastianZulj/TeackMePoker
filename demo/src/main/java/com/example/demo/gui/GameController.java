@@ -863,7 +863,10 @@ public class GameController {
         }
         System.out.println("BaseCard Path: " + baseCard);
 
-        Image imageTemp = new Image(baseCard, 114, 148, true, true);
+        //Image imageTemp = new Image(baseCard, 114, 148, true, true);
+        //Fixed
+        Image imageTemp = new Image(getClass().getResourceAsStream(baseCard), 114, 148, true, true);
+
 
         collectionOfCardsTable[i] = new ImageView(imageTemp);
         tabelCardArea.getChildren().add(collectionOfCardsTable[i]);
