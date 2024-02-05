@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Objects;
+
 import com.example.demo.aiClass.Ai;
 import com.example.demo.controller.SPController;
 import com.example.demo.deck.Card;
@@ -164,7 +166,6 @@ public class GameController {
   public Label subPotSix;
   @FXML
   public Label mainPot;
-
   private WinnerBox winnerBox;
   private ConfirmBox confirmBox;
   private ChangeScene changeScene;
@@ -195,7 +196,6 @@ public class GameController {
   private TutorialController tutorialWindow;
   private int AllInViability = 0;
   private Label[] collectionOfPots;
-
   private static final String BASE_PATH = "/com/example/demo/";
 
 
@@ -295,7 +295,7 @@ public class GameController {
    */
   public void setUIAiStatus(int position, String state) {
 
-    String resource = BASE_PATH + "images/"; // 122, 158
+   /* String resource = BASE_PATH + "images/"; // 122, 158
     Image hideCards = new Image(Paths.get(resource + "aiBarWithoutCards.png").toUri().toString(),
         122, 158, true, true);
     Image showCards = new Image(Paths.get(resource + "aiBarWithCards.png").toUri().toString(), 122,
@@ -309,6 +309,23 @@ public class GameController {
     } else if (state == "idle") {
       collectionOfCardsAi[position].setImage(showCards);
     } else if (state == "active") {
+      collectionOfCardsAi[position].setImage(showActiveCards);
+    }
+
+    */
+    String hideCardsPath = "/com/example/demo/images/aiBarWithoutCards.png";
+    String showCardsPath = "/com/example/demo/images/aiBarWithCards.png";
+    String showActiveCardsPath = "/com/example/demo/images/aiBarWithCardsCurrentPlayer.png";
+
+    Image hideCards = new Image(getClass().getResourceAsStream(hideCardsPath), 122, 158, true, true);
+    Image showCards = new Image(getClass().getResourceAsStream(showCardsPath), 122, 158, true, true);
+    Image showActiveCards = new Image(getClass().getResourceAsStream(showActiveCardsPath), 122, 158, true, true);
+
+    if (Objects.equals(state, "inactive")) {
+      collectionOfCardsAi[position].setImage(hideCards);
+    } else if (Objects.equals(state, "idle")) {
+      collectionOfCardsAi[position].setImage(showCards);
+    } else if (Objects.equals(state, "active")) {
       collectionOfCardsAi[position].setImage(showActiveCards);
     }
   }
@@ -688,48 +705,63 @@ public class GameController {
    * Checks the player's hand and gives tips and highlights cards based on the method
    * getHighlightedCards (important during pre-flop situation).
    */
+  //Changed Image Paths:
+  //Updated the image paths for cardOne and cardTwo to use the absolute path starting with "/com/example/demo/images/".
+  //Modified Image Loading:
+  //Used getClass().getResource() to load the images. This method loads resources from the classpath
   public void checkHand() {
-
     Platform.runLater(() -> {
+      //try {
+        hand.reCalc();
+        playerCardsArea.requestLayout();
+        playerCardsArea.getChildren().clear();
 
-      hand.reCalc();
-      playerCardsArea.requestLayout();
-      playerCardsArea.getChildren().clear();
-      String cardOne =
-          BASE_PATH + "images/" + card1.getCardValue() + card1.getCardSuit().charAt(0) + ".png";
-      String cardTwo =
-          BASE_PATH + "images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + ".png";
+        String cardOne = "/com/example/demo/images/" + card1.getCardValue() + card1.getCardSuit().charAt(0) + ".png";
+        String cardTwo = "/com/example/demo/images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + ".png";
 
-      if (hand.getHighlightedCards()
-          .contains(Integer.toString(card1.getCardValue()) + "," + card1.getCardSuit().charAt(0))) {
-        cardOne =
-            BASE_PATH + "images/" + card1.getCardValue() + card1.getCardSuit().charAt(0) + "O.png";
-      }
+        if (hand.getHighlightedCards().contains(Integer.toString(card1.getCardValue()) + "," + card1.getCardSuit().charAt(0))) {
+          cardOne = "/com/example/demo/images/" + card1.getCardValue() + card1.getCardSuit().charAt(0) + "O.png";
+        }
 
-      if (hand.getHighlightedCards()
-          .contains(Integer.toString(card2.getCardValue()) + "," + card2.getCardSuit().charAt(0))) {
-        cardTwo =
-            BASE_PATH + "images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + "O.png";
-      }
+        if (hand.getHighlightedCards().contains(Integer.toString(card2.getCardValue()) + "," + card2.getCardSuit().charAt(0))) {
+          cardTwo = "/com/example/demo/images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + "O.png";
+        }
+        // only for test remove later
+        System.out.println("Card One Path: " + cardOne);
+        System.out.println("Card Two Path: " + cardTwo);
+        System.out.println("Highlighted Cards: " + hand.getHighlightedCards());
 
-      Image imageTemp = null;
-      ImageView imgCard1 = new ImageView(imageTemp);
-      ImageView imgCard2 = new ImageView(imageTemp);
+        Image imageTemp = null;
+        ImageView imgCard1 = new ImageView(imageTemp);
+        ImageView imgCard2 = new ImageView(imageTemp);
 
-      Image image = new Image(Paths.get(cardOne).toUri().toString(), 114, 148, true, true);
-      imgCard1 = new ImageView(image);
-      playerCardsArea.getChildren().add(imgCard1);
-      imgCard1.setX(0);
-      imgCard1.setY(0);
+        Image image = new Image(getClass().getResource(cardOne).toExternalForm(), 114, 148, true, true);
+        //if (image.isError()) {
+        //  System.err.println("Error loading image: " + cardOne);
+       // } else {
+          imgCard1 = new ImageView(image);
+          playerCardsArea.getChildren().add(imgCard1);
+          imgCard1.setX(0);
+          imgCard1.setY(0);
+        //}
 
-      image = new Image(Paths.get(cardTwo).toUri().toString(), 114, 148, true, true);
-      imgCard2 = new ImageView(image);
-      playerCardsArea.getChildren().add(imgCard2);
-      imgCard2.setX(105);
-      imgCard2.setY(0);
-      updatePlayerValues("");
+        imgCard1 = new ImageView(image);
+        playerCardsArea.getChildren().add(imgCard1);
+        imgCard1.setX(0);
+        imgCard1.setY(0);
+
+        image = new Image(getClass().getResource(cardTwo).toExternalForm(), 114, 148, true, true);
+        imgCard2 = new ImageView(image);
+        playerCardsArea.getChildren().add(imgCard2);
+        imgCard2.setX(105);
+        imgCard2.setY(0);
+        updatePlayerValues("");
+      //} catch (Exception e) {
+       // e.printStackTrace();
+      //}
     });
   }
+
 
 
   /**
@@ -737,7 +769,7 @@ public class GameController {
    * 
    * @param setOfCards Set of cards shown on the table.
    */
-  public void setFlopTurnRiver(Card[] setOfCards) {
+  /*public void setFlopTurnRiver(Card[] setOfCards) {
 
     this.cards = new ArrayList<Card>(); // Clears the cards list
     cards.add(card1); // Adds card one and card two (player's cards in the
@@ -791,6 +823,57 @@ public class GameController {
     checkHand();
   }
 
+   */
+  public void setFlopTurnRiver(Card[] setOfCards) {
+    this.cards = new ArrayList<Card>(); // Clears the cards list
+    cards.add(card1); // Adds card one and card two (player's cards in the hand)
+    cards.add(card2);
+
+    for (Card c : setOfCards) {
+      cards.add(c); // Adds cards from flop/turn/river
+    }
+    // Debug print to check all cards
+    for (Card card : cards) {
+      System.out.println("CardAI: " + card.getCardValue() + card.getCardSuit());
+    }
+
+    this.hand = new Hand(cards);
+    hand.reCalc(); // Recalculates so the "new" set of cards gets highlighted
+
+    Platform.runLater(() -> {
+      tabelCardArea.getChildren().clear(); // Clears if there's cards on the table (UI)
+      tabelCardArea.requestLayout();
+      int xCord = 0;
+            // TEST
+      for (int i = 0; i < setOfCards.length; i++) {
+        String baseCard = "";
+        String cardValue = Integer.toString(setOfCards[i].getCardValue());
+        String cardSuit = setOfCards[i].getCardSuit().charAt(0) + "";
+
+        if (hand.getHighlightedCards().contains(cardValue + "," + cardSuit)) {
+          baseCard = "/com/example/demo/images/" + cardValue + cardSuit + "O.png";
+        } else {
+          baseCard = "/com/example/demo/images/" + cardValue + cardSuit + ".png";
+        }
+
+        if (i == 1) {
+          xCord = 110; // First card
+        } else if (i > 1) {
+          xCord += 105;
+        }
+        System.out.println("BaseCard Path: " + baseCard);
+
+        Image imageTemp = new Image(baseCard, 114, 148, true, true);
+
+        collectionOfCardsTable[i] = new ImageView(imageTemp);
+        tabelCardArea.getChildren().add(collectionOfCardsTable[i]);
+        collectionOfCardsTable[i].setX(xCord);
+        collectionOfCardsTable[i].setY(0);
+      }
+              handHelp();
+              checkHand();
+            });
+  }
 
   /**
    * Clears the cards on the table.
