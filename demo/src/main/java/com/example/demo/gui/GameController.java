@@ -294,25 +294,6 @@ public class GameController {
    *        active (currently it's turn).
    */
   public void setUIAiStatus(int position, String state) {
-
-   /* String resource = BASE_PATH + "images/"; // 122, 158
-    Image hideCards = new Image(Paths.get(resource + "aiBarWithoutCards.png").toUri().toString(),
-        122, 158, true, true);
-    Image showCards = new Image(Paths.get(resource + "aiBarWithCards.png").toUri().toString(), 122,
-        158, true, true);
-    Image showActiveCards =
-        new Image(Paths.get(resource + "aiBarWithCardsCurrentPlayer.png").toUri().toString(), 122,
-            158, true, true);
-
-    if (state == "inactive") {
-      collectionOfCardsAi[position].setImage(hideCards);
-    } else if (state == "idle") {
-      collectionOfCardsAi[position].setImage(showCards);
-    } else if (state == "active") {
-      collectionOfCardsAi[position].setImage(showActiveCards);
-    }
-
-    */
     String hideCardsPath = "/com/example/demo/images/aiBarWithoutCards.png";
     String showCardsPath = "/com/example/demo/images/aiBarWithCards.png";
     String showActiveCardsPath = "/com/example/demo/images/aiBarWithCardsCurrentPlayer.png";
@@ -768,61 +749,6 @@ public class GameController {
    * Uses the getHighlightedCards to highlight and show cards on the table.
    * 
    * @param setOfCards Set of cards shown on the table.
-   */
-  /*public void setFlopTurnRiver(Card[] setOfCards) {
-
-    this.cards = new ArrayList<Card>(); // Clears the cards list
-    cards.add(card1); // Adds card one and card two (player's cards in the
-                      // hand)
-    cards.add(card2);
-
-    for (Card c : setOfCards) {
-      cards.add(c); // Adds cards from flop/turn/river
-    }
-
-    this.hand = new Hand(cards);
-    hand.reCalc(); // Recalculates so the "new" set of cards gets
-                   // highlighted
-
-    Platform.runLater(() -> {
-      tabelCardArea.getChildren().clear(); // Clears if there's cards on
-                                           // the table (UI)
-      tabelCardArea.requestLayout();
-
-      int xCord = 0;
-      for (int i = 0; i < setOfCards.length; i++) { // Loops through all
-                                                    // cards and
-                                                    // highlights the
-                                                    // correct ones and
-                                                    // places them on
-                                                    // the table
-                                                    // (UI)
-        String baseCard = "";
-        if (hand.getHighlightedCards().contains(Integer.toString(setOfCards[i].getCardValue()) + ","
-            + setOfCards[i].getCardSuit().charAt(0))) {
-          baseCard = BASE_PATH + "images/" + setOfCards[i].getCardValue()
-              + setOfCards[i].getCardSuit().charAt(0) + "O.png";
-        } else {
-          baseCard = BASE_PATH + "images/" + setOfCards[i].getCardValue()
-              + setOfCards[i].getCardSuit().charAt(0) + ".png";
-        }
-        if (i == 1) {
-          xCord = 110; // First card
-        } else if (i > 1) {
-          xCord += 105;
-        }
-        Image imageTemp = new Image(Paths.get(baseCard).toUri().toString(), 114, 148, true, true);
-
-        collectionOfCardsTable[i] = new ImageView(imageTemp);
-        tabelCardArea.getChildren().add(collectionOfCardsTable[i]);
-        collectionOfCardsTable[i].setX(xCord);
-        collectionOfCardsTable[i].setY(0);
-      }
-    });
-    handHelp();
-    checkHand();
-  }
-
    */
   public void setFlopTurnRiver(Card[] setOfCards) {
     this.cards = new ArrayList<Card>(); // Clears the cards list
@@ -1434,6 +1360,7 @@ public class GameController {
     String[] roundStatus = new String[] {"roundPreFlop", "roundFlop", "roundTurn", "roundRiver"};
 
     Platform.runLater(() -> {
+
       paneRounds.getChildren().remove(imgRoundStatus);
       Image tempImage =
           new Image(Paths.get(BASE_PATH + "images/" + roundStatus[round] + ".png").toUri().toString(),
