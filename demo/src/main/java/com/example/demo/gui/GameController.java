@@ -27,7 +27,6 @@ import javafx.scene.layout.Pane;
  * @version 1.0 
  *
  */
-
 public class GameController {
 
   @FXML
@@ -717,14 +716,10 @@ public class GameController {
         ImageView imgCard2 = new ImageView(imageTemp);
 
         Image image = new Image(getClass().getResource(cardOne).toExternalForm(), 114, 148, true, true);
-        //if (image.isError()) {
-        //  System.err.println("Error loading image: " + cardOne);
-       // } else {
           imgCard1 = new ImageView(image);
           playerCardsArea.getChildren().add(imgCard1);
           imgCard1.setX(0);
           imgCard1.setY(0);
-        //}
 
         imgCard1 = new ImageView(image);
         playerCardsArea.getChildren().add(imgCard1);
@@ -737,9 +732,6 @@ public class GameController {
         imgCard2.setX(105);
         imgCard2.setY(0);
         updatePlayerValues("");
-      //} catch (Exception e) {
-       // e.printStackTrace();
-      //}
     });
   }
 
