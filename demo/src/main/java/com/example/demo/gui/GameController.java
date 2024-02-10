@@ -788,8 +788,6 @@ public class GameController {
           xCord += 105;
         }
         System.out.println("BaseCard Path: " + baseCard);
-
-        //Image imageTemp = new Image(baseCard, 114, 148, true, true);
         //Fixed
         Image imageTemp = new Image(getClass().getResourceAsStream(baseCard), 114, 148, true, true);
 
@@ -883,60 +881,47 @@ public class GameController {
    * Method which fetches the advice for the player and displays it in the bottom left pane
    */
   public void handHelp() {
-
-    String powerBarWeakHand = BASE_PATH + "images/weakHand.png";
-    String powerBarMediumWeakHand = BASE_PATH + "images/mediumWeakHand.png";
-    String powerBarMediumStrongHand = BASE_PATH + "images/mediumStrongHand.png";
-    String powerBarStrongHand = BASE_PATH + "images/StrongHand.png";
-
     Platform.runLater(() -> {
+      try {
+        String helpText = hand.theHelp();
+        helpLabel.setText("Du har: \n" + helpText);
+        String adviceText = hand.theAdvice();
+        adviceLabel.setText("Råd: \n" + adviceText);
 
-      String helpText = hand.theHelp();
-      helpLabel.setText("Du har: \n" + helpText);
-      String adviceText = hand.theAdvice();
-      adviceLabel.setText("Råd: \n" + adviceText);
+        powerBarValue = hand.toPowerBar();
 
-      powerBarValue = hand.toPowerBar();
+        ImageView imgPowerBar = new ImageView();
+        imgPowerBar.setFitWidth(120);
+        imgPowerBar.setFitHeight(166);
+        imgPowerBar.setPreserveRatio(true);
 
-      if (powerBarValue == 1) {
+        Image image;
+        switch (powerBarValue) {
+          case 1:
+            image = new Image(getClass().getResourceAsStream("/com/example/demo/images/weakHand.png"), 120, 166, true, true);
+            break;
+          case 2:
+            image = new Image(getClass().getResourceAsStream("/com/example/demo/images/mediumWeakHand.png"), 120, 166, true, true);
+            break;
+          case 3:
+            image = new Image(getClass().getResourceAsStream("/com/example/demo/images/mediumStrongHand.png"), 120, 166, true, true);
+            break;
+          case 4:
+            image = new Image(getClass().getResourceAsStream("/com/example/demo/images/strongHand.png"), 120, 166, true, true);
+            break;
+          default:
+            return;
+        }
+        imgPowerBar.setImage(image);
         powerBarArea.getChildren().remove(imgPowerBar);
-        image = new Image(Paths.get(powerBarWeakHand).toUri().toString(), 120, 166, true, true);
-        imgPowerBar = new ImageView(image);
         powerBarArea.getChildren().add(imgPowerBar);
         imgPowerBar.setX(15);
         imgPowerBar.setY(0);
-
-      } else if (powerBarValue == 2) {
-        powerBarArea.getChildren().remove(imgPowerBar);
-        image =
-            new Image(Paths.get(powerBarMediumWeakHand).toUri().toString(), 120, 166, true, true);
-        imgPowerBar = new ImageView(image);
-        powerBarArea.getChildren().add(imgPowerBar);
-        imgPowerBar.setX(15);
-        imgPowerBar.setY(0);
-
-      } else if (powerBarValue == 3) {
-        powerBarArea.getChildren().remove(imgPowerBar);
-        image =
-            new Image(Paths.get(powerBarMediumStrongHand).toUri().toString(), 120, 166, true, true);
-        imgPowerBar = new ImageView(image);
-        powerBarArea.getChildren().add(imgPowerBar);
-        imgPowerBar.setX(15);
-        imgPowerBar.setY(0);
-
-      } else if (powerBarValue == 4) {
-        powerBarArea.getChildren().remove(imgPowerBar);
-        image = new Image(Paths.get(powerBarStrongHand).toUri().toString(), 120, 166, true, true);
-        imgPowerBar = new ImageView(image);
-        powerBarArea.getChildren().add(imgPowerBar);
-        imgPowerBar.setX(15);
-        imgPowerBar.setY(0);
-
+        this.handStrength = hand.getHandStrenght();
+      }catch (IllegalArgumentException e) {
+        e.printStackTrace();
       }
-      this.handStrength = hand.getHandStrenght();
-
     });
-
   }
 
 
@@ -1362,8 +1347,8 @@ public class GameController {
     Platform.runLater(() -> {
 
       paneRounds.getChildren().remove(imgRoundStatus);
-      Image tempImage =
-          new Image(Paths.get(BASE_PATH + "images/" + roundStatus[round] + ".png").toUri().toString(),
+      String imagePath = "/com/example/demo/images/" + roundStatus[round] + ".png";
+      Image tempImage = new Image(getClass().getResource(imagePath).toExternalForm(),
               175, 56, true, true);
       imgRoundStatus = new ImageView(tempImage);
       imgRoundStatus.setImage(tempImage);
