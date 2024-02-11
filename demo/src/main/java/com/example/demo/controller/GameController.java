@@ -1,14 +1,13 @@
-package com.example.demo.gui;
+package com.example.demo.controller;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
 
 import com.example.demo.aiClass.Ai;
-import com.example.demo.controller.SPController;
 import com.example.demo.deck.Card;
+import com.example.demo.gui.*;
 import com.example.demo.hand.Hand;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package com.example.demo.gui;
+package com.example.demo.controller;
 
         import javafx.application.Application;
         import javafx.stage.Stage;

@@ -1,7 +1,8 @@
-package com.example.demo.gui;
+package com.example.demo.controller;
 
 import java.io.IOException;
-import com.example.demo.controller.SPController;
+
+import com.example.demo.gui.*;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
