@@ -10,7 +10,8 @@ import com.example.demo.gui.GameController;
 
 
 /**
- *
+ *  This class is responsible for managing the game logic of the project.
+ *  Once the game starts this is the class that runs until someone has won
  * 
  * @author Rikard Almgren
  * @version 1.0

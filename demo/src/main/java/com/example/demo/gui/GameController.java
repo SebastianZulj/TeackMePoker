@@ -20,7 +20,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 /**
- * 
+ * This class is the controller for the playing state of the game. and displays the needed resources on screen.
+ *
  * @author Amin Harirchian, Vedrana Zeba, Lykke Levin, Rikard Almgren
  * @version 1.0 
  *
@@ -231,6 +232,8 @@ public class GameController {
     this.collectionOfCardsTable =
         new ImageView[] {imgCard3, imgCard4, imgCard5, imgCard6, imgCard7};
 
+
+
     // Used by method: inactivateAllAiCardGlows and aiAction.
     this.prevPlayerActive = -1;
   }
@@ -246,7 +249,7 @@ public class GameController {
     collectionOfLabelsAi[position][0].setVisible(true);
     collectionOfLabelsAi[position][1].setVisible(true);
     collectionOfLabelsAi[position][2].setVisible(true);
-    collectionOfCardsAi[position].setVisible(true);
+    //collectionOfCardsAi[position].setVisible(true);
   }
 
 
@@ -304,14 +307,24 @@ public class GameController {
         new Image(Paths.get(resource + "aiBarWithCardsCurrentPlayer.png").toUri().toString(), 122,
             158, true, true);
 
+
+
+
+    //ImageView imageView = collectionOfCardsAi[position];
+
     if (state == "inactive") {
       collectionOfCardsAi[position].setImage(hideCards);
+
     } else if (state == "idle") {
       collectionOfCardsAi[position].setImage(showCards);
+
     } else if (state == "active") {
       collectionOfCardsAi[position].setImage(showActiveCards);
+
+
     }
   }
+
 
 
   /**
@@ -663,6 +676,8 @@ public class GameController {
                                     // previous glow-effects.
         setUIAiStatus(i, "idle");
         setLabelUIAiBarAction(i, "");
+        collectionOfCardsAi[i].setVisible(true);
+        System.out.println("hej");
       }
     });
 
@@ -695,6 +710,7 @@ public class GameController {
       hand.reCalc();
       playerCardsArea.requestLayout();
       playerCardsArea.getChildren().clear();
+
       String cardOne =
           BASE_PATH + "images/" + card1.getCardValue() + card1.getCardSuit().charAt(0) + ".png";
       String cardTwo =
@@ -712,9 +728,11 @@ public class GameController {
             BASE_PATH + "images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + "O.png";
       }
 
+
       Image imageTemp = null;
       ImageView imgCard1 = new ImageView(imageTemp);
       ImageView imgCard2 = new ImageView(imageTemp);
+
 
       Image image = new Image(Paths.get(cardOne).toUri().toString(), 114, 148, true, true);
       imgCard1 = new ImageView(image);
@@ -785,6 +803,10 @@ public class GameController {
         tabelCardArea.getChildren().add(collectionOfCardsTable[i]);
         collectionOfCardsTable[i].setX(xCord);
         collectionOfCardsTable[i].setY(0);
+
+
+
+
       }
     });
     handHelp();
@@ -1064,9 +1086,9 @@ public class GameController {
   public void removeAiPlayer(int AI) {
 
     Platform.runLater(() -> {
-      collectionOfLabelsAi[AI][0].setVisible(false);
-      collectionOfLabelsAi[AI][1].setVisible(false);
-      collectionOfLabelsAi[AI][2].setVisible(false);
+      collectionOfLabelsAi[AI][0].setVisible(true);
+      collectionOfLabelsAi[AI][1].setVisible(true);
+      collectionOfLabelsAi[AI][2].setVisible(true);
     });
   }
 
