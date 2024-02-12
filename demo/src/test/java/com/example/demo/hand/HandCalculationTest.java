@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HandCalculationTest {
+    private ArrayList<String> playingCards = new ArrayList<>();
 
     @Test
     void checkPairAndMore() {
@@ -25,22 +26,18 @@ class HandCalculationTest {
 
     @Test
     void checkStraight() {
-        Card card1 = new Card(Suit.HEARTS, CardValue.TWO, null);
-        Card card2 = new Card(Suit.SPADES, CardValue.THREE, null);
-        Card card3 = new Card(Suit.CLUBS, CardValue.FOUR, null);
-        Card card4 = new Card(Suit.SPADES, CardValue.FIVE, null);
-        Card card5 = new Card(Suit.DIAMONDS, CardValue.SIX, null);
-
-
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.add(card1);
-        cards.add(card2);
-        cards.add(card3);
-        cards.add(card4);
-        cards.add(card5);
-
-        Hand hand = new Hand(cards);
-       // HandCalculation handCalculator = new HandCalculation(hand);
+        //add cards required for straight to playingCards
+        //registers a straight when any 5 cards are in a row
+        playingCards.add("5,h");
+        playingCards.add("4,d");
+        playingCards.add("6,h");
+        playingCards.add("7,d");
+        playingCards.add("8,h");
+        playingCards.add("14,d");
+        playingCards.add("9,h");
+        HandCalculation handCalculator = new HandCalculation(playingCards);
+        int straight = handCalculator.checkStraight();
+        assertEquals(5, straight);
     }
 
     @Test

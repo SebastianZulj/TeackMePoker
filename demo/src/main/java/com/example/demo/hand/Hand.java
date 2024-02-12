@@ -73,7 +73,7 @@ public class Hand {
 	}
 /**
  * returns a number that will be used to set a image to visualize the users handStrength
- * @return a int that represents the users cardStregnth
+ * @return an int that represents the users cardStrength
  */
 	public int toPowerBar() { 
 		return pwrBar;

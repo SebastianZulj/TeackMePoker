@@ -32,7 +32,7 @@ public class HandCalculation {
 	private int handStrenght = 0;
 	/**
 	 * 
-	 * @param aiCards Current cards needed for evaluate.
+	 * @param aiCards Current cards needed for evaluation.
 	 */
 	public HandCalculation(ArrayList<String> aiCards) {
 		
