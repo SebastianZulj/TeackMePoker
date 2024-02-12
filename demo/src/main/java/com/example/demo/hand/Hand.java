@@ -2,6 +2,8 @@ package com.example.demo.hand;
 
 import java.util.ArrayList;
 import com.example.demo.deck.Card;
+import com.example.demo.deck.CardValue;
+import com.example.demo.deck.Suit;
 
 /**
  * The hand-class that will guide and help the noob player.
@@ -105,4 +107,6 @@ public class Hand {
 		handStrenght = calc.calcHandstrenght();
 		return handStrenght;
 	}
+
+
 }
