@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class AiTest {
 
 
-
     @Test
     void TF4() {
         Ai sebZul = new Ai(50, "Sebastian Zulj");
@@ -25,9 +24,8 @@ class AiTest {
         Card card1 = new Card(Suit.HEARTS, CardValue.TWO, null);
         Card card2 = new Card(Suit.SPADES, CardValue.FOUR, null);
         sebZul.setStartingHand(card1, card2);
-        sebZul.makeDecision(100);
-        String decision = sebZul.getDecision();
-        assertEquals(decision, "fold");
+        sebZul.makeDecision(10);
+        assertEquals("fold", sebZul.getDecision());
     }
 
     @Test
@@ -36,9 +34,8 @@ class AiTest {
         Card card1 = new Card(Suit.HEARTS, CardValue.ACE, null);
         Card card2 = new Card(Suit.SPADES, CardValue.SIX, null);
         sebZul.setStartingHand(card1, card2);
-        sebZul.makeDecision(100);
-        String decision = sebZul.getDecision();
-        assertEquals(decision, "call");
+        sebZul.makeDecision(10);
+        assertEquals("call", sebZul.getDecision());
     }
 
     @Test
@@ -54,17 +51,33 @@ class AiTest {
             temp = decision.split(",");
             decision = temp[0];
         }
-        assertEquals(decision, "raise");
+        assertEquals("raise", decision);
     }
 
     @Test
     void TF8() {
         Ai sebZul = new Ai(50, "Sebastian Zulj");
+        Card[] flop = new Card[3];
         Card card1 = new Card(Suit.HEARTS, CardValue.TWO, null);
         Card card2 = new Card(Suit.SPADES, CardValue.FOUR, null);
-        Card card3 = new Card(Suit.SPADES, CardValue.TWO, null);
-        Card card4 = new Card(Suit.CLUBS, CardValue.TWO, null);
-        Card card5 = new Card(Suit.DIAMONDS, CardValue.THREE, null);
+        flop[0] = new Card(Suit.SPADES, CardValue.TWO, null);
+        flop[1] = new Card(Suit.CLUBS, CardValue.TWO, null);
+        flop[2] = new Card(Suit.DIAMONDS, CardValue.THREE, null);
+        sebZul.setStartingHand(card1, card2);
+        sebZul.makeDecision(40 ,flop);
+        String decision = sebZul.getDecision();
+        if (decision.contains(",")){
+            String[] temp = new String[4];
+            temp = decision.split(",");
+            decision = temp[0];
+        }
+        assertEquals("call", decision);
+    }
+
+    @Test
+    void TF9() {
+        Ai sebZul = new Ai(50, "Sebastian Zulj");
+
     }
 
 
