@@ -33,6 +33,33 @@ public class Sound {
 	public void playSound(String type) {
 		String whatSound = type;
 
+		switch (type) {
+			case "check":
+				checkSound.play();
+				break;
+			case "fold":
+				cardFold.play();
+				break;
+			case "shuffle":
+				shuffleSound.play();
+				break;
+			case "singleCard":
+				singleCard.play();
+				break;
+			case "chipSingle":
+				chipSingle.play();
+				break;
+			case "chipMulti":
+				chipMulti.play();
+				break;
+			case "coinSound":
+				coinSound.play();
+				break;
+			case "wrong":
+				wrongSound.play();
+				break;
+		}
+/*
 		if (whatSound.equals("check")) {
 			checkSound.play();
 		} else if (whatSound.equals("fold")) {
@@ -50,6 +77,8 @@ public class Sound {
 		} else if (whatSound.equals("wrong")) {
 			wrongSound.play();
 		}
+
+ */
 
 	}
 

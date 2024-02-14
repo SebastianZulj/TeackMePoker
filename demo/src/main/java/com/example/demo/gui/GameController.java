@@ -521,7 +521,7 @@ public class GameController {
    */
   public void soundSetting() {
 
-    if (sound.cardFold.getVolume() > 0) {
+    if(sound.cardFold.getVolume() == 1) {
       sound.cardFold.setVolume(0);
       sound.checkSound.setVolume(0);
       sound.chipMulti.setVolume(0);
@@ -531,7 +531,7 @@ public class GameController {
       sound.chipMulti.setVolume(0);
       sound.coinSound.setVolume(0);
       sound.wrongSound.setVolume(0);
-    } else if (sound.cardFold.getVolume() == 0) {
+    } else {
       sound.cardFold.setVolume(1);
       sound.checkSound.setVolume(1);
       sound.chipMulti.setVolume(1);
@@ -542,6 +542,7 @@ public class GameController {
       sound.coinSound.setVolume(1);
       sound.wrongSound.setVolume(1);
     }
+    
   }
 
 
