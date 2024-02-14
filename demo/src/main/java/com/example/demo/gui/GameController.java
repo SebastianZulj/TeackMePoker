@@ -310,7 +310,6 @@ public class GameController {
     }
   }
 
-
   /**
    * Sets the SPController for this gameController
    * 
@@ -322,7 +321,6 @@ public class GameController {
     spController.setGameController(this);
   }
 
-
   /**
    * Sets the changeScene for this gameController
    * 
@@ -332,7 +330,6 @@ public class GameController {
 
     this.changeScene = sceneChanger;
   }
-
 
   /**
    * Disables all buttons and shows player-frame's action as check.

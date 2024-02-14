@@ -282,8 +282,6 @@ public class SPController extends Thread {
             }
           }
         }
-
-
         // After each player(AI or real), update the pot(s)
         gController.updatePots(potSplits, currentPotSize);
         // Prevent AI from thinking it's a new turn.
@@ -347,7 +345,6 @@ public class SPController extends Thread {
     } catch (IllegalAccessException e) {
       e.printStackTrace();
     }
-
   }
 
 
@@ -355,7 +352,6 @@ public class SPController extends Thread {
    * Method which checks who the winner is.
    */
   private void checkWinner() {
-
     // if someone has gone all in, check winners through the all-in method instead.
     if (doAllInCheck) {
       checkAllInWinners();
