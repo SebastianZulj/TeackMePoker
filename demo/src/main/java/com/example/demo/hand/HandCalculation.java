@@ -3,7 +3,7 @@ package com.example.demo.hand;
 import java.util.ArrayList;
 import java.util.Arrays;
 /**
- * Does the actuall calculation and decides what help
+ * Does the actual calculation and decides what help
  * the noob player gets.
  * @author Max Frennessen
  * @version 1.5
@@ -28,7 +28,7 @@ public class HandCalculation {
 	private String theColor;
 	private ArrayList<String> toHighlight = new ArrayList<String>();
 	private String advicee;
-	private String whatStraight;
+	private String whatStraight; //TODO: bad naming
 	private int handStrenght = 0;
 	/**
 	 * 
@@ -49,7 +49,7 @@ public class HandCalculation {
 
 	
 	/**
-	 * converts the cards value into two diffirent arraylists.
+	 * converts the cards value into two different arraylists.
 	 * one for cardnumber and one for cardcolor.
 	 * @param aiCards current card being used
 	 */
@@ -81,9 +81,8 @@ public class HandCalculation {
 		int nbrOftemp2 = 0;
 		int size = aiCards.size();
 		int[] cards = new int[size+1];
-		
-		
-		for(int i = 0; i< size; i++){
+
+		for(int i = 0; i< size; i++){ //copy from aiCards to cards array
 			cards[i] = cardNbr.get(i);
 		}
 		
@@ -99,19 +98,15 @@ public class HandCalculation {
 			for(int i = 2; i<cards.length; i++){
 				if(cards[i]==temp){
 					nbrOftemp++;
-					
 				}
 			}
-		}
-		
-		else{
+		} else {
+
 		int temp1 = cards[0];
 		int temp2 = cards[1];	
-		
-		
+
 		 nbrOftemp1 = 1;
 		 nbrOftemp2 = 1;
-		
 		
 		for(int i = 2; i<cards.length; i++){
 				
@@ -157,20 +152,20 @@ public class HandCalculation {
 		if(nbrOftemp2>1){
 			if(nbrOftemp1>1){
 				same =Integer.parseInt(nbrOftemp1 +""+ nbrOftemp2);
+			} else {
+				same = nbrOftemp2;
 			}
-			else
-			same = nbrOftemp2;
-		}	
+		}
 		
 		if(same==1)
 			same=0;
 		return same;
 
 	}
+
 	/**
-	 * 
 	 * @return returns true if cards value >= 17.
-	 * 'rlyHigh not yet implemented.
+	 * rlyHigh not yet implemented.
 	 */
 	public boolean checkHighCards(){
 		boolean high = false;
@@ -183,10 +178,12 @@ public class HandCalculation {
 		if(total>=17){
 			high=true;
 		}
+		/*
 		if(card1>=10 && card2>=10){
-			 rlyhighCards=true;
-			}
-		
+			rlyhighCards=true; //TODO: not implemented
+		}
+		 */
+
 		return high;
 	}
 	/**
@@ -197,7 +194,7 @@ public class HandCalculation {
 		int C = 0; int S = 0;
 		int H = 0; int D = 0;
 	    int color = 0;
-	    
+
 		for(String x : cardClr){
 			if(x.equals("S")){
 				S++;
@@ -263,7 +260,7 @@ public class HandCalculation {
 			}
 		}
 
-	 return color;		
+	 return color;
 	}
 	
 	/**

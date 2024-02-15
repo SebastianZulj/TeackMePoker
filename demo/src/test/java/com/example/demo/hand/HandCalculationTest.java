@@ -10,24 +10,48 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HandCalculationTest {
-    private ArrayList<String> playingCards = new ArrayList<>();
-
     @Test
     void checkPairAndMore() {
+
     }
 
     @Test
-    void checkHighCards() {
+    void checkHighCardsTrue() {
+        ArrayList<String> playingCards = new ArrayList<>();
+        playingCards.add("14,h");
+        playingCards.add("11,d");
+        HandCalculation handCalculator = new HandCalculation(playingCards);
+        boolean result = handCalculator.checkHighCards();
+        assertEquals(true, result);
+    }
+
+    @Test
+    void checkHighCardsFalse() {
+        ArrayList<String> playingCards = new ArrayList<>();
+        playingCards.add("2,h");
+        playingCards.add("9,d");
+        HandCalculation handCalculator = new HandCalculation(playingCards);
+        boolean result = handCalculator.checkHighCards();
+        assertEquals(false, result);
     }
 
     @Test
     void checkSuit() {
     }
 
+    public static void main(String[] args) {
+        ArrayList<String> playingCards = new ArrayList<>();
+        playingCards.add("2,h");
+        playingCards.add("9,d");
+        HandCalculation handCalculator = new HandCalculation(playingCards);
+        handCalculator.checkSuit();
+    }
+
+
     @Test
     void checkStraight() {
-        //add cards required for straight to playingCards
-        //registers a straight when any 5 cards are in a row
+        //any 5 cards in a row lead to straight
+        ArrayList<String> playingCards = new ArrayList<>();
         playingCards.add("5,h");
         playingCards.add("4,d");
         playingCards.add("6,h");
@@ -42,5 +66,6 @@ class HandCalculationTest {
 
     @Test
     void help() {
+
     }
 }

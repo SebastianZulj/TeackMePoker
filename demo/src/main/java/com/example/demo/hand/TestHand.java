@@ -24,7 +24,7 @@ public class TestHand {
 
   /**
    * Creates a deck and then calls on specific cards that is then
-   * send to an AI that calculates and makes a decision based on the cards' strength.
+   * sent to an AI that calculates and makes a decision based on the cards' strength.
    * All commented code is used for different parts of testing, and is needed for those parts.
    */
   public TestHand() {
@@ -79,7 +79,7 @@ public class TestHand {
 
       hand = new Hand(cards);
       System.out.print(hand.getHandStrenght());
-    
+
 //    }
 		
 
