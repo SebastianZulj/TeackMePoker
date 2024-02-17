@@ -527,7 +527,7 @@ public class HandCalculation {
 	}
 	/**
 	 * 
-	 * @return returns a advice for the player that is current for his or her hand.
+	 * @return returns advice for the player that is current for his or her hand.
 	 */
 	public String Help(){
 		
@@ -600,8 +600,7 @@ public class HandCalculation {
 		if(highCards){
 			advice = "Du har ett högt 'HIGH CARD'. \nOm det är billigt så kan du prova och se.\n";
 		}
-		
-		
+
 		// ONE PAIR
 			if(pairsNmore==2){
 				helper = "'ONE-PAIR' i " +  yourCardInt +"\n";
@@ -613,12 +612,12 @@ public class HandCalculation {
 				}
 				if(aiCards.size()==5){
 				advice = "'ONE-PAIR' är en ok hand. Om det inte kostar för mycket. Så kör på!\n";
-				if(lowCards){
-					advice = "'ONE-PAIR' är en ok hand, även då detta är ett lågt par.\nOm det inte kostar för mycket. Så kör på!\n";
-				}
-				if(highCards){
-					advice = "'ONE-PAIR' är en ok hand. Och detta är även ett högt par vilket är ännu bättre.\nOm det inte kostar för mycket. Kör på!\n";
-				 }
+					if(lowCards){
+						advice = "'ONE-PAIR' är en ok hand, även då detta är ett lågt par.\nOm det inte kostar för mycket. Så kör på!\n";
+					}
+					if(highCards){
+						advice = "'ONE-PAIR' är en ok hand. Och detta är även ett högt par vilket är ännu bättre.\nOm det inte kostar för mycket. Kör på!\n";
+					}
 				}
 				
 				if(aiCards.size()>5){
@@ -627,11 +626,11 @@ public class HandCalculation {
 						advice = "'ONE-PAIR' är en hyfsat ok hand, även då detta är ett lågt par.\nOm det inte kostar för mycket. Så kör på!\n";
 					}
 					if(highCards){
-						advice = "'ONE-PAIR'  är en hyfsat ok hand. Och detta är även ett högt par vilket är ännu bättre.\nOm det inte kostar för mycket."
+						advice = "'ONE-PAIR' är en hyfsat ok hand. Och detta är även ett högt par vilket är ännu bättre.\nOm det inte kostar för mycket."
 								+ " Kör på!\n";
 					 }	
 				}
-				// writes the active cards to hihglight
+				// writes the active cards to highlight
 				if(straightChance<5 && colorChance<5){
 				toHighlight.clear();
 				for(int i = 0; i<aiCards.size(); i++){			
@@ -643,11 +642,10 @@ public class HandCalculation {
 				}
 			}
 		}
-
 		
 		//TWO PAIRS	
 		if(pairsNmore==22){				
-				helper = "'TWO PAIRS'  i " + cardOne + " och " + cardTwo ; 
+				helper = "'TWO PAIRS' i " + cardOne + " och " + cardTwo ;
 				advice = "'TWO PAIRS' är en bra hand, kör på.\n";	
 				// writes the active cards to hihglight
 				if(straightChance<5 && colorChance<5){
@@ -683,15 +681,12 @@ public class HandCalculation {
 			}
 		}
 
-		
 		//STRAIGHT
 		if(straightChance==5){		
 			helper = "En 'STRAIGHT'!! Du har 5/5.\n";
 			advice = "En 'STRAIGHT' är en riktigt bra hand. Kör på! \nFundera även på att höja!\n";
 			toHighlight.clear();
-			toHighlight = getToHighlight();		
-			
-			
+			toHighlight = getToHighlight();
 		}
 		
 		//FLUSH
@@ -702,9 +697,7 @@ public class HandCalculation {
 			toHighlight.clear();
 			checkSuit();
 		}
-	
-			
-		
+
 		//FULL HOUSE			
 		if(pairsNmore == 23 || pairsNmore==32){		
 			helper = "'FULL HOUSE' med " + cardOne + " och " + cardTwo +"!!";   
@@ -722,7 +715,6 @@ public class HandCalculation {
 					toHighlight.add(aiCards.get(i));
 				}
 			}
-
 		}
 			
 		//FOUR OF A KIND	
@@ -744,7 +736,7 @@ public class HandCalculation {
 		
 		//STRAIGHT FLUSH
 		if(straightChance==5 && colorChance==5){							//"i stegen  " + whatStraight; 
-			helper = "'STRAIGHT FLUSH' i färgen " + theColor + "! ";   //ev add what straight it is ex 2-6.
+			helper = "En 'STRAIGHT FLUSH' i färgen " + theColor + "!";   //ev add what straight it is ex 2-6.
 			advice = "'STRAIGHT FLUSH' är bästa handen i spelet. Kör på och höj!\n";
 			// Highlightning happens in checkStraight and checkSuit.
 		}

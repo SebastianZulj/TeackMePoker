@@ -44,7 +44,12 @@ public class Hand {
 		System.out.println("pwrBar - " + pwrBar);
 		System.out.println("toHighlight - " + toHighlight);
 		System.out.println("");
+	}
 
+	public String showInfo() {
+		String info = "Helper: " + helper + "\n" + "Advice: " + advice + "\n" + "pwrBar: "
+				+ pwrBar + "\n" + "toHighlight: " + toHighlight;
+		return info;
 	}
 
 	
