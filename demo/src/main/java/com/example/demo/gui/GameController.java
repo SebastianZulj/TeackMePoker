@@ -528,6 +528,8 @@ public class GameController {
       sound.chipMulti.setVolume(0);
       sound.coinSound.setVolume(0);
       sound.wrongSound.setVolume(0);
+      Image soundOff = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButtonMute.png"));
+      ivSound.setImage(soundOff);
     } else {
       sound.cardFold.setVolume(1);
       sound.checkSound.setVolume(1);
@@ -538,10 +540,11 @@ public class GameController {
       sound.chipMulti.setVolume(1);
       sound.coinSound.setVolume(1);
       sound.wrongSound.setVolume(1);
-    }
-    
-  }
+      Image soundOn = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButton.png"));
+        ivSound.setImage(soundOn);
 
+    }
+  }
 
   /**
    * Creates a new ruleController.
