@@ -75,11 +75,8 @@ public class ChangeScene {
    * @throws IOException
    */
   public void switchScenetoGame() throws IOException {
-
     Main.window.getScene().setRoot(root2);
     gameController.setUsername(settingsController.getName());
-
-
   }
 
   /**

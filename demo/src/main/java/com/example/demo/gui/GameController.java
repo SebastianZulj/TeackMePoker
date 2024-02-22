@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 import com.example.demo.aiClass.Ai;
 import com.example.demo.controller.SPController;
@@ -200,11 +201,9 @@ public class GameController {
 
   /**
    * Method for initializing FXML
-   * 
    * @throws Exception
    */
   public void initialize() throws Exception {
-
     // Groups together labels for each AI-position.
     this.collectionOfLabelsAi =
         new Label[][] {{labelPlayerOneName, labelPlayerOnePot, labelPlayerOneAction},
@@ -212,7 +211,6 @@ public class GameController {
             {labelPlayerThreeName, labelPlayerThreePot, labelPlayerThreeAction},
             {labelPlayerFourName, labelPlayerFourPot, labelPlayerFourAction},
             {labelPlayerFiveName, labelPlayerFivePot, labelPlayerFiveAction}};
-
 
     // Placeholders for the AI (based on their position). Shows their
     // cardbacks/no cards or
@@ -237,57 +235,47 @@ public class GameController {
 
   /**
    * Used to show labels and AI-frame.
-   * 
    * @param position Position on the screen (0-4).
    */
   public void setShowUIAiBar(int position) {
-
     collectionOfLabelsAi[position][0].setVisible(true);
     collectionOfLabelsAi[position][1].setVisible(true);
     collectionOfLabelsAi[position][2].setVisible(true);
     collectionOfCardsAi[position].setVisible(true);
   }
 
-
   /**
    * Used to change AI-label "name" based on position.
-   * 
    * @param position Position on the screen (0-4).
    * @param name The label for the AI's name.
    */
   public void setLabelUIAiBarName(int position, String name) {
-
     collectionOfLabelsAi[position][0].setText(name);
   }
 
 
   /**
    * Used to change AI-label "pot" based on position.
-   * 
    * @param position Position on the screen (0-4).
    * @param pot The label for the AI's pot.
    */
   public void setLabelUIAiBarPot(int position, String pot) {
-
     collectionOfLabelsAi[position][1].setText("§" + pot);
   }
 
 
   /**
    * Used to change AI-label "action" based on position.
-   * 
    * @param position Position on the screen (0-4).
    * @param action The label for the AI's action.
    */
   public void setLabelUIAiBarAction(int position, String action) {
-
     collectionOfLabelsAi[position][2].setText(action);
   }
 
 
   /**
    * Changes the AI-frame based on position and state.
-   * 
    * @param position Position on the screen (0-4).
    * @param state The state can either be inactive (folded/lost), idle (waiting for it's turn),
    *        active (currently it's turn).
@@ -312,22 +300,18 @@ public class GameController {
 
   /**
    * Sets the SPController for this gameController
-   * 
    * @param spController an instance of the class SPController
    */
   public void setSPController(SPController spController) {
-
     this.spController = spController;
     spController.setGameController(this);
   }
 
   /**
    * Sets the changeScene for this gameController
-   * 
    * @param sceneChanger an instance of the class ChangeScene
    */
   public void setChangeScene(ChangeScene sceneChanger) {
-
     this.changeScene = sceneChanger;
   }
 
@@ -335,22 +319,18 @@ public class GameController {
    * Disables all buttons and shows player-frame's action as check.
    */
   public void playerCheck() {
-
     disableButtons();
     this.decision = "check";
     lbPlayerAction.setText("check");
     playerMadeDecision = true;
     updatePlayerValues("Check");
     sound.playSound("check");
-
   }
-
 
   /**
    * Disables all buttons and shows player-frame's action as fold.
    */
   public void playerFold() {
-
     disableButtons();
     this.decision = "fold";
     lbPlayerAction.setText("fold");
@@ -365,7 +345,6 @@ public class GameController {
    * and withdraws amount from player-pot.
    */
   public void playerCall() {
-
     disableButtons();
     /*
      * Player's pot - (Current maxbet - already paid (prev rounds)) THE PLAYER'S POT
@@ -388,7 +367,6 @@ public class GameController {
    * Calculates and withdraws amount from player-pot and adjusts already paid.
    */
   public void playerRaise() {
-
     disableButtons();
     /*
      * If the player hasn't matched the current maxbet
@@ -436,32 +414,26 @@ public class GameController {
 
   }
 
-
   /**
    * Updates player-frame's labels (action and player pot) based on action.
-   * 
    * @param action Call, Check, Raise or Fold
    */
   public void updatePlayerValues(String action) {
-
     lbPotValue.setText("§" + Integer.toString(playerPot));
     lbPlayerAction.setText(action);
     setSliderValues();
   }
-
 
   /**
    * DEPRECATED. Never successfully implemented.
    */
   public void saveGame() {}
 
-
   /**
    * Sets the slider's min and max values based on the player-pot. Sets minimum sliderValue based on
    * BigBlind.
    */
   public void setSliderValues() {
-
     int calcWithdraw = 0;
     if (spController.getCurrentMaxBet() != alreadyPaid) { // If the player
                                                           // hasn't
@@ -500,24 +472,20 @@ public class GameController {
     slider.setMinorTickCount(4);
   }
 
-
   /**
    * Triggers when the player uses the slider to choose raise amount.
    */
   public void sliderChange() {
-
     slider.valueProperty().addListener(e -> {
       raiseLabel.setText(String.valueOf((int) slider.getValue()));
 
     });
   }
 
-
   /**
    * Mutes the sound on and off.
    */
   public void soundSetting() {
-
     if(sound.cardFold.getVolume() == 1) {
       sound.cardFold.setVolume(0);
       sound.checkSound.setVolume(0);
@@ -548,87 +516,66 @@ public class GameController {
 
   /**
    * Creates a new ruleController.
-   * 
    * @throws IOException
    */
   public void rulesState() throws IOException {
-
     RuleController rc = new RuleController();
     rc.rules();
   }
 
-
   /**
    * Method which returns the potValue for the table.
-   * 
    * @return tablePotValue the potValue for the table.
    */
   public double getPotValue() {
-
     return tablePotValue;
   }
 
-
   /**
    * Sets the player's name.
-   * 
    * @param name Used to sets the players name on the UI.
    */
   public void setUsername(String name) {
-
     userName.setText(name);
   }
 
-
   /**
    * Returns the players name
-   * 
    * @return userName the players name.
    */
   public String getUsername() {
-
     return userName.getText();
   }
-
 
   /**
    * Set Allin label visible
    */
   public void showAllIn() {
-
     lbAllIn.setVisible(true);
   }
-
 
   /**
    * Set Allin label deactive
    */
   public void hideAllIn() {
-
     lbAllIn.setVisible(false);
   }
-
 
   /**
    * Set slider active
    */
   public void activeSlider() {
-
     slider.setDisable(false);
   }
 
 
   /**
    * Clears AI action and updates the new and current AI-pot at the end of the round.
-   * 
    * @param ai Which AI to update values for.
    */
   public void endOfRound(int ai) {
-
     Platform.runLater(new Runnable() {
-
       private volatile boolean shutdown;
-
 
       @Override
       public void run() {
@@ -645,12 +592,10 @@ public class GameController {
 
   /**
    * Sets the starting hand pre-flop for the player.
-   * 
    * @param card1 First playercard in the hand.
    * @param card2 Second playercard in the hand.
    */
   public void setStartingHand(Card card1, Card card2) {
-
     isReady = false;
     Platform.runLater(() -> {
       clearFlopTurnRiver(); // Clears the table cards
@@ -737,10 +682,8 @@ public class GameController {
   }
 
 
-
   /**
    * Uses the getHighlightedCards to highlight and show cards on the table.
-   * 
    * @param setOfCards Set of cards shown on the table.
    */
   public void setFlopTurnRiver(Card[] setOfCards) {
@@ -784,7 +727,6 @@ public class GameController {
         //Fixed
         Image imageTemp = new Image(getClass().getResourceAsStream(baseCard), 114, 148, true, true);
 
-
         collectionOfCardsTable[i] = new ImageView(imageTemp);
         tabelCardArea.getChildren().add(collectionOfCardsTable[i]);
         collectionOfCardsTable[i].setX(xCord);
@@ -799,39 +741,30 @@ public class GameController {
    * Clears the cards on the table.
    */
   public void clearFlopTurnRiver() {
-
     Platform.runLater(() -> {
       tabelCardArea.getChildren().clear();
     });
   }
 
-
   /**
    * Method which makes the player the smallblind.
-   * 
    * @param i the amount to pay
    */
   public void playerSmallBlind(int i) {
-
     this.alreadyPaid += i;
     this.playerPot -= i;
     Platform.runLater(() -> {
-
       ivSmallBlind.relocate(520, 425);
-
     });
     updatePots(new int[1][0], spController.getPotSize());
 
   }
 
-
   /**
    * Method which makes the player the bigBlind
-   * 
    * @param i the amount to pay
    */
   public void playerBigBlind(int i) {
-
     this.alreadyPaid += i;
     this.playerPot -= i;
     Platform.runLater(() -> {
@@ -841,25 +774,19 @@ public class GameController {
     updatePots(new int[1][0], spController.getPotSize());
   }
 
-
   /**
    * Returns the amount of money that the player has already bet
-   * 
    * @return The amount of money that the player has already bet
    */
   public int getPlayerAlreadyPaid() {
-
     return this.alreadyPaid;
   }
 
-
   /**
    * Method which sets the player as dealer
-   * 
    * @param i not used.
    */
   public void playerIsDealer(int i) {
-
     if ((int) ivBigBlind.getLayoutX() == 520 || (int) ivSmallBlind.getLayoutX() == 520) {
       ivDealer.setLayoutX(500);
       ivDealer.setLayoutY(425);
@@ -868,7 +795,6 @@ public class GameController {
       ivDealer.setLayoutY(425);
     }
   }
-
 
   /**
    * Method which fetches the advice for the player and displays it in the bottom left pane
@@ -920,22 +846,18 @@ public class GameController {
 
   /**
    * Returns the players decision.
-   * 
    * @return The players decision.
    */
   public String getPlayerDecision() {
-
     return decision;
   }
 
 
   /**
    * Method which controls the players decision
-   * 
    * @return The players decision
    */
   public String askForPlayerDecision() {
-
     handleButtons();
     playerMadeDecision = false;
     while (!playerMadeDecision) {
@@ -951,11 +873,9 @@ public class GameController {
 
   /**
    * Method which resets the players cards, amount paid and decision.
-   * 
    * @param resetDecision the new decision
    */
   public void playerReset(String resetDecision) {
-
     decision = resetDecision;
     alreadyPaid = 0;
     cards = new ArrayList<Card>();
@@ -964,11 +884,9 @@ public class GameController {
 
   /**
    * Sets the new player-pot.
-   * 
    * @param newValue The value to add/remove from the player-pot.
    */
   public void setPlayerPot(int newValue) {
-
     this.playerPot += newValue;
   }
 
@@ -977,7 +895,6 @@ public class GameController {
    * Shows/hides player-buttons based on allowed actions.
    */
   public void handleButtons() {
-
     if (alreadyPaid == spController.getCurrentMaxBet()) {
       // show check, hide all other
       btCheck.setVisible(true);
@@ -996,7 +913,6 @@ public class GameController {
         btCheck.setVisible(false);
         btCall.setVisible(false);
         btFold.setVisible(true);
-
       }
 
       if ((spController.getCurrentMaxBet() - alreadyPaid) + spController.getBigBlind() <= playerPot
@@ -1016,7 +932,6 @@ public class GameController {
    * Disables all player-buttons.
    */
   public void disableButtons() {
-
     btCall.setVisible(false);
     btRaise.setVisible(false);
     btCheck.setVisible(false);
@@ -1026,33 +941,26 @@ public class GameController {
 
   /**
    * Method which returns the players handStrength as an integer
-   * 
    * @return the handStrength
    */
   public int getHandStrength() {
-
     return handStrength;
   }
 
-
   /**
    * Method which returns the players pot
-   * 
    * @return the playerpot
    */
   public int getPlayerPot() {
-
     return playerPot;
   }
 
 
   /**
    * Method which dims an AI player
-   * 
    * @param AI an AI player
    */
   public void removeAiPlayer(int AI) {
-
     Platform.runLater(() -> {
       collectionOfLabelsAi[AI][0].setVisible(false);
       collectionOfLabelsAi[AI][1].setVisible(false);
@@ -1063,13 +971,11 @@ public class GameController {
 
   /**
    * Places the AI-players in the correct position depending on chosen number of players.
-   * 
    * @param aiPlayers All the AI-players that are active.
    * @param notFirstRound
    * @param deadAIIndex
    */
   public void setAiPlayers(LinkedList<Ai> aiPlayers, boolean notFirstRound, int deadAIIndex) {
-
     this.aiPlayers = aiPlayers;
     int totalAI = spController.getFixedNrOfAIs();
     if (!notFirstRound) {
@@ -1094,12 +1000,10 @@ public class GameController {
 
   /**
    * Updates AI-frame based on currentAI-position and decision with the method setUIAiStatus.
-   * 
    * @param currentAI Chosen AI to update AI-frame
    * @param decision Check, call, fold, raise or lost
    */
   public void aiAction(int currentAI, String decision) {
-
     int setAINr = spController.getFixedNrOfAIs();
 
     int setOfPlayers = 0; // Is used for choosing the correct set of
@@ -1136,13 +1040,10 @@ public class GameController {
     }
 
     Platform.runLater(new Runnable() {
-
       private volatile boolean shutdown;
-
 
       @Override
       public void run() {
-
         /**
          * Sets name, pot and action for the AI's (UI)
          */
@@ -1159,12 +1060,10 @@ public class GameController {
 
   /**
    * Formats action label for AI.
-   * 
    * @param decision fold/lost/check/call/raise/all-in/Dealer/SmallBlind/BigBlind
    * @return Formatted decision
    */
   public String getFormattedDecision(String decision) {
-
     String actionText = "Error";
 
     if (decision.contains("fold")) {
@@ -1196,7 +1095,6 @@ public class GameController {
    * This metod makes sure that during the players turn, the previous AI is considered idle
    */
   public void inactivateAllAiCardGlows() {
-
     if (prevPlayerActive != -1) {
       setUIAiStatus(prevPlayerActive, "idle");
       this.prevPlayerActive = -1;
@@ -1208,19 +1106,16 @@ public class GameController {
    * Force closes the program
    */
   public void closeProgram() {
-
     System.exit(0);
   }
 
 
   /**
    * Method which returns to the main menu
-   * 
    * @throws InstantiationException
    * @throws IllegalAccessException
    */
   public void goToMainMenu() throws InstantiationException, IllegalAccessException {
-
     try {
       changeScene.switchToMainMenu();
       changeScene.prepGame();
@@ -1234,39 +1129,29 @@ public class GameController {
    * Method which creates an "about" box.
    */
   public void aboutBox() {
-
     confirmBox = new ConfirmBox();
     confirmBox.display("Om projektet",
         "Detta projekt är format och skapat av "
             + "Vedrana Zeba, Rikard Almgren, Amin Harirchian, Max Frennessen och Lykke Levin under "
             + "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1.");
-
   }
-
 
   /**
    * Method which returns if the UI is ready
-   * 
    * @return isReady are we ready?
    */
   public boolean getIsReady() {
-
     return isReady;
   }
 
-
   /**
    * Method which creates a popup to inform the player that s/he lost.
-   * 
    * @throws InstantiationException
    * @throws IllegalAccessException
    */
   public void playerLost() throws InstantiationException, IllegalAccessException {
-
     Platform.runLater(() -> {
-
       try {
-
         winnerBox = new WinnerBox();
         winnerBox.displayWinner("Förlust",
             "Tyvärr, du förlorade och dina pengar är slut. Bättre lycka nästa gång!", 5,
@@ -1283,17 +1168,14 @@ public class GameController {
 
   /**
    * Method which returns the players highCard
-   * 
    * @return highCard
    */
   public int getGetHighCard() {
-
     return highCard;
   }
 
 
   public void setBlindsMarker(int dealer, int smallBlindPlayer, int bigBlindPlayer) {
-
     int[][] markerPos = new int[5][2];
     Platform.runLater(() -> {
 
@@ -1330,11 +1212,9 @@ public class GameController {
 
   /**
    * Shows current round.
-   * 
    * @param round int between 0-3 ("roundPreFlop", "roundFlop", "roundTurn", "roundRiver").
    */
   public void roundStatus(int round) {
-
     String[] roundStatus = new String[] {"roundPreFlop", "roundFlop", "roundTurn", "roundRiver"};
 
     Platform.runLater(() -> {
@@ -1353,14 +1233,12 @@ public class GameController {
 
   /**
    * Creates a winnerWindow that displays the winner of the round.
-   * 
    * @param winner Name of the winner from spController.
-   * @param hand Int number from spController that represent the value of the winning hand. 
+   * @param hand Int number from spController that represent the value of the winning hand.
    */
-  public void setWinnerLabel(String winner, int hand) {
-
+  public void setWinnerLabel(String winner, int hand, WinnerCallback callback) {
     String winnerOfRound = winner;
-
+    System.out.println("setting winner label now");
 
     if (hand == 0) {
       winnerHand = "högsta kort";
@@ -1402,39 +1280,37 @@ public class GameController {
     if (!winnerOfRound.equals(getUsername()) && (hand < 10)) {
       Platform.runLater(() -> {
         winnerBox = new WinnerBox();
-        winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 2, winnerHand);
+        boolean okClicked = winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 2, winnerHand);
+        callback.onWinnerBoxClosed(okClicked);
       });
     } else if (winnerOfRound.equals(getUsername()) && (hand < 10)) {
       Platform.runLater(() -> {
         sound.playSound("coinSound");
         winnerBox = new WinnerBox();
-        winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 1, winnerHand);
-
+        boolean okClicked = winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 1, winnerHand);
+        callback.onWinnerBoxClosed(okClicked);
       });
     } else if (winnerOfRound.equals(getUsername()) && (hand > 10)) {
       Platform.runLater(() -> {
         sound.playSound("coinSound");
         winnerBox = new WinnerBox();
-        winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 3, winnerHand);
-
+        boolean okClicked = winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 3, winnerHand);
+        callback.onWinnerBoxClosed(okClicked);
       });
     } else if (!winnerOfRound.equals(getUsername()) && (hand > 10)) {
       Platform.runLater(() -> {
         winnerBox = new WinnerBox();
-        winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 4, winnerHand);
-
+        boolean okClicked = winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 4, winnerHand);
+        callback.onWinnerBoxClosed(okClicked);
       });
     }
   }
 
-
   /**
    * Method which creates a new tutorial and shows it.
-   * 
    * @throws IOException
    */
   public void goToTutorial() throws IOException {
-
     Platform.runLater(() -> {
       this.tutorialWindow = new TutorialController(this);
       try {
@@ -1443,28 +1319,23 @@ public class GameController {
         e.printStackTrace();
       }
     });
-
   }
 
 
   /**
    * Method which returns the player viabilitylevel for potSplits
-   * 
    * @return AllInViability viabilityLevel
    */
   public int getAllInViability() {
-
     return AllInViability;
   }
 
 
   /**
    * Method which sets a viabilitylevel
-   * 
    * @param allInViability
    */
   public void setAllInViability(int allInViability) {
-
     if (allInViability < AllInViability) {
       AllInViability = allInViability;
     }
@@ -1473,12 +1344,10 @@ public class GameController {
 
   /**
    * Method which updates the various pots in the UI
-   * 
    * @param potSplits an Array of subPots during All-ins
    * @param tablePot the main tablePot
    */
   public void updatePots(int[][] potSplits, int tablePot) {
-
     if (spController.getFixedNrOfAIs() == 5) {
       this.collectionOfPots =
           new Label[] {subPotOne, subPotTwo, subPotThree, subPotFour, subPotFive, subPotSix};
@@ -1507,5 +1376,30 @@ public class GameController {
     });
   }
 
+  public boolean askReplay() {
+    CompletableFuture<Boolean> futureResponse = new CompletableFuture<>();
+
+    Platform.runLater(() -> {
+      ConfirmBox cfBox = new ConfirmBox();
+      boolean response = cfBox.display("Vill du spela igen?", "Vill du spela igen?");
+      futureResponse.complete(response); //wait for user response
+    });
+
+    try {
+      return futureResponse.get();
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("exception here");
+      return false;
+    }
+  }
+
+  public void changeToMainMenu() {
+    try {
+      changeScene.switchToMainMenu();
+    } catch (IOException | InstantiationException | IllegalAccessException e) {
+      System.out.println(e);
+    }
+  }
 
 }

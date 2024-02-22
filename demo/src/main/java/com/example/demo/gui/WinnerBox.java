@@ -32,7 +32,6 @@ public class WinnerBox {
 	 * @return answer Boolean that returns an answer.
 	 */
 	public boolean displayWinner(String title, String message, int nr, String handStrength) {
-
 		String aiWin = "Rundan vanns av " + message + " som hade " + handStrength;
 		String playerWin = "Grattis " + message + ", du vann den här rundan! Du vann med " + handStrength;
 		String playerWinAIFold = "Grattis " + message + ". " + handStrength;
