@@ -1,6 +1,11 @@
 package com.example.demo.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Objects;
+
 import com.example.demo.controller.SPController;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -144,9 +149,19 @@ public class SettingsController {
 	 * method which shows history based on click from settings menu
 	 */
 	public void showHistory() {
-		System.out.println("hello, i am here to show the history");
-		fileController.readWinnerHistory();
+		HashMap<String, HashMap<String, Integer>> historyMap;
+		historyMap = fileController.readWinnerHistory();
 
+		for (String playerName : historyMap.keySet()) { //loop through outer hashmap
+			System.out.println("Player: " + playerName);
+			HashMap<String, Integer> innerMap = historyMap.get(playerName);
+			for (String winningHand : innerMap.keySet()) { //loop through inner hashmap
+				String displayWinningHand = winningHand.equals("Du vann när resten av spelarna foldade!")
+						? "all folded" : winningHand; //change if true
+				int count = innerMap.get(winningHand);
+				System.out.println(displayWinningHand + ": " +  count);
+			}
+		}
 	}
 
 	/**
@@ -154,15 +169,12 @@ public class SettingsController {
 	 * @throws IOException
 	 */
 	public void startGame() throws IOException {
-
-
 		potSliderChange();
 		aiSliderChange();
 		if (!tfNameInput.getText().isEmpty()) {
 			name = tfNameInput.getText();
 			spController = new SPController();
 			changeScene.setSPController(spController);
-
 
 			if (cbOn.isSelected()) {
 				System.out.println("Tutorial ska visas");
@@ -172,13 +184,11 @@ public class SettingsController {
 					this.tutorialWindow = new TutorialController(this, 1);
 					tutorialWindow.setupUI();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				});
 
 			} else{
-				//do it here
 				startGameWindow();
 			}
 		} else if (tfNameInput.getText().isEmpty()) {

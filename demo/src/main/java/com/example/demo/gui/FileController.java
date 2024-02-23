@@ -1,18 +1,20 @@
 package com.example.demo.gui;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * class responsible for writing and reading to files
  */
 public class FileController {
+    private HashMap<String, HashMap<String, Integer>> winnerHistory = new HashMap<>();
+    HashMap<String, HashMap<String, Integer>> resultsToSend;
 
     /**
-     * method which saves winner results to txt file.
-     * saves name & winning hand to winnerHistory.txt
+     * writes winner name and winning hand results to winnerHistory.txt file.
      */
     public void saveWinnerHistory(String winnerOfRound, String winnerHand) {
-        System.out.println("Saving game results to file");
         String filePath = "demo/src/main/resources/com/example/demo/files/winnerHistory.txt";
         try {
             FileWriter fileWriter = new FileWriter(filePath, true); //add to existing file
@@ -28,10 +30,10 @@ public class FileController {
     }
 
     /**
-     * method which reads winner results from winnerHistory.txt file.
+     * reads winner results from winnerHistory.txt file.
      */
-    public void readWinnerHistory() {
-        System.out.println("Reading game results from file");
+    public HashMap<String, HashMap<String,Integer>> readWinnerHistory() {
+        resultsToSend = new HashMap<>();
         String filePath = "demo/src/main/resources/com/example/demo/files/winnerHistory.txt";
         try {
             FileReader fileReader = new FileReader(filePath);
@@ -39,17 +41,38 @@ public class FileController {
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] parts = line.split("\\s+", 2); // Split by whitespace, limit to 2 parts
+                String[] parts = line.split("\\s+", 2); //limit to two-part split
                 String name = parts[0];
                 String winningHand = parts[1];
-                System.out.println("Name: " + name + ", Winning Hand: " + winningHand);
+                resultsToSend = addToRegistry(name, winningHand); //save
             }
             bufferedReader.close();
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
         }
-        //TODO: store results in hashmap or arraylist?
-        // count number of winns and winning hands for each player
+        return resultsToSend;
+    }
+
+    /**
+     * adds winner results to a HashMap containing name and all related winning hands in arrayList
+     * @param name name of player
+     * @param winningHand winning hand of given player
+     */
+    public HashMap<String, HashMap<String, Integer>> addToRegistry(String name, String winningHand) {
+        if (winnerHistory.containsKey(name)) { //is existing player
+            HashMap<String, Integer> hands = winnerHistory.get(name); //retrieve value hashmap
+            if (hands.containsKey(winningHand)) { //if winning hand already exists
+                int count = hands.get(winningHand);
+                hands.put(winningHand, count + 1); //increment win count
+            } else {
+                hands.put(winningHand, 1); //if not, add new winning hand
+            }
+        } else { //if new player, add new
+            HashMap<String, Integer> hands = new HashMap<>();
+            hands.put(winningHand, 1);
+            winnerHistory.put(name, hands);
+        }
+        return winnerHistory;
     }
 
 
