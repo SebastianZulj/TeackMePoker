@@ -1,7 +1,7 @@
 package com.example.demo.gui;
 
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -197,6 +197,7 @@ public class GameController {
   private int AllInViability = 0;
   private Label[] collectionOfPots;
   private static final String BASE_PATH = "/com/example/demo/";
+  private FileController fileController = new FileController(); //for I/O operations
 
 
   /**
@@ -1236,6 +1237,7 @@ public class GameController {
    * @param winner Name of the winner from spController.
    * @param hand Int number from spController that represent the value of the winning hand.
    */
+
   public void setWinnerLabel(String winner, int hand, WinnerCallback callback) {
     String winnerOfRound = winner;
     System.out.println("setting winner label now");
@@ -1304,6 +1306,7 @@ public class GameController {
         callback.onWinnerBoxClosed(okClicked);
       });
     }
+    fileController.saveWinnerHistory(winnerOfRound, winnerHand); //store game results in txt file
   }
 
   /**
