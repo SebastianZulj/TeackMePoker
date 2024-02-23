@@ -21,6 +21,7 @@ import javafx.scene.layout.Pane;
  */
 public class SettingsController {
 	private SPController spController;
+	private FileController fileController = new FileController();;
 
 	private ChangeScene changeScene;
 	private ConfirmBox confirmBox;
@@ -137,6 +138,15 @@ public class SettingsController {
 			cbOff.setDisable(true);
 
 		}
+	}
+
+	/**
+	 * method which shows history based on click from settings menu
+	 */
+	public void showHistory() {
+		System.out.println("hello, i am here to show the history");
+		fileController.readWinnerHistory();
+
 	}
 
 	/**

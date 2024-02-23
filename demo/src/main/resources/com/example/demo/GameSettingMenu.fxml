@@ -124,7 +124,12 @@
             </ImageView>
          </children>
       </VBox>
-      <ImageView fx:id="ivStartGame" fitHeight="250.0" fitWidth="290.0" layoutX="538.0" layoutY="603.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="ivShowHistory" fitHeight="250.0" fitWidth="290.0" layoutX="238.0" layoutY="603.0" onMouseClicked="#showHistory" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/visaHistorik.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="ivStartGame" fitHeight="250.0" fitWidth="290.0" layoutX="838.0" layoutY="603.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/startGame.png" />
          </image>
