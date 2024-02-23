@@ -1,49 +1,43 @@
 package com.example.demo.gui;
 
-
-import java.nio.file.Paths;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Box that shows the winner of round. 
- * @author Lykke Levin 
+ * Box that shows the winner of the round.
+ * @author Lykke Levin
  * version 1.0
- *
  */
 public class WinnerBox {
 
 	public boolean answer = false;
 	public Stage window = new Stage();
 	public Font font = new Font("Tw Cen MT", 18);
-	private ImageView back = new ImageView(Paths.get("resources/images/background.png").toUri().toString());
-	private ImageView btnOk = new ImageView(Paths.get("resources/images/okButton.png").toUri().toString());
-	
-	
+	private ImageView back = new ImageView(getClass().getResource("/com/example/demo/images/background.png").toExternalForm());
+	private ImageView btnOk = new ImageView(getClass().getResource("/com/example/demo/images/okButton.png").toExternalForm());
+
 	/**
-	 * Creates a window containting messages of who won or lost. 
-	 * @param title String title of the window from the method that uses WinnerBox. 
-	 * @param message String message to display in the window from the method that uses ConfirmBox. 
-	 * @param nr Int to check which message should be displayed. 
-	 * @param handStrength String to print the handstrength the player or AI won with. 
+	 * Creates a window containing messages of who won or lost.
+	 * @param title String title of the window from the method that uses WinnerBox.
+	 * @param message String message to display in the window from the method that uses ConfirmBox.
+	 * @param nr Int to check which message should be displayed.
+	 * @param handStrength String to print the hand strength the player or AI won with.
 	 * @return answer Boolean that returns an answer.
 	 */
 	public boolean displayWinner(String title, String message, int nr, String handStrength) {
-		
-		String aiWin = new String("Rundan vanns av " + message + " som hade " + handStrength);
-		String playerWin = new String("Grattis " + message + ", du vann den här rundan! Du vann med " + handStrength);
-		String playerWinAIFold = new String("Grattis " + message + ". " + handStrength);
-		String aiWinOthersFold = new String("Rundan vanns av " + message + " " + handStrength);
-		String playerLose = new String (message);
-		
+		String aiWin = "Rundan vanns av " + message + " som hade " + handStrength;
+		String playerWin = "Grattis " + message + ", du vann den här rundan! Du vann med " + handStrength;
+		String playerWinAIFold = "Grattis " + message + ". " + handStrength;
+		String aiWinOthersFold = "Rundan vanns av " + message + " " + handStrength;
+		String playerLose = message;
+
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle(title);
 		window.setWidth(400);
@@ -56,20 +50,19 @@ public class WinnerBox {
 		messageText.setFont(font);
 		messageText.setTextFill(Color.WHITE);
 		messageText.setWrapText(true);
-		
-		if(nr == 1){
+
+		if (nr == 1) {
 			messageText.setText(playerWin);
-		} else if(nr == 2){
+		} else if (nr == 2) {
 			messageText.setText(aiWin);
-		} else if(nr == 3){
+		} else if (nr == 3) {
 			messageText.setText(playerWinAIFold);
-		} else if(nr == 4){
-		messageText.setText(aiWinOthersFold);
-		}
-		else if (nr == 5){
+		} else if (nr == 4) {
+			messageText.setText(aiWinOthersFold);
+		} else if (nr == 5) {
 			messageText.setText(playerLose);
 		}
-		
+
 		btnOk.setOnMouseReleased(e -> {
 			answer = true;
 			closeProgram();
@@ -85,21 +78,18 @@ public class WinnerBox {
 		btnOk.setLayoutX(175);
 		btnOk.setLayoutY(110);
 
-
 		pane.getChildren().addAll(back, messageText, btnOk);
 
 		Scene scene = new Scene(pane);
 		window.setScene(scene);
 		window.showAndWait();
 		return answer;
-		
 	}
 
 	/**
-	 * Closes the window. 
+	 * Closes the window.
 	 */
 	public void closeProgram() {
 		window.close();
 	}
-
 }
