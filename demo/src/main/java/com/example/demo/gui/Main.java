@@ -32,6 +32,7 @@ public class Main extends Application {
         window.setScene(cs.firstScene());
         window.show();
 
+
     }
 
     /**

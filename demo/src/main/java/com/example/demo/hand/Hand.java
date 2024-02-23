@@ -2,6 +2,8 @@ package com.example.demo.hand;
 
 import java.util.ArrayList;
 import com.example.demo.deck.Card;
+import com.example.demo.deck.CardValue;
+import com.example.demo.deck.Suit;
 
 /**
  * The hand-class that will guide and help the noob player.
@@ -42,7 +44,12 @@ public class Hand {
 		System.out.println("pwrBar - " + pwrBar);
 		System.out.println("toHighlight - " + toHighlight);
 		System.out.println("");
+	}
 
+	public String showInfo() {
+		String info = "Helper: " + helper + "\n" + "Advice: " + advice + "\n" + "pwrBar: "
+				+ pwrBar + "\n" + "toHighlight: " + toHighlight;
+		return info;
 	}
 
 	
@@ -50,7 +57,6 @@ public class Hand {
 	 * Converts the cards into readable Strings.
 	 */
 	public void convertToReadable() {
-
 		for (int i = 0; i < cards.size(); i++) {
 			Card cardTemp = cards.get(i);
 			char A = cardTemp.getCardSuit().charAt(0);
@@ -71,7 +77,7 @@ public class Hand {
 	}
 /**
  * returns a number that will be used to set a image to visualize the users handStrength
- * @return a int that represents the users cardStregnth
+ * @return an int that represents the users cardStrength
  */
 	public int toPowerBar() { 
 		return pwrBar;
@@ -105,4 +111,6 @@ public class Hand {
 		handStrenght = calc.calcHandstrenght();
 		return handStrenght;
 	}
+
+
 }

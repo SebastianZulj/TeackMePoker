@@ -90,7 +90,7 @@ public class TestAi {
 //
 //    System.out.println("\n\n-Test TURN-");
 //    ai.makeDecision(32, cardTurn);
-//    System.out.println(ai.getDecision());
+    System.out.println(ai.getDecision());
 //
 //    System.out.println("\n\n-Test RIVER-");
 //    ai.makeDecision(32, cardRiver);
