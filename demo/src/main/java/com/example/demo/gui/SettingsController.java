@@ -27,7 +27,6 @@ import javafx.scene.layout.Pane;
 public class SettingsController {
 	private SPController spController;
 	private FileController fileController = new FileController();;
-
 	private ChangeScene changeScene;
 	private ConfirmBox confirmBox;
 	private String name;
@@ -79,7 +78,6 @@ public class SettingsController {
 		potSlider.setSnapToTicks(true);
 		potSlider.setValue(5000);
 		aiSlider.setSnapToTicks(true);
-
 	}
 
 	/**
@@ -94,7 +92,6 @@ public class SettingsController {
 	 * @param sceneChanger an instance of the class ChangeScene
 	 */
 	public void setChangeScene(ChangeScene sceneChanger) {
-
 		this.changeScene = sceneChanger;
 	}
 
@@ -111,7 +108,6 @@ public class SettingsController {
 	 * Stores the value from the Slider that the user has chosen. 
 	 */
 	public void potSliderChange() {
-
 		Double val = potSlider.getValue();
 		potValue = val.intValue();
 
@@ -121,13 +117,11 @@ public class SettingsController {
 	 * If ComboBox is selected by the user, disable the button true. 
 	 */
 	public void cbOnClicked() {
-
 		if (cbOff.isSelected()) {
 			cbOff.setSelected(false);
 			cbOff.setDisable(false);
 			cbOn.setSelected(true);
 			cbOn.setDisable(true);
-
 		}
 	}
 
@@ -135,13 +129,11 @@ public class SettingsController {
 	 * If ComboBox is selected by the user, disable the button true. 
 	 */
 	public void cbOffClicked() {
-
 		if (cbOn.isSelected()) {
 			cbOn.setSelected(false);
 			cbOn.setDisable(false);
 			cbOff.setSelected(true);
 			cbOff.setDisable(true);
-
 		}
 	}
 
@@ -198,7 +190,6 @@ public class SettingsController {
 					confirmBox.display("Varning", "Du måste välja ett användarnamn för att starta spelet");
 			System.out.println("Du måste välja ett användarnamn");
 			System.out.println(result);
-
 		}
 
 	}
@@ -216,7 +207,6 @@ public class SettingsController {
 				for (int i = 0; i < 10; i++) {
 					updateProgress(i += 1, 10);
 					Thread.sleep(200);
-
 				}
 				updateProgress(10, 10);
 				return null;
@@ -255,27 +245,22 @@ public class SettingsController {
 	 * Shows a label if question mark is hovered. 
 	 */
 	public void ivQuestionAiHovered() {
-
 		lblAiInfo.setVisible(true);
 		ivQuestionAi.setOnMouseExited(e -> lblAiInfo.setVisible(false));
-
 	}
 
 	/**
 	 * Shows a label if question mark is hovered. 
 	 */
 	public void ivQuestionPotHovered() {
-
 		lblPotInfo.setVisible(true);
 		ivQuestionPot.setOnMouseExited(e -> lblPotInfo.setVisible(false));
-
 	}
 
 	/**
 	 * Shows a label if question mark is hovered. 
 	 */
 	public void ivQuestionTutorialHovered() {
-
 		lblTutorialInfo.setVisible(true);
 		ivQuestionTutorial.setOnMouseExited(e -> lblTutorialInfo.setVisible(false));
 	}

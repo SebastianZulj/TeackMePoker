@@ -32,16 +32,15 @@ public class Main extends Application {
         window.setScene(cs.firstScene());
         window.show();
 
+
     }
 
     /**
      * Launch the application.
-     *
      * @param args
      */
     public static void main(String[] args) {
         launch(args);
-
     }
 
     /**

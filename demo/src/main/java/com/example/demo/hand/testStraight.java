@@ -11,8 +11,8 @@ import java.util.Arrays;
  */
 public class testStraight {
 
-	private String[] fromCards = new String[10];
-	private String whatToDo;
+	//private String[] fromCards = new String[10];
+	//private String whatToDo;
 	private ArrayList<String> finalHihglight = new ArrayList<String>();
 	private ArrayList<String> nbrForStraight = new ArrayList<String>();
 	private ArrayList<String> nbrForStraight1 = new ArrayList<String>();
@@ -147,7 +147,7 @@ public class testStraight {
 				String temp = aiCards.get(i);
 				String[] splitter = temp.split(",");
 				String tempString = splitter[1];
-				cardClr.add(tempString);
+				cardClr.add(tempString); //TODO: NOTE: this is never used elsewhere
 			}
 		}
 		

@@ -15,7 +15,6 @@ import javafx.scene.image.ImageView;
  */
 
 public class FMController {
-
 	private ChangeScene changeScene;
 	private Sound sound;
 	@FXML
@@ -27,21 +26,17 @@ public class FMController {
 
 	/**
 	 * Generated method for the FXML.
-	 * 
 	 * @throws Exception
 	 */
 	public void initialize() throws Exception {
-
 	}
 
 	/**
 	 * Sets the changeScene for this FMController
-	 * 
 	 * @param sceneChanger an instance of the class ChangeScene
 	 */
 	public void setChangeScene(ChangeScene sceneChanger) {
 		this.changeScene = sceneChanger;
-
 	}
 
 	/**
@@ -49,15 +44,12 @@ public class FMController {
 	 * @throws Exception
 	 */
 	public void NewGameClicked() throws Exception {
-
 		changeScene.switchScenetoSetting();
-
 	}
 
 	/**
 	 * Should load a saved game file. This method is currently a non-functional
 	 * method that is not implemented for the final version.
-	 * 
 	 * @throws IOException
 	 */
 	public void LoadGameClicked() throws IOException {
@@ -68,7 +60,6 @@ public class FMController {
 		System.out.println("LoadGame");
 		sound = new Sound();
 		sound.playSound("wrong");
-
 	}
 
 }
