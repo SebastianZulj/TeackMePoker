@@ -16,7 +16,6 @@ import javafx.geometry.*;
  */
 
 public class ConfirmBox {
-
   public boolean answer = false;
   public Stage window = new Stage();
   public Font font = new Font("Tw Cen MT", 18);
@@ -28,7 +27,6 @@ public class ConfirmBox {
    * @return answer Boolean that returns an answer. 
    */
   public boolean display(String title, String message) {
-
     window.initModality(Modality.APPLICATION_MODAL);
     window.setTitle(title);
     window.setMinWidth(150);
@@ -49,8 +47,6 @@ public class ConfirmBox {
     buttonOk.setOnAction(e -> {
       answer = true;
       closeProgram();
-
-
 
     });
     buttonNotOk.setOnAction(e -> {
