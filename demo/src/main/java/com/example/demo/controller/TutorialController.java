@@ -1,8 +1,9 @@
-package com.example.demo.gui;
+package com.example.demo.controller;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 
+import com.example.demo.controller.GameController;
+import com.example.demo.controller.SettingsController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

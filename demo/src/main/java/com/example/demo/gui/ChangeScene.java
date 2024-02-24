@@ -1,7 +1,8 @@
 package com.example.demo.gui;
 
 import java.io.IOException;
-import com.example.demo.controller.SPController;
+
+import com.example.demo.controller.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
