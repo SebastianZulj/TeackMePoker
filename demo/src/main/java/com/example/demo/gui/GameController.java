@@ -1284,6 +1284,7 @@ public class GameController {
         winnerBox = new WinnerBox();
         boolean okClicked = winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 2, winnerHand);
         callback.onWinnerBoxClosed(okClicked);
+        fileController.saveWinnerHistory(getUsername(), winnerHand, false); //store game results in txt file
       });
     } else if (winnerOfRound.equals(getUsername()) && (hand < 10)) {
       Platform.runLater(() -> {
@@ -1291,6 +1292,7 @@ public class GameController {
         winnerBox = new WinnerBox();
         boolean okClicked = winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 1, winnerHand);
         callback.onWinnerBoxClosed(okClicked);
+        fileController.saveWinnerHistory(winnerOfRound, winnerHand, true); //store game results in txt file
       });
     } else if (winnerOfRound.equals(getUsername()) && (hand > 10)) {
       Platform.runLater(() -> {
@@ -1298,15 +1300,16 @@ public class GameController {
         winnerBox = new WinnerBox();
         boolean okClicked = winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 3, winnerHand);
         callback.onWinnerBoxClosed(okClicked);
+        fileController.saveWinnerHistory(winnerOfRound, winnerHand, true); //store game results in txt file
       });
     } else if (!winnerOfRound.equals(getUsername()) && (hand > 10)) {
       Platform.runLater(() -> {
         winnerBox = new WinnerBox();
         boolean okClicked = winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 4, winnerHand);
         callback.onWinnerBoxClosed(okClicked);
+        fileController.saveWinnerHistory(getUsername(), winnerHand, false); //store game results in txt file
       });
     }
-    fileController.saveWinnerHistory(winnerOfRound, winnerHand); //store game results in txt file
   }
 
   /**

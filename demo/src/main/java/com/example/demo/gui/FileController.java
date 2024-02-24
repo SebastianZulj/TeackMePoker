@@ -14,13 +14,18 @@ public class FileController {
     /**
      * writes winner name and winning hand results to winnerHistory.txt file.
      */
-    public void saveWinnerHistory(String winnerOfRound, String winnerHand) {
+    public void saveWinnerHistory(String winnerOfRound, String winnerHand, boolean userWin) {
         String filePath = "demo/src/main/resources/com/example/demo/files/winnerHistory.txt";
         try {
             FileWriter fileWriter = new FileWriter(filePath, true); //add to existing file
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(winnerOfRound + " " + winnerHand);
-            System.out.println(winnerOfRound + " " + winnerHand);
+            if (userWin) { //if user won
+                bufferedWriter.write(winnerOfRound + " " + winnerHand);
+                System.out.println(winnerOfRound + " " + winnerHand);
+            } else { //if user lost
+                bufferedWriter.write(winnerOfRound + " lost");
+                System.out.println(winnerOfRound + " lost");
+            }
             bufferedWriter.newLine();
             bufferedWriter.close();
             System.out.println("Game results saved successfully.");

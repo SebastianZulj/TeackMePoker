@@ -23,16 +23,12 @@ public class Main extends Application {
      */
     public void start(Stage primaryStage) throws Exception {
         cs.prepGame();
-
         window = primaryStage;
         window.setTitle("TeachMePoker");
         window.setResizable(true);
         window.setOnCloseRequest(e -> closeProgram());
-
         window.setScene(cs.firstScene());
         window.show();
-
-
     }
 
     /**
