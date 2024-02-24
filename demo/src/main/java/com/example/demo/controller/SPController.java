@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import com.example.demo.aiClass.Ai;
 import com.example.demo.deck.Card;
 import com.example.demo.deck.Deck;
-import com.example.demo.gui.GameController;
 import com.example.demo.gui.WinnerCallback;
 import javafx.application.Platform;
 

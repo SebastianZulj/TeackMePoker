@@ -1,7 +1,9 @@
-package com.example.demo.gui;
+package com.example.demo.controller;
 
 import java.io.IOException;
 
+import com.example.demo.gui.ChangeScene;
+import com.example.demo.gui.Sound;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;

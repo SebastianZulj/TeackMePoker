@@ -1,12 +1,9 @@
-package com.example.demo.gui;
+package com.example.demo.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Objects;
 
-import com.example.demo.controller.SPController;
+import com.example.demo.gui.*;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -16,8 +13,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
-import javax.swing.*;
 
 /**
  * Controller for FXML-doc GameSettingMenu.fxml
