@@ -29,9 +29,9 @@ public class ConfirmBox {
   public boolean display(String title, String message) {
     window.initModality(Modality.APPLICATION_MODAL);
     window.setTitle(title);
-    window.setMinWidth(150);
+    window.setMinWidth(250);
     window.setMaxWidth(600);
-    window.setHeight(200);
+    window.setHeight(275);
     window.setOnCloseRequest(e -> closeProgram());
 
     Label label = new Label();

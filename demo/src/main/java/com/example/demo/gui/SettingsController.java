@@ -17,6 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+import javax.swing.*;
+
 /**
  * Controller for FXML-doc GameSettingMenu.fxml
  * 
@@ -26,7 +28,8 @@ import javafx.scene.layout.Pane;
  */
 public class SettingsController {
 	private SPController spController;
-	private FileController fileController = new FileController();;
+	private FileController fileController = new FileController();
+	HashMap<String, HashMap<String, Integer>> historyMap = new HashMap<>();
 	private ChangeScene changeScene;
 	private ConfirmBox confirmBox;
 	private String name;
@@ -138,22 +141,65 @@ public class SettingsController {
 	}
 
 	/**
-	 * method which shows history based on click from settings menu
+	 * calls to shows history from settings menu
 	 */
 	public void showHistory() {
-		HashMap<String, HashMap<String, Integer>> historyMap;
+		if (tfNameInput.getText().isEmpty()) {
+			Platform.runLater(() -> {
+				sound.playSound("wrong");
+				confirmBox = new ConfirmBox();
+				confirmBox.display("Varning", "Du måste välja ett användarnamn för att visa historik");
+			});
+		} else {
+			String playerName = tfNameInput.getText(); //get name from settings text field
+			showPlayerHistory(playerName);
+		}
+	}
+
+	/**
+	 * shows win and loss history for specific player
+	 * @param playerName name of player input through settings menu
+	 */
+	public void showPlayerHistory(String playerName) {
+		int totalWins = 0;
+		int losses = 0;
+		historyMap.clear();
 		historyMap = fileController.readWinnerHistory();
 
-		for (String playerName : historyMap.keySet()) { //loop through outer hashmap
+		if (historyMap.containsKey(playerName)) {
 			System.out.println("Player: " + playerName);
 			HashMap<String, Integer> innerMap = historyMap.get(playerName);
-			for (String winningHand : innerMap.keySet()) { //loop through inner hashmap
-				String displayWinningHand = winningHand.equals("Du vann när resten av spelarna foldade!")
-						? "all folded" : winningHand; //change if true
+			for (String winningHand : innerMap.keySet()) {
 				int count = innerMap.get(winningHand);
-				System.out.println(displayWinningHand + ": " +  count);
+				if (!winningHand.equals("lost")) {
+					totalWins += count;
+				} else {
+					losses = count;
+				}
 			}
+			double winPercentage = calculateWinPercentage(totalWins, losses);
+			confirmBox = new ConfirmBox();
+			confirmBox.display("Historik för " + playerName, "Vinster - " + totalWins + "\n" + "Förluster - "
+					+ losses + "\n" + "Vinstprocent - " + String.format("%.2f", winPercentage) + "%");
+		} else {
+			sound.playSound("wrong");
+			confirmBox = new ConfirmBox();
+			confirmBox.display("Varning", "Ingen historik funnen för denna spelaren");
 		}
+	}
+
+	/**
+	 * calculates win percentage for player
+	 * @param totalWins total wins for player
+	 * @param losses total losses for player
+	 * @return win percentage
+	 */
+	public double calculateWinPercentage(int totalWins, int losses) {
+		double winPercentage = (double) totalWins / (totalWins + losses) * 100;
+		System.out.println("Win percentage: " + winPercentage + "%");
+		System.out.println("Total wins: " + totalWins);
+		System.out.println("Total losses: " + losses);
+		return winPercentage;
 	}
 
 	/**
