@@ -11,7 +11,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -49,6 +51,8 @@ public class SettingsController {
 	private ImageView ivQuestionPot;
 	@FXML
 	private ImageView ivQuestionTutorial;
+	@FXML
+	private ImageView ivSound;
 	@FXML
 	private Label lblAiInfo;
 	@FXML
@@ -327,5 +331,22 @@ public class SettingsController {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	public void soundSetting() {
+
+		switch (sound.getSoundStatus()) {
+			case "Playing":
+				sound.stopBackgroundMusic();
+				Image soundOff = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButtonMute.png"));
+				ivSound.setImage(soundOff);
+				break;
+			case "Stopped":
+				sound.playBackgroundMusic();
+				Image soundOn = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButton.png"));
+				ivSound.setImage(soundOn);
+				break;
+
+		}
 	}
 }

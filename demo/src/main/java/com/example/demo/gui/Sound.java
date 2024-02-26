@@ -13,7 +13,7 @@ import javafx.scene.media.MediaPlayer;
 public class Sound {
 
 	private static final String SOUND_BASE_PATH = "/com/example/demo/sounds/";
-
+	private String soundStatus = "Playing";
 	private static Media m = new Media(Sound.class.getResource(SOUND_BASE_PATH + "cool_struttin'.mp3").toString());
 	public static MediaPlayer mp = new MediaPlayer(m);
 	public AudioClip checkSound = new AudioClip(Sound.class.getResource(SOUND_BASE_PATH + "checkMeSound.m4a").toString());
@@ -59,27 +59,10 @@ public class Sound {
 				wrongSound.play();
 				break;
 		}
-/*
-		if (whatSound.equals("check")) {
-			checkSound.play();
-		} else if (whatSound.equals("fold")) {
-			cardFold.play();
-		} else if (whatSound.equals("shuffle")) {
-			shuffleSound.play();
-		} else if (whatSound.equals("singleCard")) {
-			singleCard.play();
-		} else if (whatSound.equals("chipSingle")) {
-			chipSingle.play();
-		} else if (whatSound.equals("chipMulti")) {
-			chipMulti.play();
-		} else if (whatSound.equals("coinSound")) {
-			coinSound.play();
-		} else if (whatSound.equals("wrong")) {
-			wrongSound.play();
-		}
+	}
 
- */
-
+	public String getSoundStatus() {
+		return soundStatus;
 	}
 
 	/**
@@ -87,7 +70,13 @@ public class Sound {
 	 */
 	public void playBackgroundMusic() {
 		mp.play();
+		soundStatus = "Playing";
 
+	}
+
+	public void stopBackgroundMusic() {
+		mp.stop();
+		soundStatus = "Stopped";
 	}
 
 }
