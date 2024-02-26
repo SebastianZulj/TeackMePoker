@@ -317,7 +317,7 @@ public class SPController extends Thread {
       if (ai.aiPot() < bigBlind && !ai.getDecision().contains("lost")) {
         ai.setDecision("lost");
         ai.updateWinner(-ai.aiPot());
-        gController.setUIAiStatus(aiPlayers.indexOf(ai), "inactive");
+        gController.setUIAiStatus(aiPlayers.indexOf(ai), "inactive"); //TODO: fix
       }
       System.out.println(ai.getName() + " : " + ai.getDecision() + (ai.aiPot() < bigBlind));
     }

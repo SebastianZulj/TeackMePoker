@@ -69,6 +69,7 @@ public class GameController {
   @FXML
   private Pane paneRounds;
 
+
   @FXML
   private ImageView imgPlayerOneCards;
   @FXML
@@ -79,6 +80,7 @@ public class GameController {
   private ImageView imgPlayerFourCards;
   @FXML
   private ImageView imgPlayerFiveCards;
+
 
   @FXML
   private Label labelPlayerOneName;
@@ -197,105 +199,55 @@ public class GameController {
   private Label[] collectionOfPots;
   private static final String BASE_PATH = "/com/example/demo/";
   private FileController fileController = new FileController(); //for I/O operations
+  private AIController aiController;
 
 
   /**
    * Method for initializing FXML
-   * @throws Exception
    */
-  public void initialize() throws Exception {
+  public void initialize() {
+    initializeAIController(); //initialize ai controller
     // Groups together labels for each AI-position.
-    this.collectionOfLabelsAi =
-        new Label[][] {{labelPlayerOneName, labelPlayerOnePot, labelPlayerOneAction},
+    Label[][] aiLabels = new Label[][] {{labelPlayerOneName, labelPlayerOnePot, labelPlayerOneAction},
             {labelPlayerTwoName, labelPlayerTwoPot, labelPlayerTwoAction},
             {labelPlayerThreeName, labelPlayerThreePot, labelPlayerThreeAction},
             {labelPlayerFourName, labelPlayerFourPot, labelPlayerFourAction},
             {labelPlayerFiveName, labelPlayerFivePot, labelPlayerFiveAction}};
+    aiController.setCollectionOfLabelsAi(aiLabels);
 
-    // Placeholders for the AI (based on their position). Shows their
-    // cardbacks/no cards or
+    // Placeholders for the AI (based on their position). Shows their cardbacks/no cards or
     // highlighted cards (AI-frame).
     this.collectionOfPots = new Label[6];
 
     this.collectionOfCardsAi = new ImageView[] {imgPlayerOneCards, imgPlayerTwoCards,
         imgPlayerThreeCards, imgPlayerFourCards, imgPlayerFiveCards};
+    aiController.setCollectionOfCardsAi(collectionOfCardsAi);
 
-    // Used to place AI-players into the right position depending on the
-    // chosen number of AI:s.
+    // Used to place AI-players into the right position depending on the chosen number of AI:s.
     this.aiPositions = new int[][] {{2}, {0, 2, 4}, {0, 1, 2, 3, 4, 5}};
+    aiController.setAiPositions(aiPositions);
 
     // Table cards placeholders.
-    this.collectionOfCardsTable =
-        new ImageView[] {imgCard3, imgCard4, imgCard5, imgCard6, imgCard7};
+    this.collectionOfCardsTable = new ImageView[] {imgCard3, imgCard4, imgCard5, imgCard6, imgCard7};
 
     // Used by method: inactivateAllAiCardGlows and aiAction.
     this.prevPlayerActive = -1;
   }
 
-
-  /**
-   * Used to show labels and AI-frame.
-   * @param position Position on the screen (0-4).
-   */
-  public void setShowUIAiBar(int position) {
-    collectionOfLabelsAi[position][0].setVisible(true);
-    collectionOfLabelsAi[position][1].setVisible(true);
-    collectionOfLabelsAi[position][2].setVisible(true);
-    collectionOfCardsAi[position].setVisible(true);
+  public void initializeAIController() {
+    aiController = new AIController();
+    aiController.setGameController(this);
   }
 
   /**
-   * Used to change AI-label "name" based on position.
-   * @param position Position on the screen (0-4).
-   * @param name The label for the AI's name.
+   * @return nbr of previous active players
    */
-  public void setLabelUIAiBarName(int position, String name) {
-    collectionOfLabelsAi[position][0].setText(name);
+  public int getPrevPlayerActive() {
+    return this.prevPlayerActive;
   }
 
-
-  /**
-   * Used to change AI-label "pot" based on position.
-   * @param position Position on the screen (0-4).
-   * @param pot The label for the AI's pot.
-   */
-  public void setLabelUIAiBarPot(int position, String pot) {
-    collectionOfLabelsAi[position][1].setText("§" + pot);
-  }
-
-
-  /**
-   * Used to change AI-label "action" based on position.
-   * @param position Position on the screen (0-4).
-   * @param action The label for the AI's action.
-   */
-  public void setLabelUIAiBarAction(int position, String action) {
-    collectionOfLabelsAi[position][2].setText(action);
-  }
-
-
-  /**
-   * Changes the AI-frame based on position and state.
-   * @param position Position on the screen (0-4).
-   * @param state The state can either be inactive (folded/lost), idle (waiting for it's turn),
-   *        active (currently it's turn).
-   */
-  public void setUIAiStatus(int position, String state) {
-    String hideCardsPath = "/com/example/demo/images/aiBarWithoutCards.png";
-    String showCardsPath = "/com/example/demo/images/aiBarWithCards.png";
-    String showActiveCardsPath = "/com/example/demo/images/aiBarWithCardsCurrentPlayer.png";
-
-    Image hideCards = new Image(getClass().getResourceAsStream(hideCardsPath), 122, 158, true, true);
-    Image showCards = new Image(getClass().getResourceAsStream(showCardsPath), 122, 158, true, true);
-    Image showActiveCards = new Image(getClass().getResourceAsStream(showActiveCardsPath), 122, 158, true, true);
-
-    if (Objects.equals(state, "inactive")) {
-      collectionOfCardsAi[position].setImage(hideCards);
-    } else if (Objects.equals(state, "idle")) {
-      collectionOfCardsAi[position].setImage(showCards);
-    } else if (Objects.equals(state, "active")) {
-      collectionOfCardsAi[position].setImage(showActiveCards);
-    }
+  public void setPrevPlayerActive(int i) {
+    this.prevPlayerActive = i;
   }
 
   /**
@@ -304,6 +256,7 @@ public class GameController {
    */
   public void setSPController(SPController spController) {
     this.spController = spController;
+    aiController.setSPController(spController);
     spController.setGameController(this);
   }
 
@@ -368,9 +321,7 @@ public class GameController {
    */
   public void playerRaise() {
     disableButtons();
-    /*
-     * If the player hasn't matched the current maxbet
-     */
+    // If the player hasn't matched the current maxbet
     if (spController.getCurrentMaxBet() != alreadyPaid) {
     }
 
@@ -381,9 +332,7 @@ public class GameController {
      * PLAYER'S POT
      */
 
-    this.decision = "raise," + (raisedBet + spController.getCurrentMaxBet()); // Chosen
-                                                                              // raised
-                                                                              // amount
+    this.decision = "raise," + (raisedBet + spController.getCurrentMaxBet()); // Chosen raised amount
 
     playerMadeDecision = true;
     sound.playSound("chipMulti");
@@ -425,7 +374,7 @@ public class GameController {
   }
 
   /**
-   * DEPRECATED. Never successfully implemented.
+   * DEPRECATED. Never successfully implemented. //TODO: possible future implementation
    */
   public void saveGame() {}
 
@@ -435,22 +384,10 @@ public class GameController {
    */
   public void setSliderValues() {
     int calcWithdraw = 0;
-    if (spController.getCurrentMaxBet() != alreadyPaid) { // If the player
-                                                          // hasn't
-                                                          // matched the
-                                                          // current
-                                                          // maxbet
-      calcWithdraw = spController.getCurrentMaxBet() - alreadyPaid; // Calculates
-                                                                    // how
-                                                                    // much
-                                                                    // the
-                                                                    // player
-                                                                    // has
-                                                                    // to
-                                                                    // pay
-                                                                    // to
-                                                                    // match
-                                                                    // it
+    if (spController.getCurrentMaxBet() != alreadyPaid) {
+      // If the player hasn't matched the current max bet
+      calcWithdraw = spController.getCurrentMaxBet() - alreadyPaid;
+      // Calculates how much the player has to pay to match it
     }
 
     slider.setMax(playerPot);
@@ -570,27 +507,6 @@ public class GameController {
 
 
   /**
-   * Clears AI action and updates the new and current AI-pot at the end of the round.
-   * @param ai Which AI to update values for.
-   */
-  public void endOfRound(int ai) {
-    Platform.runLater(new Runnable() {
-      private volatile boolean shutdown;
-
-      @Override
-      public void run() {
-
-        while (!shutdown) {
-          setLabelUIAiBarPot(ai, Integer.toString(aiPlayers.get(ai).aiPot()));
-          setLabelUIAiBarAction(ai, "");
-          shutdown = true;
-        }
-      }
-    });
-  }
-
-
-  /**
    * Sets the starting hand pre-flop for the player.
    * @param card1 First playercard in the hand.
    * @param card2 Second playercard in the hand.
@@ -604,8 +520,8 @@ public class GameController {
     Platform.runLater(() -> {
       for (int i = 0; i < 5; i++) { // Resets AI labels and removes all
                                     // previous glow-effects.
-        setUIAiStatus(i, "idle");
-        setLabelUIAiBarAction(i, "");
+        aiController.setUIAiStatus(i, "idle");
+        aiController.setLabelUIAiBarAction(i, "");
       }
     });
 
@@ -631,10 +547,6 @@ public class GameController {
    * Checks the player's hand and gives tips and highlights cards based on the method
    * getHighlightedCards (important during pre-flop situation).
    */
-  //Changed Image Paths:
-  //Updated the image paths for cardOne and cardTwo to use the absolute path starting with "/com/example/demo/images/".
-  //Modified Image Loading:
-  //Used getClass().getResource() to load the images. This method loads resources from the classpath
   public void checkHand() {
     Platform.runLater(() -> {
       //try {
@@ -652,14 +564,6 @@ public class GameController {
         if (hand.getHighlightedCards().contains(Integer.toString(card2.getCardValue()) + "," + card2.getCardSuit().charAt(0))) {
           cardTwo = "/com/example/demo/images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + "O.png";
         }
-        // only for test remove later
-        System.out.println("Card One Path: " + cardOne);
-        System.out.println("Card Two Path: " + cardTwo);
-        System.out.println("Highlighted Cards: " + hand.getHighlightedCards());
-
-        Image imageTemp = null;
-        ImageView imgCard1 = new ImageView(imageTemp);
-        ImageView imgCard2 = new ImageView(imageTemp);
 
         Image image = new Image(getClass().getResource(cardOne).toExternalForm(), 114, 148, true, true);
           imgCard1 = new ImageView(image);
@@ -732,9 +636,9 @@ public class GameController {
         collectionOfCardsTable[i].setX(xCord);
         collectionOfCardsTable[i].setY(0);
       }
-              handHelp();
-              checkHand();
-            });
+      handHelp();
+      checkHand();
+    });
   }
 
   /**
@@ -917,14 +821,12 @@ public class GameController {
 
       if ((spController.getCurrentMaxBet() - alreadyPaid) + spController.getBigBlind() <= playerPot
           && playerPot != 0) {
-        // show raise
-        btRaise.setVisible(true);
+        btRaise.setVisible(true); // show raise
       } else {
-        // hide raise
-        btRaise.setVisible(false);
+        btRaise.setVisible(false); // hide raise
       }
     }
-    inactivateAllAiCardGlows();
+    aiController.inactivateAllAiCardGlows();
   }
 
 
@@ -937,7 +839,6 @@ public class GameController {
     btCheck.setVisible(false);
     btFold.setVisible(false);
   }
-
 
   /**
    * Method which returns the players handStrength as an integer
@@ -955,152 +856,34 @@ public class GameController {
     return playerPot;
   }
 
-
-  /**
-   * Method which dims an AI player
-   * @param AI an AI player
-   */
-  public void removeAiPlayer(int AI) {
-    Platform.runLater(() -> {
-      collectionOfLabelsAi[AI][0].setVisible(false);
-      collectionOfLabelsAi[AI][1].setVisible(false);
-      collectionOfLabelsAi[AI][2].setVisible(false);
-    });
-  }
-
-
-  /**
+  /** //TODO: has been moved, now connected
    * Places the AI-players in the correct position depending on chosen number of players.
    * @param aiPlayers All the AI-players that are active.
    * @param notFirstRound
    * @param deadAIIndex
    */
   public void setAiPlayers(LinkedList<Ai> aiPlayers, boolean notFirstRound, int deadAIIndex) {
-    this.aiPlayers = aiPlayers;
-    int totalAI = spController.getFixedNrOfAIs();
-    if (!notFirstRound) {
-      if (totalAI == 1) {
-        setShowUIAiBar(2);
-      } else if (totalAI == 3) {
-        setShowUIAiBar(0);
-        setShowUIAiBar(2);
-        setShowUIAiBar(4);
-      } else if (totalAI == 5) {
-        setShowUIAiBar(0);
-        setShowUIAiBar(1);
-        setShowUIAiBar(2);
-        setShowUIAiBar(3);
-        setShowUIAiBar(4);
-      }
-    } else if (notFirstRound) {
-      endOfRound(deadAIIndex);
-    }
+    aiController.setAiPlayers(aiPlayers, notFirstRound, deadAIIndex);
   }
 
 
-  /**
+  /** //TODO: has been moved, now connected
    * Updates AI-frame based on currentAI-position and decision with the method setUIAiStatus.
    * @param currentAI Chosen AI to update AI-frame
    * @param decision Check, call, fold, raise or lost
    */
   public void aiAction(int currentAI, String decision) {
-    int setAINr = spController.getFixedNrOfAIs();
-
-    int setOfPlayers = 0; // Is used for choosing the correct set of
-                          // positioning (see
-                          // aiPositions[][])
-
-    // Decides (based on chosen AI-players) which position to place the AI
-    // at
-    if (setAINr == 1) {
-      setOfPlayers = 0;
-    } else if (setAINr == 3) {
-      setOfPlayers = 1;
-    } else if (setAINr == 5) {
-      setOfPlayers = 2;
-    }
-
-    int currentAIPosition = aiPositions[setOfPlayers][currentAI];
-
-    if (prevPlayerActive != -1) { // If there does exists a previous active
-                                  // AI-player
-      setUIAiStatus(prevPlayerActive, "idle"); // Resets the previous
-                                               // player's image from
-                                               // glowing(active) to
-                                               // non-glowning(idle)
-    }
-
-    Ai ai = aiPlayers.get(currentAI);
-
-    if (decision.contains("fold") || decision.contains("lost") || decision.isEmpty()) {
-      setUIAiStatus(currentAIPosition, "inactive");
-    } else {
-      setUIAiStatus(currentAIPosition, "active");
-      this.prevPlayerActive = currentAIPosition;
-    }
-
-    Platform.runLater(new Runnable() {
-      private volatile boolean shutdown;
-
-      @Override
-      public void run() {
-        /**
-         * Sets name, pot and action for the AI's (UI)
-         */
-        while (!shutdown) {
-          setLabelUIAiBarName(currentAIPosition, ai.getName());
-          setLabelUIAiBarPot(currentAIPosition, Integer.toString(ai.aiPot()));
-          setLabelUIAiBarAction(currentAIPosition, getFormattedDecision(decision));
-          shutdown = true;
-        }
-      }
-    });
+    aiController.aiAction(currentAI, decision);
   }
-
 
   /**
-   * Formats action label for AI.
-   * @param decision fold/lost/check/call/raise/all-in/Dealer/SmallBlind/BigBlind
-   * @return Formatted decision
+   * communicates from SPController to AIController
+   * @param position
+   * @param state
    */
-  public String getFormattedDecision(String decision) {
-    String actionText = "Error";
-
-    if (decision.contains("fold")) {
-      actionText = "Fold";
-    } else if (decision.contains("lost")) {
-      actionText = "Lost";
-    } else if (decision.contains("check")) {
-      actionText = "Check";
-    } else if (decision.contains("call")) {
-      actionText = "Call";
-    } else if (decision.contains("raise")) {
-      String[] decisionAi = decision.split(",");
-      actionText = "Raise, §" + decisionAi[1];
-    } else if (decision.contains("all-in")) {
-      actionText = "All-In";
-    } else if (decision.contains("Dealer")) {
-      actionText = "Dealer";
-    } else if (decision.contains("SmallBlind")) {
-      actionText = "Small Blind, §" + spController.getSmallBlind();
-    } else if (decision.contains("BigBlind")) {
-      actionText = "Big Blind, §" + spController.getBigBlind();
-    }
-
-    return actionText;
+  public void setUIAiStatus(int position, String state) {
+    aiController.setUIAiStatus(position, state);
   }
-
-
-  /**
-   * This metod makes sure that during the players turn, the previous AI is considered idle
-   */
-  public void inactivateAllAiCardGlows() {
-    if (prevPlayerActive != -1) {
-      setUIAiStatus(prevPlayerActive, "idle");
-      this.prevPlayerActive = -1;
-    }
-  }
-
 
   /**
    * Force closes the program
@@ -1134,14 +917,6 @@ public class GameController {
         "Detta projekt är format och skapat av "
             + "Vedrana Zeba, Rikard Almgren, Amin Harirchian, Max Frennessen och Lykke Levin under "
             + "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1.");
-  }
-
-  /**
-   * Method which returns if the UI is ready
-   * @return isReady are we ready?
-   */
-  public boolean getIsReady() {
-    return isReady;
   }
 
   /**
