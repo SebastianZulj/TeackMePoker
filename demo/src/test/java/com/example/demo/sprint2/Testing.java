@@ -1,21 +1,26 @@
 package com.example.demo.sprint2;
 
-import com.example.demo.gui.FileController;
+import com.example.demo.controller.FileController;
+import com.example.demo.gui.Sound;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Testing {
+    public static void setup() {
+    ;
+    }
 /*
     @Test
-    public void TF30() {
+    public void TF301() {
         FileController fileController = new FileController();
         HashMap<String, HashMap<String, Integer>> winnerHistoryTest = new HashMap<>();
         String filePath = "demo/src/main/resources/com/example/demo/files/winnerHistory.txt";
@@ -30,11 +35,11 @@ public class Testing {
                 String winningHand = parts[1];
 
             }
-            for (String name : winnerHistoryTest.keySet()) {
-                assertTrue(winnerHistoryTest.containsKey(name));
-                assertTrue(winnerHistoryTest.get(name).containsKey("winningHand"));
+            //for (String name : winnerHistoryTest.keySet()) {
+                //assertTrue(winnerHistoryTest.containsKey(name));
+                //assertTrue(winnerHistoryTest.get(name).containsKey("winningHand"));
 
-            }
+            //}
             bufferedReader.close();
 
         } catch (FileNotFoundException e) {
@@ -42,44 +47,15 @@ public class Testing {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        //assertEquals(winnerHistoryTest, fileController.readWinnerHistory());
+        assertEquals(winnerHistoryTest, fileController.readWinnerHistory());
     }
 
  */
-/*
-    @Test
-    public void TF300() {
-        FileController fileController = new FileController();
 
-        // Assuming readWinnerHistory() does not need arguments and reads from a fixed file path
-        HashMap<String, HashMap<String, Integer>> actualResults = fileController.readWinnerHistory();
 
-        // Expected results based on the known content of the test file
-        HashMap<String, HashMap<String, Integer>> expectedResults = new HashMap<>();
-        expectedResults.put("PlayerName1", new HashMap<>() {{
-            put("WinningHand1", 1);
-        }});
-        expectedResults.put("PlayerName2", new HashMap<>() {{
-            put("WinningHand2", 1);
-        }});
-        // Add more entries to expectedResults based on your test file content
 
-        // Verify that all expected keys (players) and their winning hands are present with correct counts
-        for (String name : expectedResults.keySet()) {
-            assertTrue(actualResults.containsKey(name), "Expected player not found: " + name);
 
-            HashMap<String, Integer> expectedHands = expectedResults.get(name);
-            HashMap<String, Integer> actualHands = actualResults.get(name);
-
-            for (String hand : expectedHands.keySet()) {
-                assertTrue("Expected hand not found for player " + name + ": " + hand, actualHands.containsKey(hand));
-                assertEquals("Incorrect count for " + hand + " of player " + name,
-                        expectedHands.get(hand), actualHands.get(hand));
-            }
-        }
-    }
-
- */
+    /*
     @Test
     public void TF30() {
         FileController fileController = new FileController();
@@ -120,9 +96,14 @@ public class Testing {
         assertEquals(result, winnerHistoryTest );
 
     }
-    /*
+
+     */
+
+    /**
+     * Test case 30 for reading the winner history file.
+     */
     @Test
-    public void TF31() {
+    public void TF30() {
         FileController fileController = new FileController();
         HashMap<String, HashMap<String, Integer>> winnerHistoryTest = new HashMap<>();
         String filePath = "src/main/resources/com/example/demo/files/winnerHistory.txt";
@@ -153,9 +134,24 @@ public class Testing {
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
         }
-        assertEquals(fileController.readWinnerHistory(), winnerHistoryTest );
+        Assertions.assertEquals(fileController.readWinnerHistory(), winnerHistoryTest );
     }
 
-     */
+
+
+    @Test
+    void TF28() {
+        Sound musicPlayer = new Sound();
+        musicPlayer.playBackgroundMusic();
+        musicPlayer.stopBackgroundMusic();
+        Assertions.assertEquals("Stopped", musicPlayer.getSoundStatus(), "Sound status should be 'Stopped' after stopBackgroundMusic is called.");
+    }
+    @Test
+    public void TF285() {
+        Sound musicPlayer = new Sound();
+        musicPlayer.playBackgroundMusic();
+        Assertions.assertEquals("Playing", musicPlayer.getSoundStatus(), "After playing background music, sound status should be 'Playing'.");
+    }
+
 
 }
