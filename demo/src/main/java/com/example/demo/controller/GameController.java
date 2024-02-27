@@ -921,10 +921,8 @@ public class GameController {
 
   /**
    * Method which creates a popup to inform the player that s/he lost.
-   * @throws InstantiationException
-   * @throws IllegalAccessException
    */
-  public void playerLost() throws InstantiationException, IllegalAccessException {
+  public void playerLost() {
     Platform.runLater(() -> {
       try {
         winnerBox = new WinnerBox();
