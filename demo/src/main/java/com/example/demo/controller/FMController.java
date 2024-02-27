@@ -70,15 +70,17 @@ public class FMController {
 	}
 
 	public void soundSetting() {
-		System.out.println(ivSound.getImage().getUrl());
-		if(ivSound.getImage().getUrl().contains("Mute")) {
-			Image soundOn = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButton.png"));
-			ivSound.setImage(soundOn);
-			sound.playBackgroundMusic();
-		} else if (ivSound.getImage().getUrl().contains("soundButton")) {
-			Image soundOff = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButtonMute.png"));
-			ivSound.setImage(soundOff);
-			sound.stopBackgroundMusic();
+		switch (sound.getSoundStatus()) {
+			case "Playing":
+				sound.stopBackgroundMusic();
+				Image soundOff = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButtonMute.png"));
+				ivSound.setImage(soundOff);
+				break;
+			case "Stopped":
+				sound.playBackgroundMusic();
+				Image soundOn = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButton.png"));
+				ivSound.setImage(soundOn);
+				break;
 		}
 	}
 }
