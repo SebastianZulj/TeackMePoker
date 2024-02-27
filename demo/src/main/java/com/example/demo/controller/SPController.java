@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import com.example.demo.aiClass.Ai;
 import com.example.demo.deck.Card;
@@ -189,8 +190,6 @@ public class SPController extends Thread {
   WinnerCallback winnerCallback = new WinnerCallback() {
     @Override
     public void onWinnerBoxClosed(boolean okButtonClicked) {
-      System.out.println("callback here");
-      System.out.println("boolean is: " + okButtonClicked);
       synchronized (this) {
         isOkButtonClicked = okButtonClicked;
         notify(); //notify waiting thread (run) that callback has been called
@@ -247,6 +246,7 @@ public class SPController extends Thread {
             if (!(checkLivePlayers() > 1)) {
               gController.setPlayerPot(currentPotSize);
               winner = gController.getUsername();
+              System.out.println("set winner lbl 1");
               gController.setWinnerLabel(winner, 99, winnerCallback);
               winnerDeclared = true;
               break;
@@ -266,6 +266,7 @@ public class SPController extends Thread {
               if (!(checkLivePlayers() > 1)) {
                 aiPlayers.get(currentPlayer).updateWinner(currentPotSize);
                 winner = aiPlayers.get(currentPlayer).getName();
+                System.out.println("set winner lbl 2");
                 gController.setWinnerLabel(winner, 98, winnerCallback);
                 winnerDeclared = true;
                 break;
@@ -407,6 +408,7 @@ public class SPController extends Thread {
         if (gController.getHandStrength() > bestHand) {
           gController.setPlayerPot(currentPotSize);
           winner = gController.getUsername();
+          System.out.println("set winner lbl 3");
           gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
           // draw
         } else if (gController.getHandStrength() == bestHand) {
@@ -414,12 +416,14 @@ public class SPController extends Thread {
           if (gController.getGetHighCard() > bestHandPlayer.getHighCard()) {
             gController.setPlayerPot(currentPotSize);
             winner = gController.getUsername();
+            System.out.println("set winner lbl 4");
             gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
             // Draw
           } else if (gController.getGetHighCard() == bestHandPlayer.getHighCard()) {
             bestHandPlayer.updateWinner(currentPotSize / 2);
             gController.setPlayerPot(currentPotSize / 2);
             winner = gController.getUsername() + " och " + bestHandPlayer.getName();
+            System.out.println("set winner lbl 5");
             gController.setWinnerLabel(winner, bestHand, winnerCallback);
             // AI wins and there are second winners.
           } else {
@@ -432,6 +436,7 @@ public class SPController extends Thread {
             } else {
               bestHandPlayer.updateWinner(currentPotSize);
               winner = bestHandPlayer.getName();
+              System.out.println("set winner lbl 6");
               gController.setWinnerLabel(winner, bestHand, winnerCallback);
             }
           }
@@ -445,6 +450,7 @@ public class SPController extends Thread {
           } else {
             bestHandPlayer.updateWinner(currentPotSize);
             winner = bestHandPlayer.getName();
+            System.out.println("set winner lbl 7");
             gController.setWinnerLabel(winner, bestHand, winnerCallback);
           }
         }
@@ -458,6 +464,7 @@ public class SPController extends Thread {
         } else {
           bestHandPlayer.updateWinner(currentPotSize);
           winner = bestHandPlayer.getName();
+          System.out.println("set winner lbl 8");
           gController.setWinnerLabel(winner, bestHand, winnerCallback);
         }
       }
@@ -465,15 +472,14 @@ public class SPController extends Thread {
 
   }
 
-
   /**
-   * Method which checks the winners if there was one or more all-ins
+   * Method which checks the winners if there was one or more all-ins.
+   * This method does the same thing as checkWinners except the pot is split over multiple subpots
+   * and one winner is declared for each subpot.
    */
   private void checkAllInWinners() {
-    /*
-     * This method does the same thing as checkWinners except the pot is split over multiple subpots
-     * and one winner is declared for each subpot
-     */
+    HashMap<String, String> checkMap = new HashMap<>(); //to check if a given winner has been declared already
+
     int allInPotSize;
     for (int i = potSplits.length - 1; i >= 0; i--) {
       if (potSplits[i][0] > 0) {
@@ -482,7 +488,6 @@ public class SPController extends Thread {
           if (test.getAllInViability() <= i && !test.getDecision().contains("fold")
               && !test.getDecision().contains("lost")) {
             potSplits[i][0] += potSplits[i][0];
-
           }
         }
         potSplits[i][0] -= potSplits[i][0];
@@ -516,17 +521,29 @@ public class SPController extends Thread {
           if (gController.getHandStrength() > bestHand) {
             gController.setPlayerPot(allInPotSize);
             winner = gController.getUsername();
-            gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
+            System.out.println("set winner lbl 9");
+            if (!checkMap.containsKey("9")) {
+              gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
+              checkMap.put("9", null);
+            }
           } else if (gController.getHandStrength() == bestHand) {
             if (gController.getGetHighCard() > bestHandPlayer.getHighCard()) {
               gController.setPlayerPot(allInPotSize);
               winner = gController.getUsername();
-              gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
+              System.out.println("set winner lbl 10");
+              if (!checkMap.containsKey("10")) {
+                gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
+                checkMap.put("10", null);
+              }
             } else if (gController.getGetHighCard() == bestHandPlayer.getHighCard()) {
               bestHandPlayer.updateWinner(allInPotSize / 2);
               gController.setPlayerPot(allInPotSize / 2);
               winner = gController.getUsername() + " och " + bestHandPlayer.getName();
-              gController.setWinnerLabel(winner, bestHand, winnerCallback);
+              System.out.println("set winner lbl 11");
+              if (!checkMap.containsKey("11")) {
+                gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
+                checkMap.put("11", null);
+              }
             } else {
               if (!secWin.isEmpty()) {
                 int divBy = allInPotSize = secWin.size();
@@ -536,7 +553,11 @@ public class SPController extends Thread {
               } else {
                 bestHandPlayer.updateWinner(allInPotSize);
                 winner = bestHandPlayer.getName();
-                gController.setWinnerLabel(winner, bestHand, winnerCallback);
+                System.out.println("set winner lbl 12");
+                if (!checkMap.containsKey("12")) {
+                  gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
+                  checkMap.put("12", null);
+                }
               }
             }
           } else {
@@ -548,7 +569,11 @@ public class SPController extends Thread {
             } else {
               bestHandPlayer.updateWinner(allInPotSize);
               winner = bestHandPlayer.getName();
-              gController.setWinnerLabel(winner, bestHand, winnerCallback);
+              System.out.println("set winner lbl 13");
+              if (!checkMap.containsKey("13")) {
+                gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
+                checkMap.put("13", null);
+              }
             }
           }
         } else {
@@ -560,7 +585,11 @@ public class SPController extends Thread {
           } else {
             bestHandPlayer.updateWinner(allInPotSize);
             winner = bestHandPlayer.getName();
-            gController.setWinnerLabel(winner, bestHand, winnerCallback);
+            System.out.println("set winner lbl 14");
+            if (!checkMap.containsKey("14")) {
+              gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
+              checkMap.put("14", null);
+            }
           }
         }
       }
