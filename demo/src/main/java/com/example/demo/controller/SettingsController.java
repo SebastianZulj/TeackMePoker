@@ -36,6 +36,8 @@ public class SettingsController {
 	@FXML
 	private TextField tfNameInput;
 	@FXML
+	private TextField tfPot;
+	@FXML
 	private Slider aiSlider;
 	@FXML
 	private Slider potSlider;
@@ -80,7 +82,7 @@ public class SettingsController {
 		potSlider.setSnapToTicks(true);
 		potSlider.setValue(5000);
 		aiSlider.setSnapToTicks(true);
-		soundSetting();
+		checkIfMuted();
 	}
 
 	/**
@@ -88,6 +90,10 @@ public class SettingsController {
 	 */
 	public void tfNameInputChange() {
 		this.name = tfNameInput.getText();
+	}
+
+	public void tfPotChanged() {
+		this.potValue = Integer.parseInt(tfPot.getText());
 	}
 
 	/**
@@ -334,6 +340,19 @@ public class SettingsController {
 		return name;
 	}
 
+	public void checkIfMuted() {
+		switch (sound.getSoundStatus()) {
+			case "Stopped":
+				Image soundOff = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButtonMute.png"));
+				ivSound.setImage(soundOff);
+				break;
+			case "Playing":
+				Image soundOn = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButton.png"));
+				ivSound.setImage(soundOn);
+				break;
+		}
+	}
+
 	public void soundSetting() {
 		switch (sound.getSoundStatus()) {
 			case "Playing":
@@ -346,7 +365,6 @@ public class SettingsController {
 				Image soundOn = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButton.png"));
 				ivSound.setImage(soundOn);
 				break;
-
 		}
 	}
 }

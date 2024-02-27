@@ -36,6 +36,7 @@ public class FMController {
 	 * @throws Exception
 	 */
 	public void initialize() throws Exception {
+		soundSetting();
 	}
 
 	/**
