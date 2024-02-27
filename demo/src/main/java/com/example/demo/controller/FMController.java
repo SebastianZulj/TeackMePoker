@@ -1,12 +1,15 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import com.example.demo.gui.ChangeScene;
 import com.example.demo.gui.Sound;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 /**
  * Controller for FXML-doc FirstMenu.fxml.
@@ -18,7 +21,9 @@ import javafx.scene.image.ImageView;
 
 public class FMController {
 	private ChangeScene changeScene;
-	private Sound sound;
+	private Sound sound = new Sound();
+	@FXML
+	private ImageView ivSound;
 	@FXML
 	private TextField tfNameInput;
 	@FXML
@@ -64,4 +69,18 @@ public class FMController {
 		sound.playSound("wrong");
 	}
 
+	public void soundSetting() {
+		switch (sound.getSoundStatus()) {
+			case "Playing":
+				sound.stopBackgroundMusic();
+				Image soundOff = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButtonMute.png"));
+				ivSound.setImage(soundOff);
+				break;
+			case "Stopped":
+				sound.playBackgroundMusic();
+				Image soundOn = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButton.png"));
+				ivSound.setImage(soundOn);
+				break;
+		}
+	}
 }

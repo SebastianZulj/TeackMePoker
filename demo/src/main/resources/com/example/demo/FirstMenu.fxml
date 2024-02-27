@@ -30,5 +30,10 @@
             </ImageView>
          </children>
       </VBox>
+      <ImageView id="soundButton.png" fx:id="ivSound" fitHeight="45.0" fitWidth="45.0" onMouseReleased="#soundSetting" layoutX="1200.0" layoutY="603.0">
+         <image>
+            <Image url="@images/soundButton.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
