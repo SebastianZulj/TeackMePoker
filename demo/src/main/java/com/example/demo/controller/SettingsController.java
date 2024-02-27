@@ -80,6 +80,7 @@ public class SettingsController {
 		potSlider.setSnapToTicks(true);
 		potSlider.setValue(5000);
 		aiSlider.setSnapToTicks(true);
+		soundSetting();
 	}
 
 	/**
@@ -334,7 +335,6 @@ public class SettingsController {
 	}
 
 	public void soundSetting() {
-
 		switch (sound.getSoundStatus()) {
 			case "Playing":
 				sound.stopBackgroundMusic();
