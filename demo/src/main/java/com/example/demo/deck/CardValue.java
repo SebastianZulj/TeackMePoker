@@ -38,4 +38,13 @@ public enum CardValue {
 	public int getCardValue() {
 		return cardValue;
 	}
+
+	public static CardValue fromCardValueCode(int cardValueCode) {
+		for (CardValue cardValue : CardValue.values()) {
+			if (cardValue.getCardValue() == cardValueCode) {
+				return cardValue;
+			}
+		}
+		throw new IllegalArgumentException("No enum constant for cardValueCode: " + cardValueCode);
+	}
 }

@@ -15,9 +15,9 @@ public enum Suit {
 	
 	/**
 	 * Creates the suits
-	 * @param firstletter h, s, c or d
+	 * @param firstLetter h, s, c or d
 	 */
-	private Suit(char firstLetter) {
+	Suit(char firstLetter) {
 		this.suit = firstLetter;
 	}
 
@@ -28,5 +28,14 @@ public enum Suit {
 	 */
 	public char getSuitLetter() {
 		return suit;
+	}
+
+	public static Suit fromSuitCode(char suitCode) {
+		for (Suit suit : Suit.values()) {
+			if (suit.getSuitLetter() == suitCode) {
+				return suit;
+			}
+		}
+		throw new IllegalArgumentException("No enum constant for suitCode: " + suitCode);
 	}
 }

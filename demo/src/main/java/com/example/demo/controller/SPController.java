@@ -6,9 +6,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import com.example.demo.aiClass.Ai;
 import com.example.demo.deck.Card;
+import com.example.demo.deck.CardValue;
 import com.example.demo.deck.Deck;
+import com.example.demo.deck.Suit;
 import com.example.demo.gui.WinnerCallback;
 import javafx.application.Platform;
+
+import javax.swing.plaf.SeparatorUI;
 
 
 /**
@@ -407,23 +411,27 @@ public class SPController extends Thread {
         // Player wins
         if (gController.getHandStrength() > bestHand) {
           gController.setPlayerPot(currentPotSize);
-          winner = gController.getUsername();
+          winner = gController.getUsername() + " med " + getWinnerCards(bestHandPlayer);
           System.out.println("set winner lbl 3");
+          System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
+
           gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
           // draw
         } else if (gController.getHandStrength() == bestHand) {
           // Player wins
           if (gController.getGetHighCard() > bestHandPlayer.getHighCard()) {
             gController.setPlayerPot(currentPotSize);
-            winner = gController.getUsername();
+            winner = gController.getUsername() + " med " + getWinnerCards(bestHandPlayer);
             System.out.println("set winner lbl 4");
+            System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
             gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
             // Draw
           } else if (gController.getGetHighCard() == bestHandPlayer.getHighCard()) {
             bestHandPlayer.updateWinner(currentPotSize / 2);
             gController.setPlayerPot(currentPotSize / 2);
-            winner = gController.getUsername() + " och " + bestHandPlayer.getName();
+            winner = gController.getUsername() + " och " + bestHandPlayer.getName() + " med " + getWinnerCards(bestHandPlayer);
             System.out.println("set winner lbl 5");
+            System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
             gController.setWinnerLabel(winner, bestHand, winnerCallback);
             // AI wins and there are second winners.
           } else {
@@ -435,8 +443,9 @@ public class SPController extends Thread {
               // Ai wins and there aren't
             } else {
               bestHandPlayer.updateWinner(currentPotSize);
-              winner = bestHandPlayer.getName();
+              winner = bestHandPlayer.getName() + " med " + getWinnerCards(bestHandPlayer);
               System.out.println("set winner lbl 6");
+              System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
               gController.setWinnerLabel(winner, bestHand, winnerCallback);
             }
           }
@@ -449,8 +458,9 @@ public class SPController extends Thread {
             }
           } else {
             bestHandPlayer.updateWinner(currentPotSize);
-            winner = bestHandPlayer.getName();
+            winner = bestHandPlayer.getName() + " med " + getWinnerCards(bestHandPlayer);
             System.out.println("set winner lbl 7");
+            System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
             gController.setWinnerLabel(winner, bestHand, winnerCallback);
           }
         }
@@ -463,13 +473,32 @@ public class SPController extends Thread {
           }
         } else {
           bestHandPlayer.updateWinner(currentPotSize);
-          winner = bestHandPlayer.getName();
+          winner = bestHandPlayer.getName() + " med " + getWinnerCards(bestHandPlayer);
           System.out.println("set winner lbl 8");
+          System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
+
           gController.setWinnerLabel(winner, bestHand, winnerCallback);
         }
       }
     }
 
+  }
+
+
+  public String getWinnerCards(Ai winner) {
+    String winningCards = "";
+    String[] cardOneArray = winner.getAiCards().get(0).split(","); // 0 = value, 1 = suit
+    char suitOne = Character.toLowerCase(cardOneArray[1].charAt(0));
+    int valueOne = Integer.parseInt(cardOneArray[0]);
+    Card cardOne = new Card(Suit.fromSuitCode(suitOne), CardValue.fromCardValueCode(valueOne), null);
+
+    String[] cardTwoArray = winner.getAiCards().get(1).split(",");
+    char suitTwo = Character.toLowerCase(cardTwoArray[1].charAt(0));
+    int valueTwo = Integer.parseInt(cardTwoArray[0]);
+    Card cardTwo = new Card(Suit.fromSuitCode(suitTwo), CardValue.fromCardValueCode(valueTwo), null);
+
+    winningCards = cardOne.getCardSuit() + " " + cardOne.getCardValue() + " och " + cardTwo.getCardSuit() + " " + cardTwo.getCardValue();
+    return winningCards;
   }
 
   /**

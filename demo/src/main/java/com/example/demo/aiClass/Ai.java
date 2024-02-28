@@ -186,6 +186,9 @@ public class Ai {
     return aiPot;
   }
 
+  public ArrayList<String> getAiCards() {
+    return aiCards;
+  }
 
   /**
    * If ai-player wins the round this gets updated with the winning amount added to its current

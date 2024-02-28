@@ -24,6 +24,7 @@ public class Card {
 		this.cardValue = value;
 		this.cardIcon = cardIcon;
 	}
+
 	/**
 	 * Returns the value of the card. 
 	 * @return cardValue
