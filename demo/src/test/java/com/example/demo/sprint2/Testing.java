@@ -47,15 +47,15 @@ public class Testing {
                 String[] parts = line.split("\\s+", 2);
                 String name = parts[0];
                 String winningHand = parts[1];
-                if (winnerHistoryTest.containsKey(name)) { //is existing player
-                    HashMap<String, Integer> hands = winnerHistoryTest.get(name); //retrieve value hashmap
+                if (winnerHistoryTest.containsKey(name)) {
+                    HashMap<String, Integer> hands = winnerHistoryTest.get(name);
                     if (hands.containsKey(winningHand)) {
                         int count = hands.get(winningHand);
                         hands.put(winningHand, count + 1);
                     } else {
                         hands.put(winningHand, 1);
                     }
-                } else { //if new player, add new
+                } else {
                     winnerHistoryTest.put(name, new HashMap<>() {{
                         put(winningHand, 1);
                     }});
@@ -94,7 +94,7 @@ public class Testing {
         when(mockConfirmBox.display(anyString(), anyString())).thenReturn(true);
 
         GameController gameController = new GameController();
-        gameController.setConfirmBox(mockConfirmBox); // Använd setter-metoden för att injicera mocken
+        //gameController.setConfirmBox(mockConfirmBox); // Använd setter-metoden för att injicera mocken
 
         boolean reply = gameController.askReplay();
 
