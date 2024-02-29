@@ -484,21 +484,26 @@ public class SPController extends Thread {
 
   }
 
-
+  /**
+   * Method which returns the winning cards for the winner.
+   * @param winner winner of the round
+   * @return winningCards the winning cards
+   */
   public String getWinnerCards(Ai winner) {
     String winningCards = "";
     String[] cardOneArray = winner.getAiCards().get(0).split(","); // 0 = value, 1 = suit
     char suitOne = Character.toLowerCase(cardOneArray[1].charAt(0));
     int valueOne = Integer.parseInt(cardOneArray[0]);
     Card cardOne = new Card(Suit.fromSuitCode(suitOne), CardValue.fromCardValueCode(valueOne), null);
+    String cardOneString = cardOne.toSwedishString();
 
     String[] cardTwoArray = winner.getAiCards().get(1).split(",");
     char suitTwo = Character.toLowerCase(cardTwoArray[1].charAt(0));
     int valueTwo = Integer.parseInt(cardTwoArray[0]);
     Card cardTwo = new Card(Suit.fromSuitCode(suitTwo), CardValue.fromCardValueCode(valueTwo), null);
+    String cardTwoString = cardTwo.toSwedishString();
 
-    winningCards = cardOne.getCardSuit() + " " + cardOne.getCardValue() + " och " + cardTwo.getCardSuit() + " " + cardTwo.getCardValue();
-    return winningCards;
+    return cardOneString + " och " + cardTwoString;
   }
 
   /**

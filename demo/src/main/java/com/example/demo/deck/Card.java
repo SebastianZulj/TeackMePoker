@@ -43,8 +43,12 @@ public class Card {
 	 * Returns the icon of the card.
 	 * @return cardIcon
 	 */
-	public Icon getCardIcon(){
-		return cardIcon;
+
+	/**
+	 * Returns a string representation of the card (in Swedish)
+	 * @return
+	 */
+	public String toSwedishString() {
+		return Suit.toSwedish(cardSuit.getSuitLetter()) + " " + cardValue.toSwedish(getCardValue());
 	}
-	
 }

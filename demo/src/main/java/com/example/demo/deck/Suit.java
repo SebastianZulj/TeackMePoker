@@ -38,4 +38,19 @@ public enum Suit {
 		}
 		throw new IllegalArgumentException("No enum constant for suitCode: " + suitCode);
 	}
+
+	public static String toSwedish(char shuitCode) {
+		switch (shuitCode) {
+		case 'h':
+			return "Hjärter";
+		case 's':
+			return "Spader";
+		case 'c':
+			return "Klöver";
+		case 'd':
+			return "Ruter";
+		default:
+			return "Fel";
+		}
+	}
 }

@@ -47,4 +47,15 @@ public enum CardValue {
 		}
 		throw new IllegalArgumentException("No enum constant for cardValueCode: " + cardValueCode);
 	}
+
+	public static String toSwedish(int cardValueCode) {
+		return switch (cardValueCode) {
+			case 2, 3, 4, 5, 6, 7, 8, 9, 10 -> String.valueOf(cardValueCode);
+			case 11 -> "Knekt";
+			case 12 -> "Dam";
+			case 13 -> "Kung";
+			case 14 -> "Ess";
+			default -> "Fel";
+		};
+    }
 }
