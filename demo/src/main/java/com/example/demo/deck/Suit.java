@@ -30,6 +30,11 @@ public enum Suit {
 		return suit;
 	}
 
+	/**
+	 * Returns the suit
+	 * @param suitCode
+	 * @return
+	 */
 	public static Suit fromSuitCode(char suitCode) {
 		for (Suit suit : Suit.values()) {
 			if (suit.getSuitLetter() == suitCode) {
@@ -39,6 +44,11 @@ public enum Suit {
 		throw new IllegalArgumentException("No enum constant for suitCode: " + suitCode);
 	}
 
+	/**
+	 * Returns the suit in Swedish
+	 * @param shuitCode
+	 * @return
+	 */
 	public static String toSwedish(char shuitCode) {
 		switch (shuitCode) {
 		case 'h':

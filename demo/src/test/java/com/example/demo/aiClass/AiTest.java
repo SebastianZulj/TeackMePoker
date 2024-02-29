@@ -131,7 +131,7 @@ class AiTest {
             temp = decision.split(",");
             decision = temp[0];
         }
-        assertEquals("raise", decision); //Borde vara raise men ger call.
+        assertEquals("raise", decision);
     }
 
     @Test
@@ -151,7 +151,7 @@ class AiTest {
             temp = decision.split(",");
             decision = temp[0];
         }
-        assertEquals("raise", decision); //Borde vara raise men ger call.
+        assertEquals("raise", decision);
     }
 
     @Test
@@ -192,7 +192,7 @@ class AiTest {
             temp = decision.split(",");
             decision = temp[0];
         }
-        assertEquals("raise", decision); //Borde vara raise men ger call.
+        assertEquals("raise", decision); 
     }
 
 }

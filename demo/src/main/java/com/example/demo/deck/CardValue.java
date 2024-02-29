@@ -39,6 +39,11 @@ public enum CardValue {
 		return cardValue;
 	}
 
+	/**
+	 * Returns the card value
+	 * @param cardValueCode
+	 * @return
+	 */
 	public static CardValue fromCardValueCode(int cardValueCode) {
 		for (CardValue cardValue : CardValue.values()) {
 			if (cardValue.getCardValue() == cardValueCode) {
@@ -48,6 +53,11 @@ public enum CardValue {
 		throw new IllegalArgumentException("No enum constant for cardValueCode: " + cardValueCode);
 	}
 
+	/**
+	 * Returns the card value in Swedish
+	 * @param cardValueCode
+	 * @return
+	 */
 	public static String toSwedish(int cardValueCode) {
 		return switch (cardValueCode) {
 			case 2, 3, 4, 5, 6, 7, 8, 9, 10 -> String.valueOf(cardValueCode);
