@@ -1172,6 +1172,7 @@ public class GameController {
     }
   }
 
+
   public void changeToMainMenu() {
     try {
       changeScene.switchToMainMenu();

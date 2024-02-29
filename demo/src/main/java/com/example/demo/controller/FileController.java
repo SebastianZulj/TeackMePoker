@@ -39,7 +39,7 @@ public class FileController {
      */
     public HashMap<String, HashMap<String,Integer>> readWinnerHistory() {
         resultsToSend = new HashMap<>();
-        String filePath = "demo/src/main/resources/com/example/demo/files/winnerHistory.txt";
+        String filePath = "src/main/resources/com/example/demo/files/winnerHistory.txt";
         try {
             FileReader fileReader = new FileReader(filePath);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
