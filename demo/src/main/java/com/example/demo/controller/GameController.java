@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 import com.example.demo.aiClass.Ai;
@@ -169,6 +168,7 @@ public class GameController {
   public Label mainPot;
   private WinnerBox winnerBox;
   private ConfirmBox confirmBox;
+  private ConfirmBoxOK confirmBoxOK;
   private ChangeScene changeScene;
   private int powerBarValue = 0;
   private Image image;
@@ -912,8 +912,8 @@ public class GameController {
    * Method which creates an "about" box.
    */
   public void aboutBox() {
-    confirmBox = new ConfirmBox();
-    confirmBox.display("Om projektet",
+    confirmBoxOK = new ConfirmBoxOK();
+    confirmBoxOK.display("Om projektet",
         "Detta projekt är format och skapat av "
             + "Vedrana Zeba, Rikard Almgren, Amin Harirchian, Max Frennessen och Lykke Levin under "
             + "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1.");

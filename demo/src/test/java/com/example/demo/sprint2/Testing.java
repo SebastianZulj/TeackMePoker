@@ -7,17 +7,13 @@ import com.example.demo.gui.Sound;
 import static org.mockito.Mockito.*;
 import javafx.application.Platform;
 
-import javafx.application.Platform;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
