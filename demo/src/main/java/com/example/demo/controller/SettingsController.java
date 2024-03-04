@@ -201,11 +201,22 @@ public class SettingsController {
 	 * @return win percentage
 	 */
 	public double calculateWinPercentage(int totalWins, int losses) {
-		double winPercentage = (double) totalWins / (totalWins + losses) * 100;
-		System.out.println("Win percentage: " + winPercentage + "%");
-		System.out.println("Total wins: " + totalWins);
-		System.out.println("Total losses: " + losses);
-		return winPercentage;
+		if (totalWins < 0 || losses < 0) {
+			System.out.println("Total wins and losses must be non-negative.");
+			return 0;
+		}
+		int totalGames = totalWins + losses;
+
+		if (totalGames == 0) {
+			System.out.println("No games played yet.");
+			return 0.0;
+		} else {
+			double winPercentage = ((double) totalWins / totalGames) * 100;
+			System.out.println("Win percentage: " + winPercentage + "%");
+			System.out.println("Total wins: " + totalWins);
+			System.out.println("Total losses: " + losses);
+			return winPercentage;
+		}
 	}
 
 	/**

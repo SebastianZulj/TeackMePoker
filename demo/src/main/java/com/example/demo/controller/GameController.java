@@ -1003,7 +1003,6 @@ public class GameController {
     });
   }
 
-
   /**
    * Creates a winnerWindow that displays the winner of the round.
    * @param winner Name of the winner from spController.
