@@ -12,10 +12,7 @@ import com.example.demo.gui.*;
 import com.example.demo.hand.Hand;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -167,6 +164,9 @@ public class GameController {
   public Label subPotSix;
   @FXML
   public Label mainPot;
+  @FXML
+  private TextField raiseAmount;
+
   private WinnerBox winnerBox;
   private ConfirmBox confirmBox;
   private ChangeScene changeScene;
@@ -324,8 +324,13 @@ public class GameController {
     // If the player hasn't matched the current maxbet
     if (spController.getCurrentMaxBet() != alreadyPaid) {
     }
+    int raisedBet = 0;
+    String raiseAmountString = raiseAmount.getText();
+    if (raiseAmountString.matches("\\d+")){
+      raisedBet = Integer.parseInt(raiseAmountString);
+    }
 
-    int raisedBet = (int) (slider.getValue());
+    //int raisedBet = (int) (slider.getValue());
     this.playerPot -= raisedBet;
     /*
      * (raised amount + the amount the player has to match(if the player has to match)) = THE
