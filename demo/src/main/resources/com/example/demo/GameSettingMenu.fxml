@@ -88,7 +88,7 @@
          <font>
             <Font name="Tw Cen MT" size="14.0" />
          </font></Label>
-      <Label fx:id="lblTutorialInfo" layoutX="964.0" layoutY="490.0" prefHeight="36.0" prefWidth="293.0" text="Välj Av om du inte vill visa tips och hur spelet går till  innan du börjar spela" textFill="WHITE" visible="false" wrapText="true">
+      <Label fx:id="lblTutorialInfo" layoutX="680.0" layoutY="420.0" prefHeight="36.0" prefWidth="293.0" text="Välj Av om du inte vill visa tips och hur spelet går till  innan du börjar spela" textFill="WHITE" visible="false" wrapText="true">
          <font>
             <Font name="Tw Cen MT" size="14.0" />
          </font>
