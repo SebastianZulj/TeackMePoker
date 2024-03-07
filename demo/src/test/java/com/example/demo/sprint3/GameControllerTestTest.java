@@ -12,13 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GameControllerTestTest {
     private GameController gameController;
-    /*@BeforeAll
-    static void setup() {
-        // Nödvändigt för att initiera JavaFX-miljön
-        Platform.startup(() -> {});
-    }
 
-     */
     @Test
     public void testValidInputWithinPot() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
@@ -40,6 +34,28 @@ public class GameControllerTestTest {
 
         // Assert that the result is true
         assertTrue(result[0]);
+    }
+    @Test
+    public void testInvalidInputWithinPotHigh() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+        boolean[] result = new boolean[1]; // Array to store the result of the assertion
+
+        Platform.startup(() -> {
+            Platform.runLater(() -> {
+                gameController = new GameController();
+                gameController.raiseAmount = new javafx.scene.control.TextField(); // Initialize raiseAmount field
+                gameController.raiseAmount.setText("300"); // Set raise amount within player's pot
+                gameController.setPlayerPot(200); // Set playerPot to 200
+                result[0] = gameController.validatePlayerRaise(); // Store the result of the assertion
+                latch.countDown(); // Release the latch after the assertion
+            });
+        });
+
+        // Wait until the latch is released or timeout after 5 seconds
+        latch.await(5, TimeUnit.SECONDS);
+
+        // Assert that the result is true
+        assertFalse(result[0]);
     }
     @Test
     public void testInvalidInputFormat() throws InterruptedException {

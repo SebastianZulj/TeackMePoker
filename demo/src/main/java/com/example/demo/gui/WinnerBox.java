@@ -52,6 +52,72 @@ public class WinnerBox {
 		messageText.setTextFill(Color.WHITE);
 		messageText.setWrapText(true);
 
+		String displayedMessage;
+		switch (nr) {
+			case 1:
+				displayedMessage = playerWin;
+				break;
+			case 2:
+				displayedMessage = aiWin;
+				break;
+			case 3:
+				displayedMessage = playerWinAIFold;
+				break;
+			case 4:
+				displayedMessage = aiWinOthersFold;
+				break;
+			case 5:
+				displayedMessage = playerLose;
+				break;
+			default:
+				displayedMessage = "";
+				break;
+		}
+		messageText.setText(displayedMessage);
+
+		btnOk.setOnMouseReleased(e -> {
+			answer = true;
+			closeProgram();
+		});
+
+		back.setFitHeight(window.getHeight());
+		back.setFitWidth(window.getWidth());
+		messageText.setPrefSize(200, 100);
+		messageText.setLayoutX(100);
+		messageText.setLayoutY(10);
+		btnOk.setFitHeight(35);
+		btnOk.setFitWidth(35);
+		btnOk.setLayoutX(175);
+		btnOk.setLayoutY(110);
+
+		pane.getChildren().addAll(back, messageText, btnOk);
+
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		window.showAndWait();
+		return answer;
+	}
+	/*public boolean displayWinner(String title, String message, int nr, String handStrength) {
+
+		String aiWin = "Rundan vanns av " + message + " som hade " + handStrength;
+		String playerWin = "Grattis " + message + ", du vann den här rundan! Du vann med " + handStrength;
+		String playerWinAIFold = "Grattis " + message + ". " + handStrength;
+		String aiWinOthersFold = "Rundan vanns av " + message + " " + handStrength;
+		String playerLose = message;
+
+		window.initModality(Modality.APPLICATION_MODAL);
+		window.setTitle(title);
+		window.setWidth(400);
+		window.setHeight(200);
+		window.setOnCloseRequest(e -> closeProgram());
+
+		Pane pane = new Pane();
+
+		Label messageText = new Label();
+		messageText.setFont(font);
+		messageText.setTextFill(Color.WHITE);
+		messageText.setWrapText(true);
+
 		if (nr == 1) {
 			messageText.setText(playerWin);
 		} else if (nr == 2) {
@@ -86,6 +152,8 @@ public class WinnerBox {
 		window.showAndWait();
 		return answer;
 	}
+
+	 */
 
 	/**
 	 * Closes the window.
