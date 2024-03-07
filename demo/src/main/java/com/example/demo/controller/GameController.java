@@ -369,7 +369,12 @@ public class GameController {
 
   }
 
+
   public boolean validatePlayerRaise(){
+
+  private boolean validatePlayerRaise(){
+    // Ludvig Branch
+
     boolean validateRaise = false;
     String raisedAmountString = raiseAmount.getText().trim();
 
