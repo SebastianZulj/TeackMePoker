@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 import com.example.demo.aiClass.Ai;
@@ -12,14 +11,13 @@ import com.example.demo.gui.*;
 import com.example.demo.hand.Hand;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+
+import javax.swing.*;
 
 /**
  * 
@@ -38,7 +36,9 @@ public class GameController {
   @FXML
   private ImageView btRaise;
   @FXML
-  private Slider slider;
+  private TextField raiseAmount;
+  //@FXML
+  //private Slider slider;
   @FXML
   private Label lbPlayerAction;
   @FXML
@@ -200,6 +200,7 @@ public class GameController {
   private static final String BASE_PATH = "/com/example/demo/";
   private FileController fileController = new FileController(); //for I/O operations
   private AIController aiController;
+  private String raisedAmountString = null;
 
 
   /**
@@ -320,12 +321,19 @@ public class GameController {
    * Calculates and withdraws amount from player-pot and adjusts already paid.
    */
   public void playerRaise() {
-    disableButtons();
     // If the player hasn't matched the current maxbet
     if (spController.getCurrentMaxBet() != alreadyPaid) {
     }
-
-    int raisedBet = (int) (slider.getValue());
+    int raisedBet = 0;
+    boolean validateRaise = validatePlayerRaise();
+    if (validateRaise){
+      disableButtons();
+      raisedBet = getRaisedAmount();
+    }
+    else {
+      return;
+    }
+    //int raisedBet = (int) (slider.getValue());
     this.playerPot -= raisedBet;
     /*
      * (raised amount + the amount the player has to match(if the player has to match)) = THE
@@ -344,10 +352,9 @@ public class GameController {
         updatePlayerValues("All-In, §" + raisedBet);
         this.decision = "allin," + (raisedBet) + "," + alreadyPaid;
         this.alreadyPaid += raisedBet;
-        slider.setDisable(true);
+        //slider.setDisable(true);
         showAllIn();
         disableButtons();
-
 
       } else {
         updatePlayerValues("Raise, §" + raisedBet);
@@ -361,6 +368,26 @@ public class GameController {
     } catch (Exception e) {
     }
 
+  }
+
+  private boolean validatePlayerRaise(){
+    boolean validateRaise = false;
+    raisedAmountString = raiseAmount.getText();
+
+    if (raisedAmountString.matches("\\d+")){
+      int tempRaise = Integer.parseInt(raisedAmountString);
+      if (tempRaise <= playerPot && tempRaise > 0 )
+        validateRaise = true;
+    }
+    else {
+      JOptionPane.showMessageDialog(null, "Please enter a valid amount (Note: No letters).");
+      System.out.println("Wrong input! \n" + "You entered: " + raisedAmountString);
+    }
+    return validateRaise;
+  }
+
+  private int getRaisedAmount(){
+    return Integer.parseInt(raisedAmountString);
   }
 
   /**
@@ -383,6 +410,7 @@ public class GameController {
    * BigBlind.
    */
   public void setSliderValues() {
+    /*
     int calcWithdraw = 0;
     if (spController.getCurrentMaxBet() != alreadyPaid) {
       // If the player hasn't matched the current max bet
@@ -407,16 +435,21 @@ public class GameController {
       slider.setMajorTickUnit(25);
     }
     slider.setMinorTickCount(4);
+
+     */
   }
 
   /**
    * Triggers when the player uses the slider to choose raise amount.
    */
   public void sliderChange() {
+    /*
     slider.valueProperty().addListener(e -> {
       raiseLabel.setText(String.valueOf((int) slider.getValue()));
 
     });
+
+     */
   }
 
   /**
@@ -502,7 +535,7 @@ public class GameController {
    * Set slider active
    */
   public void activeSlider() {
-    slider.setDisable(false);
+    //slider.setDisable(false);
   }
 
 
