@@ -267,7 +267,6 @@ public class GameController {
   public void setChangeScene(ChangeScene sceneChanger) {
     this.changeScene = sceneChanger;
   }
-
   /**
    * Disables all buttons and shows player-frame's action as check.
    */
@@ -1161,7 +1160,6 @@ public class GameController {
       boolean response = cfBox.display("Vill du spela igen?", "Vill du spela igen?");
       futureResponse.complete(response); //wait for user response
     });
-
     try {
       return futureResponse.get();
     } catch (Exception e) {

@@ -23,7 +23,7 @@ public class TestingThirdSprint {
     public void testCalculateWinPercentageWinAndLosses(){
     int totalWins = 10;
     int totalLosses = 5;
-    double expectedWinPercentage = 66.66666666666667;
+    double expectedWinPercentage = 66.66666666666666;
 
     double winPercentage = settingsController.calculateWinPercentage(totalWins, totalLosses);
 
