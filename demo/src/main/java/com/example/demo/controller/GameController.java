@@ -36,7 +36,7 @@ public class GameController {
   @FXML
   private ImageView btRaise;
   @FXML
-  private TextField raiseAmount;
+  public TextField raiseAmount;
   //@FXML
   //private Slider slider;
   @FXML
@@ -369,8 +369,28 @@ public class GameController {
 
   }
 
-  private boolean validatePlayerRaise(){
+  public boolean validatePlayerRaise(){
     boolean validateRaise = false;
+    String raisedAmountString = raiseAmount.getText().trim();
+
+    if (raisedAmountString.matches("\\d+")) {
+      int tempRaise = Integer.parseInt(raisedAmountString);
+
+      if (tempRaise <= playerPot && tempRaise > 0)
+        validateRaise = true;
+      else {
+        System.err.println("Error: raise amount exceeds player's pot or is zero.");
+        validateRaise = false; // Error: raise amount exceeds player's pot or is zero
+      }
+    } else {
+      System.err.println("Error: invalid input format. Please enter a valid amount (Note: No letters).");
+      JOptionPane.showMessageDialog(null, "Please enter a valid amount (Note: No letters).");
+      System.out.println("Wrong input! \n" + "You entered: " + raisedAmountString);
+      validateRaise = false; // Error: invalid input format
+    }
+    return validateRaise;
+  }
+    /*boolean validateRaise = false;
     raisedAmountString = raiseAmount.getText();
 
     if (raisedAmountString.matches("\\d+")){
@@ -384,6 +404,8 @@ public class GameController {
     }
     return validateRaise;
   }
+
+     */
 
   private int getRaisedAmount(){
     return Integer.parseInt(raisedAmountString);
