@@ -370,6 +370,11 @@ public class GameController {
 
   }
 
+  /**
+   * Takes the input text from the textField and checks weather it contains only digits or not. If there
+   * is only digits then true, otherwise false.
+   * @return validateRaise, true if it is a valid raise amount, false otherwise.
+   */
   private boolean validatePlayerRaise(){
     // Ludvig Branch
     boolean validateRaise = false;
@@ -387,6 +392,10 @@ public class GameController {
     return validateRaise;
   }
 
+  /**
+   * Parses the input from the textField into an integer.
+   * @return the amount the player want to raise.
+   */
   private int getRaisedAmount(){
     return Integer.parseInt(raisedAmountString);
   }
