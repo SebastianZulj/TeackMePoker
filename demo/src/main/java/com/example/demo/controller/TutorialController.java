@@ -28,12 +28,16 @@ public class TutorialController {
 	private Pane tutorialPane;
 	@FXML
 	private ImageView btnNext;
+	@FXML
+	private ImageView btnPrevious;
+	private boolean previousButtonPressed = false;
 
 	public int tutorialProgress;
 	public SettingsController settingsController;
 	public GameController gameController;
 	public Stage window = new Stage();
 	public int gc;
+
 
 
 	private static final String BASE_PATH = "/com/example/demo/";
@@ -106,7 +110,11 @@ public class TutorialController {
 	 * Activates correct listener based on tutorialProgress. There are 17 steps, the last step launches the game.
 	 */
 	public void placeImg(){
-		this.tutorialProgress = tutorialProgress+1;
+		if (tutorialProgress > 0 && previousButtonPressed){
+			this.tutorialProgress -= 1;
+		} else {
+			this.tutorialProgress = tutorialProgress+1;
+		}
 		System.out.println(tutorialProgress);
 		String buttonName = "nextButton";
 		if(tutorialProgress == 17){
@@ -123,12 +131,20 @@ public class TutorialController {
 		btnNext.setY(570.5);
 		tutorialPane.getChildren().add(btnNext);
 
+		image = new Image(getClass().getResource(BASE_PATH + "images/" + "previousButton" + ".png").toString(), 170, 95, true, true);
+		btnPrevious = new ImageView(image);
+		btnPrevious.setX(10);
+		btnPrevious.setY(570.5);
+		tutorialPane.getChildren().add(btnPrevious);
 
 		if(tutorialProgress == 17){
 			addButtonListenerPlay();
-		}else{
+		} else if (previousButtonPressed) {
+			addButtonListenerPrevious();
+		} else{
 			addButtonListenerNext();
 		}
+		previousButtonPressed = false;
 	}
 
 	/**
@@ -137,6 +153,18 @@ public class TutorialController {
 	public void addButtonListenerNext(){
 		btnNext.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			@Override public void handle(MouseEvent event) {
+				placeImg();
+			}
+		});
+	}
+
+	/**
+	 * Listener for previous picture.
+	 */
+	public void addButtonListenerPrevious(){
+		btnPrevious.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override public void handle(MouseEvent event) {
+				previousButtonPressed = true;
 				placeImg();
 			}
 		});
