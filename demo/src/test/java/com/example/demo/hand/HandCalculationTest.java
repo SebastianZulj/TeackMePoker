@@ -122,7 +122,7 @@ class   HandCalculationTest {
         Hand hand = new Hand(cardsList);
         String info = hand.showInfo();
         assertEquals("Helper: 'TWO PAIRS' i 2:or och 4:or\n" +
-                "Advice: 'TWO PAIRS' är en bra hand, kör på.\n" +
+                "Advice: 'TWO PAIRS' är en bra hand, kör på.\nDu har en chans på en 'STRAIGHT', du har 3/5.\n" +
                 "\npwrBar: 4\n" +
                 "toHighlight: [2,H, 4,S, 2,S, 4,C]", info);
     }
@@ -143,7 +143,7 @@ class   HandCalculationTest {
         Hand hand = new Hand(cardsList);
         String info = hand.showInfo();
         assertEquals("Helper: 'THREE OF A KIND' i 2:or\n" +
-                "Advice: 'THREE OF A KIND' är en väldigt stark hand. Kör på! Fundera även på att höja!\n" +
+                "Advice: 'THREE OF A KIND' är en väldigt stark hand. Kör på! Fundera även på att höja!\nDu har en chans på en 'STRAIGHT', du har 3/5.\n" +
                 "\npwrBar: 4\n" +
                 "toHighlight: [2,H, 2,S, 2,D]", info);
     }
