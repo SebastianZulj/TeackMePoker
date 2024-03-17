@@ -113,12 +113,12 @@ public class TutorialController {
 		if (tutorialProgress > 0 && previousButtonPressed){
 			this.tutorialProgress -= 1;
 		} else {
-			this.tutorialProgress = tutorialProgress+1;
+			this.tutorialProgress = tutorialProgress + 1;
 		}
 		System.out.println(tutorialProgress);
 		String buttonName = "nextButton";
 		if(tutorialProgress == 17){
-			buttonName = "spelaButton"; 
+			buttonName = "spelaButton";
 		}
 		tutorialPane.requestLayout();
 		Image image = new Image(getClass().getResource(BASE_PATH + "images/tutorial" + tutorialProgress + ".png").toString(), 1280, 720, true, true);
@@ -137,14 +137,19 @@ public class TutorialController {
 		btnPrevious.setY(570.5);
 		tutorialPane.getChildren().add(btnPrevious);
 
+		addButtonListeners(); // Call a method to add all button listeners
+	}
+
+	/**
+	 * Adds appropriate button listeners based on the current progress.
+	 */
+	private void addButtonListeners() {
 		if(tutorialProgress == 17){
 			addButtonListenerPlay();
-		} else if (previousButtonPressed) {
-			addButtonListenerPrevious();
-		} else{
+		} else {
 			addButtonListenerNext();
+			addButtonListenerPrevious(); // Always add the previous button listener
 		}
-		previousButtonPressed = false;
 	}
 
 	/**
@@ -164,12 +169,14 @@ public class TutorialController {
 	public void addButtonListenerPrevious(){
 		btnPrevious.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			@Override public void handle(MouseEvent event) {
-				previousButtonPressed = true;
-				placeImg();
-			}
-		});
+				if (tutorialProgress > 1) {
+					tutorialProgress -= 2; // Move back two steps to go to the previous picture
+					placeImg();
+				}
+				}
+			});
 	}
-
+	
 	/**
 	 * Listener for start game.
 	 */

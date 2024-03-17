@@ -14,7 +14,7 @@
             </image>
         </ImageView>
 
-        <ImageView fx:id="btnPrevious" fitHeight="93.0" fitWidth="170.0" layoutX="80.0" layoutY="201.0" onMouseReleased="#placeImg">
+        <ImageView fx:id="btnPrevious" fitHeight="93.0" fitWidth="170.0" layoutX="80.0" layoutY="201.0" onMouseReleased="#addButtonListenerPrevious">
             <image>
                 <Image url="@images/previousButton.png" />
             </image>
