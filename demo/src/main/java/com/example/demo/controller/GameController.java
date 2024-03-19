@@ -417,7 +417,11 @@ public class GameController {
     }
 
        */
-  
+
+  /**
+   * The method shows an alert with the message that is passed as a parameter.
+   * @param message
+   */
       private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Input Error");
