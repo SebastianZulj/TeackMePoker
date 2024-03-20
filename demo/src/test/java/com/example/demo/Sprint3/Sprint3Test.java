@@ -6,6 +6,7 @@ import com.example.demo.controller.GameController;
 import com.example.demo.controller.SPController;
 import com.example.demo.controller.SettingsController;
 import com.example.demo.gui.Sound;
+import com.example.demo.gui.WinnerBox;
 import javafx.application.Platform;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
@@ -16,22 +17,24 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Sprint3Test {
 
+
+    /**
+     * @author Fabian Kjellberg
+     * This class tests test cases TF28 and displayWinner, aswell as well as testing methods for the class SPController
+     */
     @BeforeAll
     static void setup() {
         // needed to start the javafx enviroment.
         Platform.startup(() -> {});
     }
 
-    /***
-     * This test case tests the mute button for the settings controller, it tests the initial sound state,
-     * after clicking the button once, and after clicking once again
-     * @Author Fabian Kjellberg
-     */
     @Test
     void TF28(){
 
@@ -195,5 +198,28 @@ public class Sprint3Test {
         gController.setSPController(spController);
         gController.setAiPlayers(aiPlayers, true, 3);
         gController.askForPlayerDecision();
+    }
+
+    @Test
+    void testtesttest(){
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            try {
+                WinnerBox winnerBox = new WinnerBox();
+                System.out.println(winnerBox.displayWinner("hej", "hej", "hej", 2));
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        try {
+            boolean await = latch.await(5, TimeUnit.SECONDS);
+            assertTrue(await, "Timeout waiting for Platform.runLater()");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Interrupted waiting for Platform.runLater()", e);
+        }
+
     }
 }
