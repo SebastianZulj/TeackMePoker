@@ -40,7 +40,7 @@ public class GameControllerTest {
         assertTrue(result[0]);
     }
     @Test
-    public void testInvalidInputWithinPotHigh() throws InterruptedException {
+    public void testValidInputZero() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
         boolean[] result = new boolean[1]; // Array to store the result of the assertion
 
@@ -48,7 +48,7 @@ public class GameControllerTest {
             Platform.runLater(() -> {
                 gameController = new GameController();
                 gameController.raiseAmount = new javafx.scene.control.TextField(); // Initialize raiseAmount field
-                gameController.raiseAmount.setText("300"); // Set raise amount within player's pot
+                gameController.raiseAmount.setText("0"); // Set raise amount within player's pot
                 gameController.setPlayerPot(200); // Set playerPot to 200
                 result[0] = gameController.validatePlayerRaise(); // Store the result of the assertion
                 latch.countDown(); // Release the latch after the assertion
@@ -60,6 +60,26 @@ public class GameControllerTest {
 
         // Assert that the result is false
         assertFalse(result[0]);
+    }
+    @Test
+    public void testInvalidInputWithinPotHigh() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+        boolean[] result = new boolean[1];
+
+        Platform.startup(() -> {
+            Platform.runLater(() -> {
+                gameController = new GameController();
+                gameController.raiseAmount = new javafx.scene.control.TextField();
+                gameController.raiseAmount.setText("300");
+                gameController.setPlayerPot(200);
+                result[0] = gameController.validatePlayerRaise();
+                latch.countDown();
+            });
+        });
+
+        latch.await(5, TimeUnit.SECONDS);
+
+        assertFalse(result[0]); // Assert based on the return value of validatePlayerRaise()
     }
     @Test
     public void testInvalidInputFormat() throws InterruptedException {

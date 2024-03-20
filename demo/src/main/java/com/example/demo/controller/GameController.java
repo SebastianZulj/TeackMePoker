@@ -378,8 +378,27 @@ public class GameController {
    */
 
   public boolean validatePlayerRaise(){
+      boolean validateRaise = false;
+      raisedAmountString = raiseAmount.getText().trim();
 
-    boolean validateRaise = false;
+      System.out.println("Input received: " + raisedAmountString); // Debugging statement
+
+      if (raisedAmountString.matches("-?\\d+")) {
+        int tempRaise = Integer.parseInt(raisedAmountString);
+
+        if (tempRaise <= playerPot && tempRaise > 0) {
+          validateRaise = true;
+        } else {
+          System.err.println("Wrong input! Please enter a positive amount within player's pot.");
+          showAlert("Wrong input! Please enter a positive amount within player's pot.");
+        }
+      } else {
+        System.err.println("Wrong input! Please enter a valid amount (Note: No letters). You entered: " + raisedAmountString);
+        showAlert("Wrong input! Please enter a valid amount (Note: No letters). You entered: " + raisedAmountString);
+      }
+      return validateRaise;
+    }
+    /*boolean validateRaise = false;
     raisedAmountString = raiseAmount.getText().trim();
 
     System.out.println("Input received: " + raisedAmountString); // Debugging statement
@@ -398,7 +417,8 @@ public class GameController {
       System.out.println("Wrong input! Please enter a valid amount (Note: No letters). You entered: " + raisedAmountString);
     }
     return validateRaise;
-  }
+
+     */
 
 
   /**
