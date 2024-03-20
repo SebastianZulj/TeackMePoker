@@ -328,7 +328,7 @@ public class GameController {
   /**
    * Disables all buttons and shows player-frame's action as raise, and the raised amount.
    * Calculates and withdraws amount from player-pot and adjusts already paid.
-   * @author Ludvig Larsson
+   * @author Ludvig Larsson, Nicklas Svensson
    */
   public void playerRaise() {
     // If the player hasn't matched the current maxbet
@@ -1203,6 +1203,7 @@ public class GameController {
    * Method which updates the various pots in the UI
    * @param potSplits an Array of subPots during All-ins
    * @param tablePot the main tablePot
+   * @Author Nicklas Svensson
    */
   public void updatePots(int[][] potSplits, int tablePot) {
     if (spController.getFixedNrOfAIs() == 5) {

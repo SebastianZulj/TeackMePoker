@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @Author Nicklas Svensson
  */
 
-public class TestingThirdSprint {
+public class SettingControllerTest {
     SettingsController settingsController = new SettingsController();
 
     @BeforeAll
