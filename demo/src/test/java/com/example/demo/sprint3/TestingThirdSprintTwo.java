@@ -31,8 +31,4 @@ public class TestingThirdSprintTwo {
         gameController.setPlayerPot(2000); // Set player pot to 2000
         assertEquals(2000, gameController.getPotValue(), "Player pot should be 2000");
     }
-
-
-
-
 }
