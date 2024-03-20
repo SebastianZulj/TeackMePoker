@@ -47,7 +47,8 @@ public class HandCalculation {
 		Help();
 	}
 
-	
+
+
 	/**
 	 * converts the cards value into two different arraylists.
 	 * one for cardnumber and one for cardcolor.

@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 import com.example.demo.aiClass.Ai;
@@ -12,19 +11,18 @@ import com.example.demo.gui.*;
 import com.example.demo.hand.Hand;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+import javax.swing.*;
+
 /**
- * 
+ *
  * @author Amin Harirchian, Vedrana Zeba, Lykke Levin, Rikard Almgren
- * @version 1.0 
+ * @version 1.0
  *
  */
 public class GameController {
@@ -38,7 +36,9 @@ public class GameController {
   @FXML
   private ImageView btRaise;
   @FXML
-  private Slider slider;
+  public TextField raiseAmount;
+  //@FXML
+  //private Slider slider;
   @FXML
   private Label lbPlayerAction;
   @FXML
@@ -200,6 +200,7 @@ public class GameController {
   private static final String BASE_PATH = "/com/example/demo/";
   private FileController fileController = new FileController(); //for I/O operations
   private AIController aiController;
+  private String raisedAmountString = null;
 
 
   /**
@@ -220,7 +221,7 @@ public class GameController {
     this.collectionOfPots = new Label[6];
 
     this.collectionOfCardsAi = new ImageView[] {imgPlayerOneCards, imgPlayerTwoCards,
-        imgPlayerThreeCards, imgPlayerFourCards, imgPlayerFiveCards};
+            imgPlayerThreeCards, imgPlayerFourCards, imgPlayerFiveCards};
     aiController.setCollectionOfCardsAi(collectionOfCardsAi);
 
     // Used to place AI-players into the right position depending on the chosen number of AI:s.
@@ -320,12 +321,19 @@ public class GameController {
    * Calculates and withdraws amount from player-pot and adjusts already paid.
    */
   public void playerRaise() {
-    disableButtons();
     // If the player hasn't matched the current maxbet
     if (spController.getCurrentMaxBet() != alreadyPaid) {
     }
-
-    int raisedBet = (int) (slider.getValue());
+    int raisedBet = 0;
+    boolean validateRaise = validatePlayerRaise();
+    if (validateRaise){
+      disableButtons();
+      raisedBet = getRaisedAmount();
+    }
+    else {
+      return;
+    }
+    //int raisedBet = (int) (slider.getValue());
     this.playerPot -= raisedBet;
     /*
      * (raised amount + the amount the player has to match(if the player has to match)) = THE
@@ -344,10 +352,9 @@ public class GameController {
         updatePlayerValues("All-In, §" + raisedBet);
         this.decision = "allin," + (raisedBet) + "," + alreadyPaid;
         this.alreadyPaid += raisedBet;
-        slider.setDisable(true);
+        //slider.setDisable(true);
         showAllIn();
         disableButtons();
-
 
       } else {
         updatePlayerValues("Raise, §" + raisedBet);
@@ -361,6 +368,55 @@ public class GameController {
     } catch (Exception e) {
     }
 
+  }
+
+  /**
+   * Takes the input text from the textField and checks weather it contains only digits or not. If there
+   * is only digits then true, otherwise false.
+   * @return validateRaise, true if it is a valid raise amount, false otherwise.
+   */
+
+  public boolean validatePlayerRaise(){
+
+    boolean validateRaise = false;
+    raisedAmountString = raiseAmount.getText().trim();
+
+    System.out.println("Input received: " + raisedAmountString); // Debugging statement
+
+    if (raisedAmountString.matches("-?\\d+")) {
+      int tempRaise = Integer.parseInt(raisedAmountString);
+
+      if (tempRaise <= playerPot && tempRaise > 0) {
+        validateRaise = true;
+      } else {
+        showAlert("Wrong input! Please enter a positive amount within player's pot.");
+        System.out.println("Wrong input! Please enter a positive amount within player's pot.");
+      }
+    } else {
+      showAlert("Wrong input! Please enter a valid amount (Note: No letters). You entered: " + raisedAmountString);
+      System.out.println("Wrong input! Please enter a valid amount (Note: No letters). You entered: " + raisedAmountString);
+    }
+    return validateRaise;
+  }
+
+
+  /**
+   * The method shows an alert with the message that is passed as a parameter.
+   * @param message
+   */
+      private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Input Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+      }
+  /**
+   * Parses the input from the textField into an integer.
+   * @return the amount the player want to raise.
+   */
+  private int getRaisedAmount(){
+    return Integer.parseInt(raisedAmountString);
   }
 
   /**
@@ -383,6 +439,7 @@ public class GameController {
    * BigBlind.
    */
   public void setSliderValues() {
+    /*
     int calcWithdraw = 0;
     if (spController.getCurrentMaxBet() != alreadyPaid) {
       // If the player hasn't matched the current max bet
@@ -407,16 +464,21 @@ public class GameController {
       slider.setMajorTickUnit(25);
     }
     slider.setMinorTickCount(4);
+
+     */
   }
 
   /**
    * Triggers when the player uses the slider to choose raise amount.
    */
   public void sliderChange() {
+    /*
     slider.valueProperty().addListener(e -> {
       raiseLabel.setText(String.valueOf((int) slider.getValue()));
 
     });
+
+     */
   }
 
   /**
@@ -446,7 +508,7 @@ public class GameController {
       sound.coinSound.setVolume(1);
       sound.wrongSound.setVolume(1);
       Image soundOn = new Image(getClass().getResourceAsStream("/com/example/demo/images/soundButton.png"));
-        ivSound.setImage(soundOn);
+      ivSound.setImage(soundOn);
 
     }
   }
@@ -502,7 +564,7 @@ public class GameController {
    * Set slider active
    */
   public void activeSlider() {
-    slider.setDisable(false);
+    //slider.setDisable(false);
   }
 
 
@@ -519,7 +581,7 @@ public class GameController {
 
     Platform.runLater(() -> {
       for (int i = 0; i < 5; i++) { // Resets AI labels and removes all
-                                    // previous glow-effects.
+        // previous glow-effects.
         aiController.setUIAiStatus(i, "idle");
         aiController.setLabelUIAiBarAction(i, "");
       }
@@ -550,38 +612,38 @@ public class GameController {
   public void checkHand() {
     Platform.runLater(() -> {
       //try {
-        hand.reCalc();
-        playerCardsArea.requestLayout();
-        playerCardsArea.getChildren().clear();
+      hand.reCalc();
+      playerCardsArea.requestLayout();
+      playerCardsArea.getChildren().clear();
 
-        String cardOne = "/com/example/demo/images/" + card1.getCardValue() + card1.getCardSuit().charAt(0) + ".png";
-        String cardTwo = "/com/example/demo/images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + ".png";
+      String cardOne = "/com/example/demo/images/" + card1.getCardValue() + card1.getCardSuit().charAt(0) + ".png";
+      String cardTwo = "/com/example/demo/images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + ".png";
 
-        if (hand.getHighlightedCards().contains(Integer.toString(card1.getCardValue()) + "," + card1.getCardSuit().charAt(0))) {
-          cardOne = "/com/example/demo/images/" + card1.getCardValue() + card1.getCardSuit().charAt(0) + "O.png";
-        }
+      if (hand.getHighlightedCards().contains(Integer.toString(card1.getCardValue()) + "," + card1.getCardSuit().charAt(0))) {
+        cardOne = "/com/example/demo/images/" + card1.getCardValue() + card1.getCardSuit().charAt(0) + "O.png";
+      }
 
-        if (hand.getHighlightedCards().contains(Integer.toString(card2.getCardValue()) + "," + card2.getCardSuit().charAt(0))) {
-          cardTwo = "/com/example/demo/images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + "O.png";
-        }
+      if (hand.getHighlightedCards().contains(Integer.toString(card2.getCardValue()) + "," + card2.getCardSuit().charAt(0))) {
+        cardTwo = "/com/example/demo/images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + "O.png";
+      }
 
-        Image image = new Image(getClass().getResource(cardOne).toExternalForm(), 114, 148, true, true);
-          imgCard1 = new ImageView(image);
-          playerCardsArea.getChildren().add(imgCard1);
-          imgCard1.setX(0);
-          imgCard1.setY(0);
+      Image image = new Image(getClass().getResource(cardOne).toExternalForm(), 114, 148, true, true);
+      imgCard1 = new ImageView(image);
+      playerCardsArea.getChildren().add(imgCard1);
+      imgCard1.setX(0);
+      imgCard1.setY(0);
 
-        imgCard1 = new ImageView(image);
-        playerCardsArea.getChildren().add(imgCard1);
-        imgCard1.setX(0);
-        imgCard1.setY(0);
+      imgCard1 = new ImageView(image);
+      playerCardsArea.getChildren().add(imgCard1);
+      imgCard1.setX(0);
+      imgCard1.setY(0);
 
-        image = new Image(getClass().getResource(cardTwo).toExternalForm(), 114, 148, true, true);
-        imgCard2 = new ImageView(image);
-        playerCardsArea.getChildren().add(imgCard2);
-        imgCard2.setX(105);
-        imgCard2.setY(0);
-        updatePlayerValues("");
+      image = new Image(getClass().getResource(cardTwo).toExternalForm(), 114, 148, true, true);
+      imgCard2 = new ImageView(image);
+      playerCardsArea.getChildren().add(imgCard2);
+      imgCard2.setX(105);
+      imgCard2.setY(0);
+      updatePlayerValues("");
     });
   }
 
@@ -610,7 +672,7 @@ public class GameController {
       tabelCardArea.getChildren().clear(); // Clears if there's cards on the table (UI)
       tabelCardArea.requestLayout();
       int xCord = 0;
-            // TEST
+      // TEST
       for (int i = 0; i < setOfCards.length; i++) {
         String baseCard = "";
         String cardValue = Integer.toString(setOfCards[i].getCardValue());
@@ -807,7 +869,7 @@ public class GameController {
       btFold.setVisible(true);
     } else {
       if (alreadyPaid < spController.getCurrentMaxBet()
-          && (playerPot + alreadyPaid) >= spController.getCurrentMaxBet()) {
+              && (playerPot + alreadyPaid) >= spController.getCurrentMaxBet()) {
         // hide check, show call
         btCheck.setVisible(false);
         btCall.setVisible(true);
@@ -820,7 +882,7 @@ public class GameController {
       }
 
       if ((spController.getCurrentMaxBet() - alreadyPaid) + spController.getBigBlind() <= playerPot
-          && playerPot != 0) {
+              && playerPot != 0) {
         btRaise.setVisible(true); // show raise
       } else {
         btRaise.setVisible(false); // hide raise
@@ -914,9 +976,9 @@ public class GameController {
   public void aboutBox() {
     confirmBox = new ConfirmBox();
     confirmBox.display("Om projektet",
-        "Detta projekt är format och skapat av "
-            + "Vedrana Zeba, Rikard Almgren, Amin Harirchian, Max Frennessen och Lykke Levin under "
-            + "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1.");
+            "Detta projekt är format och skapat av "
+                    + "Vedrana Zeba, Rikard Almgren, Amin Harirchian, Max Frennessen och Lykke Levin under "
+                    + "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1.");
   }
 
   /**
@@ -927,8 +989,8 @@ public class GameController {
       try {
         winnerBox = new WinnerBox();
         winnerBox.displayWinner("Förlust",
-            "Tyvärr, du förlorade och dina pengar är slut. Bättre lycka nästa gång!", 5,
-            winnerHand);
+                "Tyvärr, du förlorade och dina pengar är slut. Bättre lycka nästa gång!", 5,
+                winnerHand);
 
         changeScene.switchToMainMenu();
 
@@ -1128,7 +1190,7 @@ public class GameController {
   public void updatePots(int[][] potSplits, int tablePot) {
     if (spController.getFixedNrOfAIs() == 5) {
       this.collectionOfPots =
-          new Label[] {subPotOne, subPotTwo, subPotThree, subPotFour, subPotFive, subPotSix};
+              new Label[] {subPotOne, subPotTwo, subPotThree, subPotFour, subPotFive, subPotSix};
     } else if (spController.getFixedNrOfAIs() == 3) {
       this.collectionOfPots = new Label[] {subPotOne, subPotTwo, subPotThree, subPotFour};
     } else if (spController.getFixedNrOfAIs() == 1) {
@@ -1136,7 +1198,7 @@ public class GameController {
     }
     Platform.runLater(() -> {
       String[] potOrder = {"Sub-Pot One: ", "Sub-Pot Two: ", "Sub-Pot Three: ", "Sub-Pot Four: ",
-          "Sub-Pot Five: ", "Sub-Pot Six: "};
+              "Sub-Pot Five: ", "Sub-Pot Six: "};
       for (int i = 0; i < collectionOfPots.length; i++) {
         if (potSplits[i][0] > 0) {
           collectionOfPots[i].setText(potOrder[i] + "§" + potSplits[i][0]);
