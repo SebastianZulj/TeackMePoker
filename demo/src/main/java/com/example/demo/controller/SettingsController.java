@@ -13,7 +13,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -29,6 +28,7 @@ public class SettingsController {
 	HashMap<String, HashMap<String, Integer>> historyMap = new HashMap<>();
 	private ChangeScene changeScene;
 	private ConfirmBox confirmBox;
+	private ConfirmBoxOK confirmBoxOK;
 	private String name;
 	private int aiValue;
 	private int potValue;
@@ -153,8 +153,8 @@ public class SettingsController {
 		if (tfNameInput.getText().isEmpty()) {
 			Platform.runLater(() -> {
 				sound.playSound("wrong");
-				confirmBox = new ConfirmBox();
-				confirmBox.display("Varning", "Du måste välja ett användarnamn för att visa historik");
+				confirmBoxOK = new ConfirmBoxOK();
+				confirmBoxOK.display("Varning", "Du måste ange ett användarnamn för att visa historik");
 			});
 		} else {
 			String playerName = tfNameInput.getText(); //get name from settings text field
@@ -184,13 +184,13 @@ public class SettingsController {
 				}
 			}
 			double winPercentage = calculateWinPercentage(totalWins, losses);
-			confirmBox = new ConfirmBox();
-			confirmBox.display("Historik för " + playerName, "Vinster - " + totalWins + "\n" + "Förluster - "
+			confirmBoxOK = new ConfirmBoxOK();
+			confirmBoxOK.display("Historik för " + playerName, "Vinster - " + totalWins + "\n" + "Förluster - "
 					+ losses + "\n" + "Vinstprocent - " + String.format("%.2f", winPercentage) + "%");
 		} else {
 			sound.playSound("wrong");
-			confirmBox = new ConfirmBox();
-			confirmBox.display("Varning", "Ingen historik funnen för denna spelaren");
+			confirmBoxOK = new ConfirmBoxOK();
+			confirmBoxOK.display("Varning", "Ingen historik funnen för denna spelaren");
 		}
 	}
 
