@@ -1,4 +1,4 @@
-package com.example.demo.sprint3;
+package com.example.demo.Sprint3;
 
 import com.example.demo.controller.SettingsController;
 import javafx.application.Platform;

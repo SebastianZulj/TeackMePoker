@@ -1,4 +1,4 @@
-package com.example.demo.sprint3;
+package com.example.demo.Sprint3;
 
 import com.example.demo.controller.GameController;
 import javafx.application.Platform;
@@ -10,6 +10,11 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class tests the GameController class that the player pot is correctly set and that the player can raise the correct amount.
+ * or else an error is shown.
+ * @Author Nicklas Svensson
+ */
 public class GameControllerTestTest {
     private GameController gameController;
 

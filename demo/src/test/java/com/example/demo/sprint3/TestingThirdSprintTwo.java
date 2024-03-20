@@ -1,4 +1,4 @@
-package com.example.demo.sprint3;
+package com.example.demo.Sprint3;
 
 import com.example.demo.controller.GameController;
 import com.example.demo.gui.WinnerBox;
@@ -8,7 +8,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class tests the GameController class that the player pot is correctly set.
+ * @Author Nicklas Svensson
+ */
+
 public class TestingThirdSprintTwo {
+
     GameController gameController = new GameController();
     @BeforeAll
     static void setup() {
