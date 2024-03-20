@@ -207,7 +207,7 @@ public class Sprint3Test {
         Platform.runLater(() -> {
             try {
                 WinnerBox winnerBox = new WinnerBox();
-                assertEquals(winnerBox.displayWinner("test","test","test", 1),"Rundan vanns av test som hade test");
+                assertEquals(winnerBox.displayWinner("test","test","test", 1),"Grattis test, du vann den här rundan! Du vann med test");
             } finally {
                 latch.countDown();
             }
@@ -230,7 +230,7 @@ public class Sprint3Test {
         Platform.runLater(() -> {
             try {
                 WinnerBox winnerBox = new WinnerBox();
-                assertEquals(winnerBox.displayWinner("test","test","test", 2),"Grattis test, du vann den här rundan! Du vann med test");
+                assertEquals(winnerBox.displayWinner("test","test","test", 2),"Rundan vanns av test som hade test");
             } finally {
                 latch.countDown();
             }
