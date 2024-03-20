@@ -373,35 +373,36 @@ public class GameController {
   /**
    * Takes the input text from the textField and checks weather it contains only digits or not. If there
    * is only digits then true, otherwise false.
+   * @Author Nicklas Svensson
    * @return validateRaise, true if it is a valid raise amount, false otherwise.
    */
 
   public boolean validatePlayerRaise(){
+      boolean validateRaise = false;
+      raisedAmountString = raiseAmount.getText().trim();
 
-    boolean validateRaise = false;
-    raisedAmountString = raiseAmount.getText().trim();
+      System.out.println("Input received: " + raisedAmountString); // Debugging statement
 
-    System.out.println("Input received: " + raisedAmountString); // Debugging statement
+      if (raisedAmountString.matches("-?\\d+")) {
+        int tempRaise = Integer.parseInt(raisedAmountString);
 
-    if (raisedAmountString.matches("-?\\d+")) {
-      int tempRaise = Integer.parseInt(raisedAmountString);
-
-      if (tempRaise <= playerPot && tempRaise > 0) {
-        validateRaise = true;
+        if (tempRaise <= playerPot && tempRaise > 0) {
+          validateRaise = true;
+        } else {
+          System.err.println("Wrong input! Please enter a positive amount within player's pot.");
+          showAlert("Wrong input! Please enter a positive amount within player's pot.");
+        }
       } else {
-        showAlert("Wrong input! Please enter a positive amount within player's pot.");
-        System.out.println("Wrong input! Please enter a positive amount within player's pot.");
+        System.err.println("Wrong input! Please enter a valid amount (Note: No letters). You entered: " + raisedAmountString);
+        showAlert("Wrong input! Please enter a valid amount (Note: No letters). You entered: " + raisedAmountString);
       }
-    } else {
-      showAlert("Wrong input! Please enter a valid amount (Note: No letters). You entered: " + raisedAmountString);
-      System.out.println("Wrong input! Please enter a valid amount (Note: No letters). You entered: " + raisedAmountString);
+      return validateRaise;
     }
-    return validateRaise;
-  }
 
 
   /**
    * The method shows an alert with the message that is passed as a parameter.
+   * @Author Nicklas Svensson
    * @param message
    */
       private void showAlert(String message) {
@@ -468,18 +469,6 @@ public class GameController {
      */
   }
 
-  /**
-   * Triggers when the player uses the slider to choose raise amount.
-   */
-  public void sliderChange() {
-    /*
-    slider.valueProperty().addListener(e -> {
-      raiseLabel.setText(String.valueOf((int) slider.getValue()));
-
-    });
-
-     */
-  }
 
   /**
    * Mutes the sound on and off.
@@ -608,6 +597,7 @@ public class GameController {
   /**
    * Checks the player's hand and gives tips and highlights cards based on the method
    * getHighlightedCards (important during pre-flop situation).
+   * @Author Nicklas Svensson
    */
   public void checkHand() {
     Platform.runLater(() -> {
@@ -651,6 +641,7 @@ public class GameController {
   /**
    * Uses the getHighlightedCards to highlight and show cards on the table.
    * @param setOfCards Set of cards shown on the table.
+   * @Author Nicklas Svensson
    */
   public void setFlopTurnRiver(Card[] setOfCards) {
     this.cards = new ArrayList<Card>(); // Clears the cards list
@@ -764,6 +755,7 @@ public class GameController {
 
   /**
    * Method which fetches the advice for the player and displays it in the bottom left pane
+   * @Author Nicklas Svensson
    */
   public void handHelp() {
     Platform.runLater(() -> {
@@ -978,7 +970,8 @@ public class GameController {
     confirmBox.display("Om projektet",
             "Detta projekt är format och skapat av "
                     + "Vedrana Zeba, Rikard Almgren, Amin Harirchian, Max Frennessen och Lykke Levin under "
-                    + "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1.");
+                    + "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1. Nu uppdaterar och förbättrad" +
+                    "av Nicklas, Alexandra,Tiffany, Fabian, Ludvig och Sebastian under vårterminen 2024 ");
   }
 
   /**
@@ -1048,6 +1041,7 @@ public class GameController {
   /**
    * Shows current round.
    * @param round int between 0-3 ("roundPreFlop", "roundFlop", "roundTurn", "roundRiver").
+   * @Author Nicklas Svensson
    */
   public void roundStatus(int round) {
     String[] roundStatus = new String[] {"roundPreFlop", "roundFlop", "roundTurn", "roundRiver"};
@@ -1216,6 +1210,10 @@ public class GameController {
     });
   }
 
+  /**
+   * This method is used to ask the player if he/she wants to play again.
+   * @return
+   */
   public boolean askReplay() {
     CompletableFuture<Boolean> futureResponse = new CompletableFuture<>();
 
@@ -1234,7 +1232,9 @@ public class GameController {
     }
   }
 
-
+  /**
+   * This method changes scene to the main menu.
+   */
   public void changeToMainMenu() {
     try {
       changeScene.switchToMainMenu();
