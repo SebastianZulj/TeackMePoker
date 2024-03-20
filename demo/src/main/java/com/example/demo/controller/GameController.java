@@ -320,6 +320,7 @@ public class GameController {
   /**
    * Disables all buttons and shows player-frame's action as raise, and the raised amount.
    * Calculates and withdraws amount from player-pot and adjusts already paid.
+   * @Author Ludvig Larsson
    */
   public void playerRaise() {
     // If the player hasn't matched the current maxbet
@@ -374,7 +375,7 @@ public class GameController {
   /**
    * Takes the input text from the textField and checks weather it contains only digits or not. If there
    * is only digits then true, otherwise false.
-   * @Author Nicklas Svensson
+   * @Author Nicklas Svensson, Ludvig Larsson
    * @return validateRaise, true if it is a valid raise amount, false otherwise.
    */
 
@@ -416,6 +417,7 @@ public class GameController {
   /**
    * Parses the input from the textField into an integer.
    * @return the amount the player want to raise.
+   * @Author Ludvig Larsson
    */
   private int getRaisedAmount(){
     return Integer.parseInt(raisedAmountString);
@@ -967,6 +969,7 @@ public class GameController {
    * Method which creates an "about" box.
    */
   public void aboutBox() {
+    /*
 <<<<<<< HEAD
     confirmBox = new ConfirmBox();
     confirmBox.display("Om projektet",
@@ -975,12 +978,14 @@ public class GameController {
                     + "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1. Nu uppdaterar och förbättrad" +
                     "av Nicklas, Alexandra,Tiffany, Fabian, Ludvig och Sebastian under vårterminen 2024 ");
 =======
+
+     */
     confirmBoxOK = new ConfirmBoxOK();
     confirmBoxOK.display("Om projektet",
         "Detta projekt är format och skapat av "
             + "Vedrana Zeba, Rikard Almgren, Amin Harirchian, Max Frennessen och Lykke Levin under "
             + "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1.");
->>>>>>> ConfimBox_ok
+//>>>>>>> ConfimBox_ok
   }
 
   /**
