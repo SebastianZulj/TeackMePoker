@@ -61,6 +61,7 @@ class   HandCalculationTest {
         assertEquals(5, straight);
     }
 
+
     @Test
     void TF15() {
         ArrayList<Card> cardsList = new ArrayList<>();
@@ -71,7 +72,7 @@ class   HandCalculationTest {
         Hand hand = new Hand(cardsList);
         String info = hand.showInfo();
         assertEquals("Helper: Ingenting, tyvärr..." +
-                "\nAdvice: Denna hand kanske inte är den bästa att spela på.." +
+                "\nAdvice: Denna hand kanske inte är den bästa att spela på..." +
                 "\npwrBar: 1" +
                 "\ntoHighlight: []", info);
     }
@@ -122,7 +123,7 @@ class   HandCalculationTest {
         Hand hand = new Hand(cardsList);
         String info = hand.showInfo();
         assertEquals("Helper: 'TWO PAIRS' i 2:or och 4:or\n" +
-                "Advice: 'TWO PAIRS' är en bra hand, kör på.\nDu har en chans på en 'STRAIGHT', du har 3/5.\n" +
+                "Advice: 'TWO PAIRS' är en bra hand, kör på.\n" +
                 "\npwrBar: 4\n" +
                 "toHighlight: [2,H, 4,S, 2,S, 4,C]", info);
     }
@@ -143,10 +144,11 @@ class   HandCalculationTest {
         Hand hand = new Hand(cardsList);
         String info = hand.showInfo();
         assertEquals("Helper: 'THREE OF A KIND' i 2:or\n" +
-                "Advice: 'THREE OF A KIND' är en väldigt stark hand. Kör på! Fundera även på att höja!\nDu har en chans på en 'STRAIGHT', du har 3/5.\n" +
+                "Advice: 'THREE OF A KIND' är en väldigt stark hand. Kör på! Fundera även på att höja!\n" +
                 "\npwrBar: 4\n" +
                 "toHighlight: [2,H, 2,S, 2,D]", info);
     }
+
 
     @Test
     void TF20() {
@@ -185,7 +187,7 @@ class   HandCalculationTest {
         Hand hand = new Hand(cardsList);
         String info = hand.showInfo();
         assertEquals("Helper: En 'FLUSH' i hjärter!! Du har 5/5!!\n" +
-                "\nAdvice: Du har en 'FLUSH'! Kör på, din hand är svår att slå!\nDu har en chans på en 'STRAIGHT', du har 3/5.\n" +
+                "\nAdvice: Du har en 'FLUSH'! Kör på, din hand är svår att slå!\n" +
                 "\npwrBar: 4\n" +
                 "toHighlight: [2,H, 4,H, 6,H, 8,H, 10,H]", info);
     }
