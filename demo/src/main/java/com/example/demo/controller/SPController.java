@@ -187,7 +187,8 @@ public class SPController extends Thread {
   }
 
   /**
-   * implements callback to know when winner box has been closed
+   * implements callback to know when winner box has been closed.
+   * @author Tiffany Dizdar, HT24.
    */
   WinnerCallback winnerCallback = new WinnerCallback() {
     @Override
@@ -200,7 +201,8 @@ public class SPController extends Thread {
   };
 
   /**
-   * Method that runs the gameround itself
+   * Method that runs the gameround itself.
+   * @author Tiffany Dizdar, HT24 (added callback functionality)
    */
   public void run() {
     gController.hideAllIn();
@@ -324,7 +326,6 @@ public class SPController extends Thread {
       }
       System.out.println(ai.getName() + " : " + ai.getDecision() + (ai.aiPot() < bigBlind));
     }
-
     synchronized (winnerCallback) {
       try {
         winnerCallback.wait(); //wait for callback
@@ -488,9 +489,9 @@ public class SPController extends Thread {
    * don't need to be initialised before.
    *
    * @author Fabian Kjellberg
-   * @param gController
-   * @param aiPlayers
-   * @return
+   * @param gController instance of gamecontroller
+   * @param aiPlayers list of AI players
+   * @return returns a string with the winner.
    */
   public String checkWinner(GameController gController, List<Ai> aiPlayers) {
     // if someone has gone all in, check winners through the all-in method instead.
@@ -637,6 +638,8 @@ public class SPController extends Thread {
    * Method which checks the winners if there was one or more all-ins.
    * This method does the same thing as checkWinners except the pot is split over multiple subpots
    * and one winner is declared for each subpot.
+   *
+   * @author Tiffany Dizdar, HT24 (fixed multiple popup bug)
    */
   private void checkAllInWinners() {
     HashMap<String, String> checkMap = new HashMap<>(); //to check if a given winner has been declared already
@@ -799,7 +802,7 @@ public class SPController extends Thread {
    * @param gController
    * @param aiPlayers
    * @author Fabian Kjellberg
-   * @return
+   * @return the decision of the player
    */
   private String askForPlayerDecision(GameController gController, ArrayList<Ai> aiPlayers) {
     if (!gController.getPlayerDecision().contains("allin")) {

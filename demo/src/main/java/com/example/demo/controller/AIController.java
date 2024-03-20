@@ -10,6 +10,12 @@ import javafx.scene.image.ImageView;
 import java.util.LinkedList;
 import java.util.Objects;
 
+
+/**
+ * Break-out from GameController to handle AI actions and UI.
+ * Methods were existent, but they have been separated and placed in this class.
+ * @author Tiffany Dizdar, HT24.
+ */
 public class AIController {
     private SPController spController;
     private GameController gController;
@@ -19,7 +25,7 @@ public class AIController {
     private ImageView[] collectionOfCardsAi;
 
 
-    //TODO: note that this method was never used to begin with
+    //note that this method was never used to begin with
     /**
      * Method which dims an AI player
      * @param AI an AI player

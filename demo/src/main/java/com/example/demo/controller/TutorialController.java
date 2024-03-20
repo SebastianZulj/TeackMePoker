@@ -108,7 +108,7 @@ public class TutorialController {
 	
 	/**
 	 * Activates correct listener based on tutorialProgress. There are 17 steps, the last step launches the game.
-	 * @Author Nicklas Svensson
+	 * @Author Nicklas Svensson, Ludvig Larsson
 	 */
 	public void placeImg(){
 		if (tutorialProgress > 0 && previousButtonPressed){
@@ -143,7 +143,7 @@ public class TutorialController {
 
 	/**
 	 * Adds appropriate button listeners based on the current progress.
-	 * @Author Nicklas Svensson
+	 * @Author Nicklas Svensson, Ludvig Larsson
 	 */
 	private void addButtonListeners() {
 		if(tutorialProgress == 17){
@@ -156,7 +156,7 @@ public class TutorialController {
 
 	/**
 	 * Listener for next picture.
-	 * @Author Nicklas Svensson
+	 * @Author Nicklas Svensson, Ludvig Larsson
 	 */
 	public void addButtonListenerNext(){
 		btnNext.setOnMouseReleased(new EventHandler<MouseEvent>() {
@@ -168,7 +168,7 @@ public class TutorialController {
 
 	/**
 	 * Listener for previous picture.
-	 * @Author Nicklas Svensson
+	 * @Author Nicklas Svensson, Ludvig Larsson
 	 */
 	public void addButtonListenerPrevious(){
 		btnPrevious.setOnMouseReleased(new EventHandler<MouseEvent>() {
@@ -183,7 +183,7 @@ public class TutorialController {
 	
 	/**
 	 * Listener for start game.
-	 * @Author Nicklas Svensson
+	 * @Author Nicklas Svensson, Ludvig Larsson
 	 */
 	public void addButtonListenerPlay(){
 		btnNext.setOnMouseReleased(new EventHandler<MouseEvent>() {

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * class responsible for writing and reading to files
+ * Class responsible for writing and reading to files in relation to viewing game history.
+ * @author Tiffany Dizdar, HT24.
  */
 public class FileController {
     private HashMap<String, HashMap<String, Integer>> winnerHistory = new HashMap<>();
@@ -13,6 +14,7 @@ public class FileController {
 
     /**
      * writes winner name and winning hand results to winnerHistory.txt file.
+     * @author Tiffany Dizdar
      */
     public void saveWinnerHistory(String winnerOfRound, String winnerHand, boolean userWin) {
         String filePath = "demo/src/main/resources/com/example/demo/files/winnerHistory.txt";
@@ -36,6 +38,7 @@ public class FileController {
 
     /**
      * reads winner results from winnerHistory.txt file.
+     * @author Tiffany Dizdar
      */
     public HashMap<String, HashMap<String,Integer>> readWinnerHistory() {
         resultsToSend = new HashMap<>();
@@ -62,6 +65,7 @@ public class FileController {
      * adds winner results to a HashMap containing name and all related winning hands in arrayList
      * @param name name of player
      * @param winningHand winning hand of given player
+     * @author Tiffany Dizdar
      */
     public HashMap<String, HashMap<String, Integer>> addToRegistry(String name, String winningHand) {
         if (winnerHistory.containsKey(name)) { //is existing player
