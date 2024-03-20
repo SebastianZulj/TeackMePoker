@@ -30,6 +30,7 @@ public class WinnerBox {
 	 * @param nr Int to check which message should be displayed.
 	 * @param handStrength String to print the hand strength the player or AI won with.
 	 * @return answer Boolean that returns an answer.
+	 * @Author Nicklas Svensson
 	 */
 	public boolean displayWinner(String title, String message, int nr, String handStrength) {
 
