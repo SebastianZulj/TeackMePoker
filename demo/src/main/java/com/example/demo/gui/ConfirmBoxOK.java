@@ -9,7 +9,7 @@ package com.example.demo.gui;
         import javafx.geometry.*;
 
 /**
- * Window with text and buttons containing a message.
+ * Window with text and button containing a message.
  *
  */
 
@@ -19,10 +19,7 @@ public class ConfirmBoxOK {
     public Font font = new Font("Tw Cen MT", 18);
 
     /**
-     * Creates a window containing a message.
-     * @param title String title of the window from the classes that uses ConfirmBox.
-     * @param message String message to display in the window from the classes that uses ConfirmBox.
-     * @return answer Boolean that returns an answer.
+     * @author Alexandra A Holter
      */
     public boolean display(String title, String message) {
         window.initModality(Modality.APPLICATION_MODAL);
