@@ -31,6 +31,7 @@ public class Testing {
     }
     /**
      * Test case 30 for reading the winner history file.
+     * @author Alexandra A Holter
      */
 
     @Test
@@ -70,7 +71,8 @@ public class Testing {
 
 
     /**
-     * Test case for mute and unmute background music.
+     * Test case for mute background music.
+     * @author Alexandra A Holter
      */
 
     @Test
@@ -80,6 +82,11 @@ public class Testing {
         musicPlayer.stopBackgroundMusic();
         Assertions.assertEquals("Stopped", musicPlayer.getSoundStatus(), "Sound status should be 'Stopped' after stopBackgroundMusic is called.");
     }
+
+    /**
+     * Test case for unmute background music.
+     * @author Alexandra A Holter
+     */
     @Test
     public void TF285() {
         Sound musicPlayer = new Sound();

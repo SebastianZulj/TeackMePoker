@@ -10,7 +10,7 @@ package com.example.demo.gui;
 
 /**
  * Window with text and button containing a message.
- *
+ * @author Alexandra A Holter
  */
 
 public class ConfirmBoxOK {

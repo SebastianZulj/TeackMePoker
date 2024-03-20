@@ -270,7 +270,7 @@ public class HandCalculation {
 	}
 	
 	/**
-	 * update @author Alexandra A Holter
+	 * @author Alexandra A Holter
 	 * @return returns if the player has a straight or even has a chance for one.
 	 */
 
@@ -494,7 +494,7 @@ public class HandCalculation {
 		return pwrBar;
 	}
 	/**
-	 * 
+	 * adjustments @author Alexandra A Holter
 	 * @return returns advice for the player that is current for his or her hand.
 	 */
 	public String Help() {
