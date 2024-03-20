@@ -1,7 +1,12 @@
 package com.example.demo.hand;
 
+import com.example.demo.deck.Card;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+
 /**
  * Does the actual calculation and decides what help
  * the noob player gets.
@@ -265,84 +270,46 @@ public class HandCalculation {
 	}
 	
 	/**
-	 * 
+	 * update @author Alexandra A Holter
 	 * @return returns if the player has a straight or even has a chance for one.
 	 */
-	public int checkStraight(){
-		
-		int threshold = 0;
-		
-		int[] CorrectOrderArray = new int[cardNbr.size()];
 
-		for (int i = 0; i < cardNbr.size(); i++) {			//as referance when getting to highlight.
-			CorrectOrderArray[i] = cardNbr.get(i);
-		}
-		
-		for(int i = 0; i<cardNbr.size(); i++){
-			if(cardNbr.get(i)==14){
-				cardNbr.add(1);
+	public int checkStraight() {
+		ArrayList<Integer> tempCardNbr = new ArrayList<>(cardNbr);
+
+		Collections.sort(tempCardNbr);
+
+		int maxStraightLength = 1;
+		int currentStraightLength = 1;
+
+		for (int i = 1; i < tempCardNbr.size(); i++) {
+			if (tempCardNbr.get(i) - tempCardNbr.get(i-1) == 1) {
+				currentStraightLength++;
+			} else if (tempCardNbr.get(i).intValue() != tempCardNbr.get(i-1).intValue()) {
+				currentStraightLength = 1;
 			}
+			maxStraightLength = Math.max(maxStraightLength, currentStraightLength);
 		}
-		
-		int[] CurrentCardsArray = new int[cardNbr.size()];
-		
-		for(int i = 0; i< cardNbr.size(); i++){
-			CurrentCardsArray[i] = cardNbr.get(i);
-		}
-		
-		Arrays.sort(CurrentCardsArray);
-		int inStraight = 0;	
-		int check = 4;
-		
-	for(int x = 0; x<CurrentCardsArray.length; x++){	
-		int CurrentHighestInStraight = CurrentCardsArray[x]+check;
-		int CurrentLowestInStraight = CurrentCardsArray[x];
-		String tempStraight = CurrentLowestInStraight+"-"+CurrentHighestInStraight;
-		
-		inStraight = 0;
 
-		
-		for(int i = 0; i<CurrentCardsArray.length; i++){
-		  
-			if(CurrentCardsArray[i]<=CurrentHighestInStraight && !(CurrentCardsArray[i]<CurrentLowestInStraight)){
-					
-				if(i==0){							//kollar om 0 är samma som 1.
-			
-						inStraight++;
-						if(CurrentCardsArray[i]==1){
-							nbrForStraight.add(String.valueOf(CurrentCardsArray[CurrentCardsArray.length-1]));
-						}
-						else{
-							nbrForStraight.add(String.valueOf(CurrentCardsArray[i]));
-						}
-					
+		if (cardNbr.contains(14) && !tempCardNbr.contains(1)) {
+			tempCardNbr.add(1);
+			Collections.sort(tempCardNbr);
+			currentStraightLength = 1;
+
+			for (int i = 1; i < tempCardNbr.size(); i++) {
+				if (tempCardNbr.get(i) - tempCardNbr.get(i-1) == 1) {
+					currentStraightLength++;
+					maxStraightLength = Math.max(maxStraightLength, currentStraightLength);
+				} else if (tempCardNbr.get(i).intValue() != tempCardNbr.get(i-1).intValue()) {
+					currentStraightLength = 1;
 				}
-				
-				if(i>=1){							
-					if(!(CurrentCardsArray[i]==CurrentCardsArray[i-1])){		//kollar om 1-4 är samma som nån annan.
-						inStraight++;
-						nbrForStraight.add(String.valueOf(CurrentCardsArray[i]));
-					}
-				}
-
 			}
 		}
 
-		if (inStraight >= threshold) {  // >= så om man får 5 igen men med högre tal så blir det den som visas.
-
-			threshold = inStraight;
-            whatStraight = tempStraight;
-			nbrForStraight1.clear();
-			for (String a : nbrForStraight) {
-				nbrForStraight1.add(a);
-			}
-		}
-		nbrForStraight.clear();
+		return maxStraightLength >= 5 ? 5 : 0;
 	}
 
-	return threshold;
-}
-	
+
 	public ArrayList<String> getToHighlight() {
 		for (int y = 0; y < nbrForStraight1.size(); y++) {
 			int same = 1;
@@ -530,168 +497,169 @@ public class HandCalculation {
 	 * 
 	 * @return returns advice for the player that is current for his or her hand.
 	 */
-	public String Help(){
-		
-		String helper= "Ingenting, tyvärr...";
+	public String Help() {
+
+		String helper = "Ingenting, tyvärr...";
 		String advice = "Denna hand kanske inte är den bästa att spela på...";
-		
+
 		String[] splitter = yourCard.split(",");
 		int intCardNbr = Integer.parseInt(splitter[0]);
-		String yourCardInt="";
+		String yourCardInt = "";
 		yourCardInt = String.valueOf(intCardNbr);
-		String cardOne = String.valueOf(cardNbr.get(0))+":or";
-		String cardTwo = String.valueOf(cardNbr.get(1))+":or";
-		
-		if(cardNbr.get(0)>10){
-			if(cardNbr.get(0)==11){
+		String cardOne = String.valueOf(cardNbr.get(0)) + ":or";
+		String cardTwo = String.valueOf(cardNbr.get(1)) + ":or";
+		//straightChance = checkStraight();
+
+		if (cardNbr.get(0) > 10) {
+			if (cardNbr.get(0) == 11) {
 				cardOne = "Knektar";
 			}
-			if(cardNbr.get(0)==12){
+			if (cardNbr.get(0) == 12) {
 				cardOne = "Damer";
 			}
-			
-			if(cardNbr.get(0)==13){
+
+			if (cardNbr.get(0) == 13) {
 				cardOne = "Kungar";
 			}
-			if(cardNbr.get(0)==14){
+			if (cardNbr.get(0) == 14) {
 				cardOne = "Ess";
-			}			
+			}
 		}
-		
-		if(cardNbr.get(1)>10){
-			if(cardNbr.get(1)==11){
+
+		if (cardNbr.get(1) > 10) {
+			if (cardNbr.get(1) == 11) {
 				cardTwo = "Knektar";
 			}
-			if(cardNbr.get(1)==12){
+			if (cardNbr.get(1) == 12) {
 				cardTwo = "Damer";
 			}
-			
-			if(cardNbr.get(1)==13){
+
+			if (cardNbr.get(1) == 13) {
 				cardTwo = "Kungar";
 			}
-			if(cardNbr.get(1)==14){
+			if (cardNbr.get(1) == 14) {
 				cardTwo = "Ess";
-			}			
+			}
 		}
-		if(intCardNbr<11){
-			yourCardInt +=":or";
+		if (intCardNbr < 11) {
+			yourCardInt += ":or";
 		}
-		if(intCardNbr>10){
-			if(intCardNbr==11){
+		if (intCardNbr > 10) {
+			if (intCardNbr == 11) {
 				yourCardInt = "Knektar";
 			}
-			if(intCardNbr==12){
+			if (intCardNbr == 12) {
 				yourCardInt = "Damer";
 			}
-			
-			if(intCardNbr==13){
+
+			if (intCardNbr == 13) {
 				yourCardInt = "Kungar";
 			}
-			if(intCardNbr==14){
+			if (intCardNbr == 14) {
 				yourCardInt = "Ess";
 			}
-			
+
 		}
 		//Writing out what advice to give and help for player, starting to check the lowest possible and if the player has better than it,
 		//im overwriting it with a better card. starting from high card only and ending on straight flush.
-		
+
 		//HIGH CARD
-		advice = "Du har bara 'HIGH CARD'. \nOm det är billigt så kan du prova och se.\n";
-		
-		if(highCards){
+		//advice = "Du har bara 'HIGH CARD'. \nOm det är billigt så kan du prova och se.\n";
+
+		if (highCards) {
 			advice = "Du har ett högt 'HIGH CARD'. \nOm det är billigt så kan du prova och se.\n";
 		}
 
 		// ONE PAIR
-			if(pairsNmore==2){
-				helper = "'ONE-PAIR' i " +  yourCardInt +"\n";
-				if(aiCards.size()==2){
-					advice = "'ONE-PAIR' på första-handen är en stark hand!\nSå kör på!\n";
-					if(highCards){
-					 advice = "'ONE-PAIR' på första-handen är en stark hand!\nOch då detta är även är ett högt par, Så kör verkligen!!\n";
-					}
+		if (pairsNmore == 2) {
+			helper = "'ONE-PAIR' i " + yourCardInt + "\n";
+			if (aiCards.size() == 2) {
+				advice = "'ONE-PAIR' på första-handen är en stark hand!\nSå kör på!\n";
+				if (highCards) {
+					advice = "'ONE-PAIR' på första-handen är en stark hand!\nOch då detta är även är ett högt par, Så kör verkligen!!\n";
 				}
-				if(aiCards.size()==5){
+			}
+			if (aiCards.size() == 5) {
 				advice = "'ONE-PAIR' är en ok hand. Om det inte kostar för mycket. Så kör på!\n";
-					if(lowCards){
-						advice = "'ONE-PAIR' är en ok hand, även då detta är ett lågt par.\nOm det inte kostar för mycket. Så kör på!\n";
-					}
-					if(highCards){
-						advice = "'ONE-PAIR' är en ok hand. Och detta är även ett högt par vilket är ännu bättre.\nOm det inte kostar för mycket. Kör på!\n";
-					}
+				if (lowCards) {
+					advice = "'ONE-PAIR' är en ok hand, även då detta är ett lågt par.\nOm det inte kostar för mycket. Så kör på!\n";
 				}
-				
-				if(aiCards.size()>5){
-					advice = "'ONE-PAIR' är en hyfsat ok hand. Om det inte kostar för mycket. Så kör på!\n";
-					if(lowCards){
-						advice = "'ONE-PAIR' är en hyfsat ok hand, även då detta är ett lågt par.\nOm det inte kostar för mycket. Så kör på!\n";
-					}
-					if(highCards){
-						advice = "'ONE-PAIR' är en hyfsat ok hand. Och detta är även ett högt par vilket är ännu bättre.\nOm det inte kostar för mycket."
-								+ " Kör på!\n";
-					 }	
+				if (highCards) {
+					advice = "'ONE-PAIR' är en ok hand. Och detta är även ett högt par vilket är ännu bättre.\nOm det inte kostar för mycket. Kör på!\n";
 				}
-				// writes the active cards to highlight
-				if(straightChance<5 && colorChance<5){
+			}
+
+			if (aiCards.size() > 5) {
+				advice = "'ONE-PAIR' är en hyfsat ok hand. Om det inte kostar för mycket. Så kör på!\n";
+				if (lowCards) {
+					advice = "'ONE-PAIR' är en hyfsat ok hand, även då detta är ett lågt par.\nOm det inte kostar för mycket. Så kör på!\n";
+				}
+				if (highCards) {
+					advice = "'ONE-PAIR' är en hyfsat ok hand. Och detta är även ett högt par vilket är ännu bättre.\nOm det inte kostar för mycket."
+							+ " Kör på!\n";
+				}
+			}
+			// writes the active cards to highlight
+			if (straightChance < 5 && colorChance < 5) {
 				toHighlight.clear();
-				for(int i = 0; i<aiCards.size(); i++){			
+				for (int i = 0; i < aiCards.size(); i++) {
 					String[] seeIfSame = aiCards.get(i).split(",");
 					int temp = Integer.parseInt(seeIfSame[0]);
-					if(intCardNbr==temp){
+					if (intCardNbr == temp) {
 						toHighlight.add(aiCards.get(i));
 					}
 				}
 			}
 		}
-		
+
 		//TWO PAIRS	
-		if(pairsNmore==22){				
-				helper = "'TWO PAIRS' i " + cardOne + " och " + cardTwo ;
-				advice = "'TWO PAIRS' är en bra hand, kör på.\n";	
-				// writes the active cards to hihglight
-				if(straightChance<5 && colorChance<5){
-				toHighlight.clear();		
-				for(int i = 0; i<aiCards.size(); i++){
+		if (pairsNmore == 22) {
+			helper = "'TWO PAIRS' i " + cardOne + " och " + cardTwo;
+			advice = "'TWO PAIRS' är en bra hand, kör på.\n";
+			// writes the active cards to hihglight
+			if (straightChance < 5 && colorChance < 5) {
+				toHighlight.clear();
+				for (int i = 0; i < aiCards.size(); i++) {
 					int cardIntOne = cardNbr.get(0);
 					int cardIntTwo = cardNbr.get(1);
-					
-					if(cardIntOne==cardNbr.get(i)){
+
+					if (cardIntOne == cardNbr.get(i)) {
 						toHighlight.add(aiCards.get(i));
 					}
-					if(cardIntTwo==cardNbr.get(i)){
+					if (cardIntTwo == cardNbr.get(i)) {
 						toHighlight.add(aiCards.get(i));
 					}
 				}
 			}
 		}
-		
+
 		//THREE OF A KIND	
-		if(pairsNmore==3){			
-			helper = "'THREE OF A KIND' i " + yourCardInt;			
+		if (pairsNmore == 3) {
+			helper = "'THREE OF A KIND' i " + yourCardInt;
 			advice = "'THREE OF A KIND' är en väldigt stark hand. Kör på! Fundera även på att höja!\n";
 			// writes the active cards to hihglight
-			if(straightChance<5 && colorChance<5){
-			toHighlight.clear();
-			for(int i = 0; i<aiCards.size(); i++){			
-				String[] seeIfSame = aiCards.get(i).split(",");
-				int temp = Integer.parseInt(seeIfSame[0]);
-				if(intCardNbr==temp){
-					toHighlight.add(aiCards.get(i));
+			if (straightChance < 5 && colorChance < 5) {
+				toHighlight.clear();
+				for (int i = 0; i < aiCards.size(); i++) {
+					String[] seeIfSame = aiCards.get(i).split(",");
+					int temp = Integer.parseInt(seeIfSame[0]);
+					if (intCardNbr == temp) {
+						toHighlight.add(aiCards.get(i));
 					}
 				}
 			}
 		}
 
 		//STRAIGHT
-		if(straightChance==5){		
+		if (straightChance == 5) {
 			helper = "En 'STRAIGHT'!! Du har 5/5.\n";
 			advice = "En 'STRAIGHT' är en riktigt bra hand. Kör på! \nFundera även på att höja!\n";
 			toHighlight.clear();
 			toHighlight = getToHighlight();
 		}
-		
+
 		//FLUSH
-		if(colorChance==5){
+		if (colorChance == 5) {
 			helper = "En 'FLUSH' i " + theColor + "!! Du har 5/5!!\n";
 			advice = "Du har en 'FLUSH'! Kör på, din hand är svår att slå!\n";
 			//To HIHGLIGHT IS IN checkSuit Method.
@@ -700,79 +668,92 @@ public class HandCalculation {
 		}
 
 		//FULL HOUSE			
-		if(pairsNmore == 23 || pairsNmore==32){		
-			helper = "'FULL HOUSE' med " + cardOne + " och " + cardTwo +"!!";   
+		if (pairsNmore == 23 || pairsNmore == 32) {
+			helper = "'FULL HOUSE' med " + cardOne + " och " + cardTwo + "!!";
 			advice = "Det är inte mycket som slår denna hand! Höja är rekomenderat!\n";
 			// writes the active cards to hihglight
 			toHighlight.clear();
-			for(int i = 0; i<aiCards.size(); i++){
+			for (int i = 0; i < aiCards.size(); i++) {
 				int cardIntOne = cardNbr.get(0);
 				int cardIntTwo = cardNbr.get(1);
-				
-				if(cardIntOne==cardNbr.get(i)){
+
+				if (cardIntOne == cardNbr.get(i)) {
 					toHighlight.add(aiCards.get(i));
 				}
-				if(cardIntTwo==cardNbr.get(i)){
+				if (cardIntTwo == cardNbr.get(i)) {
 					toHighlight.add(aiCards.get(i));
 				}
 			}
 		}
-			
+
 		//FOUR OF A KIND	
-				if(pairsNmore==4 || pairsNmore==42 || pairsNmore==24){	
-					helper = "'FOUR OF A KIND' i " + yourCardInt;			
-					advice = "'FOUR OF A KIND' är en av de bästa händerna. Kör på! Fundera även på att höja!\n";
-					// writes the active cards to hihglight
-					if(straightChance<5 && colorChance<5){
-					toHighlight.clear();
-					for(int i = 0; i<aiCards.size(); i++){			
-						String[] seeIfSame = aiCards.get(i).split(",");
-						int temp = Integer.parseInt(seeIfSame[0]);
-						if(intCardNbr==temp){
-							toHighlight.add(aiCards.get(i));
-							}
-						}
+		if (pairsNmore == 4 || pairsNmore == 42 || pairsNmore == 24) {
+			helper = "'FOUR OF A KIND' i " + yourCardInt;
+			advice = "'FOUR OF A KIND' är en av de bästa händerna. Kör på! Fundera även på att höja!\n";
+			// writes the active cards to hihglight
+			if (straightChance < 5 && colorChance < 5) {
+				toHighlight.clear();
+				for (int i = 0; i < aiCards.size(); i++) {
+					String[] seeIfSame = aiCards.get(i).split(",");
+					int temp = Integer.parseInt(seeIfSame[0]);
+					if (intCardNbr == temp) {
+						toHighlight.add(aiCards.get(i));
 					}
 				}
-		
+			}
+		}
+
 		//STRAIGHT FLUSH
-		if(straightChance==5 && colorChance==5){							//"i stegen  " + whatStraight; 
+		if (straightChance == 5 && colorChance == 5) {                            //"i stegen  " + whatStraight;
 			helper = "En 'STRAIGHT FLUSH' i färgen " + theColor + "!";   //ev add what straight it is ex 2-6.
 			advice = "'STRAIGHT FLUSH' är bästa handen i spelet. Kör på och höj!\n";
 			// Highlightning happens in checkStraight and checkSuit.
 		}
-		
-		//STRAIGHTCHANCE TEXT AND COLORCHANCE TEXT
-		if (aiCards.size() < 3) {
+/*
+		if (aiCards.size() <= 3 && straightChance > 1) {
+			// Ändra villkoren för när råd om en möjlig straight ska ges
 			if (straightChance == 2) {
-				advice += "Du har en chans på en 'STRAIGHT', du har 2/5. \n";				
+				// Potentiellt lägg till mer specifika kontroller här
+				advice += "Du har en chans på en 'STRAIGHT', du har 2/5. \n";
+
+
+
+ */
+
+		//STRAIGHTCHANCE TEXT AND COLORCHANCE TEXT
+		checkStraight();
+		if (aiCards.size() < 3 ) {
+			if (straightChance == 2) {
+				advice += "Du har en chans på en 'STRAIGHT', du har 2/5. \n";
 			}
-			if(colorChance==2){
-				advice += "Du har en chans för en 'FLUSH' i " + theColor + ", du har 2/5.\n";
+
+				if (colorChance == 2) {
+					advice += "Du har en chans för en 'FLUSH' i " + theColor + ", du har 2/5.\n";
+				}
 			}
-		}
-		if (aiCards.size() < 6) {
-			if (straightChance == 3) {
-				advice += "Du har en chans på en 'STRAIGHT', du har 3/5.\n";
+			if (aiCards.size() < 6) {
+				if (straightChance == 3) {
+					advice += "Du har en chans på en 'STRAIGHT', du har 3/5.\n";
+				}
+				if (colorChance == 3) {
+					advice += "Du har en chans för en 'FLUSH' i " + theColor + ", du har 3/5.\n";
+				}
 			}
-			if(colorChance==3){
-				advice += "Du har en chans för en 'FLUSH' i " + theColor + ", du har 3/5.\n";
+
+			if (aiCards.size() < 7) {
+				if (straightChance == 4) {
+					advice += "Du har en chans på en 'STRAIGHT', du har 4/5.\n";
+				}
+				if (colorChance == 4) {
+					advice += "Du har en chans för en 'FLUSH' i " + theColor + ", du har 4/5.\n";
+				}
 			}
+
+			advicee = advice;
+			return helper;
+
 		}
 
-		if (aiCards.size() < 7) {
-			if (straightChance == 4) {
-				advice += "Du har en chans på en 'STRAIGHT', du har 4/5.\n";
-			}
-			if(colorChance==4){
-				advice += "Du har en chans för en 'FLUSH' i " + theColor + ", du har 4/5.\n";
-			}
-		}
-
-		advicee = advice;
-		return helper;
-		
-	}
 	
 	/**
 	 * returns what advice to give the user

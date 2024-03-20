@@ -3,7 +3,9 @@ package com.example.demo.hand;
 import java.util.ArrayList;
 import java.util.Random;
 import com.example.demo.deck.Card;
+import com.example.demo.deck.CardValue;
 import com.example.demo.deck.Deck;
+import com.example.demo.deck.Suit;
 
 /**
  * Class for testing the hand-class and has also been used for the WHitebox Testing of the hand-class.
@@ -86,6 +88,16 @@ public class TestHand {
   }
 
   public static void main(String[] args) {
-    TestHand run = new TestHand();
+    //TestHand run = new TestHand();
+	  ArrayList<Card> cardsList = new ArrayList<>();
+	  Card card1 = new Card(Suit.HEARTS, CardValue.TWO, null);
+	  Card card2 = new Card(Suit.SPADES, CardValue.FOUR, null);
+	  cardsList.add(card1);
+	  cardsList.add(card2);
+	  Hand hand = new Hand(cardsList);
+	  String info = hand.showInfo();
+	 // System.out.println(info);
   }
+
+
 }
