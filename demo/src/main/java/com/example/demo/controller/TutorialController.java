@@ -28,12 +28,16 @@ public class TutorialController {
 	private Pane tutorialPane;
 	@FXML
 	private ImageView btnNext;
+	@FXML
+	private ImageView btnPrevious;
+	private boolean previousButtonPressed = false;
 
 	public int tutorialProgress;
 	public SettingsController settingsController;
 	public GameController gameController;
 	public Stage window = new Stage();
 	public int gc;
+
 
 
 	private static final String BASE_PATH = "/com/example/demo/";
@@ -104,13 +108,18 @@ public class TutorialController {
 	
 	/**
 	 * Activates correct listener based on tutorialProgress. There are 17 steps, the last step launches the game.
+	 * @Author Nicklas Svensson
 	 */
 	public void placeImg(){
-		this.tutorialProgress = tutorialProgress+1;
+		if (tutorialProgress > 0 && previousButtonPressed){
+			this.tutorialProgress -= 1;
+		} else {
+			this.tutorialProgress = tutorialProgress + 1;
+		}
 		System.out.println(tutorialProgress);
 		String buttonName = "nextButton";
 		if(tutorialProgress == 17){
-			buttonName = "spelaButton"; 
+			buttonName = "spelaButton";
 		}
 		tutorialPane.requestLayout();
 		Image image = new Image(getClass().getResource(BASE_PATH + "images/tutorial" + tutorialProgress + ".png").toString(), 1280, 720, true, true);
@@ -123,16 +132,31 @@ public class TutorialController {
 		btnNext.setY(570.5);
 		tutorialPane.getChildren().add(btnNext);
 
+		image = new Image(getClass().getResource(BASE_PATH + "images/" + "previousButton" + ".png").toString(), 170, 95, true, true);
+		btnPrevious = new ImageView(image);
+		btnPrevious.setX(10);
+		btnPrevious.setY(570.5);
+		tutorialPane.getChildren().add(btnPrevious);
 
+		addButtonListeners(); // Call a method to add all button listeners
+	}
+
+	/**
+	 * Adds appropriate button listeners based on the current progress.
+	 * @Author Nicklas Svensson
+	 */
+	private void addButtonListeners() {
 		if(tutorialProgress == 17){
 			addButtonListenerPlay();
-		}else{
+		} else {
 			addButtonListenerNext();
+			addButtonListenerPrevious(); // Always add the previous button listener
 		}
 	}
 
 	/**
 	 * Listener for next picture.
+	 * @Author Nicklas Svensson
 	 */
 	public void addButtonListenerNext(){
 		btnNext.setOnMouseReleased(new EventHandler<MouseEvent>() {
@@ -143,7 +167,23 @@ public class TutorialController {
 	}
 
 	/**
+	 * Listener for previous picture.
+	 * @Author Nicklas Svensson
+	 */
+	public void addButtonListenerPrevious(){
+		btnPrevious.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override public void handle(MouseEvent event) {
+				if (tutorialProgress > 1) {
+					tutorialProgress -= 2; // Move back two steps to go to the previous picture
+					placeImg();
+				}
+				}
+			});
+	}
+	
+	/**
 	 * Listener for start game.
+	 * @Author Nicklas Svensson
 	 */
 	public void addButtonListenerPlay(){
 		btnNext.setOnMouseReleased(new EventHandler<MouseEvent>() {
