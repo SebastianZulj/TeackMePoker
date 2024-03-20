@@ -398,27 +398,6 @@ public class GameController {
       }
       return validateRaise;
     }
-    /*boolean validateRaise = false;
-    raisedAmountString = raiseAmount.getText().trim();
-
-    System.out.println("Input received: " + raisedAmountString); // Debugging statement
-
-    if (raisedAmountString.matches("-?\\d+")) {
-      int tempRaise = Integer.parseInt(raisedAmountString);
-
-      if (tempRaise <= playerPot && tempRaise > 0) {
-        validateRaise = true;
-      } else {
-        showAlert("Wrong input! Please enter a positive amount within player's pot.");
-        System.out.println("Wrong input! Please enter a positive amount within player's pot.");
-      }
-    } else {
-      showAlert("Wrong input! Please enter a valid amount (Note: No letters). You entered: " + raisedAmountString);
-      System.out.println("Wrong input! Please enter a valid amount (Note: No letters). You entered: " + raisedAmountString);
-    }
-    return validateRaise;
-
-     */
 
 
   /**
