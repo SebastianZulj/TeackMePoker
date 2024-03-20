@@ -10,18 +10,17 @@ import javax.swing.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class that tests the decision making of the AI players.
+ * @author Sebastian Zulj
+ */
 class AiTest {
 
 
     @Test
-    void TF4() {
-        Ai sebZul = new Ai(50, "Sebastian Zulj");
-    }
-
-    @Test
     void TF5() {
         Ai sebZul = new Ai(50, "Sebastian Zulj");
-        Card card1 = new Card(Suit.HEARTS, CardValue.TWO, null);
+        Card card1 = new Card(Suit.HEARTS, CardValue.TWO, null); //Create cards and set as starting hand
         Card card2 = new Card(Suit.SPADES, CardValue.FOUR, null);
         sebZul.setStartingHand(card1, card2);
         sebZul.makeDecision(10);
@@ -57,8 +56,8 @@ class AiTest {
     @Test
     void TF8() {
         Ai sebZul = new Ai(50, "Sebastian Zulj");
-        Card[] flop = new Card[3];
-        Card card1 = new Card(Suit.HEARTS, CardValue.TWO, null);
+        Card[] flop = new Card[3]; //represents card being laid on the table that all players can see
+        Card card1 = new Card(Suit.HEARTS, CardValue.TWO, null); //starting hand
         Card card2 = new Card(Suit.SPADES, CardValue.FOUR, null);
         flop[0] = new Card(Suit.SPADES, CardValue.TWO, null);
         flop[1] = new Card(Suit.CLUBS, CardValue.TWO, null);
