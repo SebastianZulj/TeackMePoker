@@ -236,6 +236,10 @@ public class GameController {
     this.prevPlayerActive = -1;
   }
 
+  /**
+   * Method for initializing the AIController.
+   * @author Tiffany Dizdar
+   */
   public void initializeAIController() {
     aiController = new AIController();
     aiController.setGameController(this);
@@ -248,6 +252,10 @@ public class GameController {
     return this.prevPlayerActive;
   }
 
+  /**
+   * sets nbr of previously active players.
+   * @param i nbr of previous active players.
+   */
   public void setPrevPlayerActive(int i) {
     this.prevPlayerActive = i;
   }
@@ -320,7 +328,7 @@ public class GameController {
   /**
    * Disables all buttons and shows player-frame's action as raise, and the raised amount.
    * Calculates and withdraws amount from player-pot and adjusts already paid.
-   * @Author Ludvig Larsson
+   * @author Ludvig Larsson
    */
   public void playerRaise() {
     // If the player hasn't matched the current maxbet
@@ -375,7 +383,7 @@ public class GameController {
   /**
    * Takes the input text from the textField and checks weather it contains only digits or not. If there
    * is only digits then true, otherwise false.
-   * @Author Nicklas Svensson, Ludvig Larsson
+   * @author Nicklas Svensson, Ludvig Larsson
    * @return validateRaise, true if it is a valid raise amount, false otherwise.
    */
 
@@ -404,7 +412,7 @@ public class GameController {
 
   /**
    * The method shows an alert with the message that is passed as a parameter.
-   * @Author Nicklas Svensson
+   * @author Nicklas Svensson
    * @param message
    */
       private void showAlert(String message) {
@@ -417,7 +425,7 @@ public class GameController {
   /**
    * Parses the input from the textField into an integer.
    * @return the amount the player want to raise.
-   * @Author Ludvig Larsson
+   * @author Ludvig Larsson
    */
   private int getRaisedAmount(){
     return Integer.parseInt(raisedAmountString);
@@ -600,7 +608,7 @@ public class GameController {
   /**
    * Checks the player's hand and gives tips and highlights cards based on the method
    * getHighlightedCards (important during pre-flop situation).
-   * @Author Nicklas Svensson
+   * @author Nicklas Svensson
    */
   public void checkHand() {
     Platform.runLater(() -> {
@@ -644,7 +652,7 @@ public class GameController {
   /**
    * Uses the getHighlightedCards to highlight and show cards on the table.
    * @param setOfCards Set of cards shown on the table.
-   * @Author Nicklas Svensson
+   * @author Nicklas Svensson
    */
   public void setFlopTurnRiver(Card[] setOfCards) {
     this.cards = new ArrayList<Card>(); // Clears the cards list
@@ -758,7 +766,7 @@ public class GameController {
 
   /**
    * Method which fetches the advice for the player and displays it in the bottom left pane
-   * @Author Nicklas Svensson
+   * @author Nicklas Svensson
    */
   public void handHelp() {
     Platform.runLater(() -> {
@@ -913,18 +921,18 @@ public class GameController {
     return playerPot;
   }
 
-  /** //TODO: has been moved, now connected
+  /** //
    * Places the AI-players in the correct position depending on chosen number of players.
    * @param aiPlayers All the AI-players that are active.
-   * @param notFirstRound
-   * @param deadAIIndex
+   * @param notFirstRound true if it is not the first round, false otherwise.
+   * @param deadAIIndex the index of the dead AI.
    */
   public void setAiPlayers(LinkedList<Ai> aiPlayers, boolean notFirstRound, int deadAIIndex) {
     aiController.setAiPlayers(aiPlayers, notFirstRound, deadAIIndex);
   }
 
 
-  /** //TODO: has been moved, now connected
+  /** //
    * Updates AI-frame based on currentAI-position and decision with the method setUIAiStatus.
    * @param currentAI Chosen AI to update AI-frame
    * @param decision Check, call, fold, raise or lost
@@ -935,8 +943,8 @@ public class GameController {
 
   /**
    * communicates from SPController to AIController
-   * @param position
-   * @param state
+   * @param position the position of the AI
+   * @param state the state of the AI
    */
   public void setUIAiStatus(int position, String state) {
     aiController.setUIAiStatus(position, state);
@@ -1055,7 +1063,7 @@ public class GameController {
   /**
    * Shows current round.
    * @param round int between 0-3 ("roundPreFlop", "roundFlop", "roundTurn", "roundRiver").
-   * @Author Nicklas Svensson
+   * @author Nicklas Svensson
    */
   public void roundStatus(int round) {
     String[] roundStatus = new String[] {"roundPreFlop", "roundFlop", "roundTurn", "roundRiver"};
@@ -1078,6 +1086,8 @@ public class GameController {
    * Creates a winnerWindow that displays the winner of the round.
    * @param winner Name of the winner from spController.
    * @param hand Int number from spController that represent the value of the winning hand.
+   *
+   * @author Tiffany Dizdar (added code)
    */
 
   public void setWinnerLabel(String winner, int hand, WinnerCallback callback) {
@@ -1156,9 +1166,8 @@ public class GameController {
 
   /**
    * Method which creates a new tutorial and shows it.
-   * @throws IOException
    */
-  public void goToTutorial() throws IOException {
+  public void goToTutorial() {
     Platform.runLater(() -> {
       this.tutorialWindow = new TutorialController(this);
       try {
@@ -1171,7 +1180,7 @@ public class GameController {
 
 
   /**
-   * Method which returns the player viabilitylevel for potSplits
+   * Method which returns the player viability level for potSplits
    * @return AllInViability viabilityLevel
    */
   public int getAllInViability() {
@@ -1225,8 +1234,9 @@ public class GameController {
   }
 
   /**
-   * This method is used to ask the player if he/she wants to play again.
-   * @return
+   * Method which asks the player if they want to play again.
+   * @return true if the player wants to play again, false otherwise.
+   * @author Tiffany Dizdar, HT24.
    */
   public boolean askReplay() {
     CompletableFuture<Boolean> futureResponse = new CompletableFuture<>();

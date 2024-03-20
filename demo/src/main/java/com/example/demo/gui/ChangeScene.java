@@ -25,17 +25,13 @@ public class ChangeScene {
   private FMController fmController;
   private SettingsController settingsController;
   private GameController gameController;
-
   private static final String BASE_PATH = "/com/example/demo/";
 
   /**
    * Method which prepares the FXMLs and by extension the game itself.
-   * 
    * @throws IOException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
    */
-  public void prepGame() throws IOException, InstantiationException, IllegalAccessException {
+  public void prepGame() throws IOException {
     new Sound().playBackgroundMusic();
 
     // Updated FXMLLoader for FirstMenu.fxml
@@ -63,10 +59,8 @@ public class ChangeScene {
 
   /**
    * Method which switches the scene to the settings menu.
-   * 
-   * @throws IOException
    */
-  public void switchScenetoSetting() throws IOException {
+  public void switchScenetoSetting() {
     Main.window.getScene().setRoot(rootNewGame);
   }
 
@@ -84,9 +78,8 @@ public class ChangeScene {
    * Method which returns the Scene(and First/main menu).
    * 
    * @return bestScene the scene for the game.
-   * @throws IOException
    */
-  public Scene firstScene() throws IOException {
+  public Scene firstScene() {
     return bestScene;
   }
 
@@ -107,7 +100,7 @@ public class ChangeScene {
    * Method which sets the SPController (the controller that runs the actual game behind the
    * scenes).
    * 
-   * @param spController
+   * @param spController instance of SPController.
    */
   public void setSPController(SPController spController) {
     gameController.setSPController(spController);
