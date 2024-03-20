@@ -1181,4 +1181,20 @@ public class GameController {
     }
   }
 
+  /***
+   * This method was tried to initialise the needed values for test cases, but came out unsuccessful
+   *
+   * @author Fabian Kjellberg
+   * @param decision
+   */
+  public void initTestCase(String decision){
+    this.decision = decision;
+    this.userName = new Label();
+    this.aiController = new AIController();
+    btCheck = new ImageView();
+    btCall = new ImageView();
+    btRaise = new ImageView();
+    btFold = new ImageView();
+  }
+
 }

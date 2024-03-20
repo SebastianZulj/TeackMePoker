@@ -367,4 +367,20 @@ public class SettingsController {
 				break;
 		}
 	}
+
+	/***
+	 * This method is used to set the values needed to test the mute button in the settings.
+	 *
+	 * @param sound
+	 * @param cbOn
+	 * @param cbOff
+	 * @param ivSound
+	 * @Author Fabian Kjellberg
+	 */
+	public void initMockController(Sound sound, CheckBox cbOn, CheckBox cbOff, ImageView ivSound) {
+		this.sound = sound;
+		this.cbOn = cbOn;
+		this.cbOff = cbOff;
+		this.ivSound = ivSound;
+	}
 }

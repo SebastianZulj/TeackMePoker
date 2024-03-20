@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
+
 import com.example.demo.aiClass.Ai;
 import com.example.demo.deck.Card;
 import com.example.demo.deck.CardValue;
@@ -294,7 +292,7 @@ public class SPController extends Thread {
         // move on to the next player
         currentPlayer = (currentPlayer + 1) % noOfPlayers;
         // check if everyone has checked, called or folded.
-        allCallorFold();
+        allCallorFold(aiPlayers, gController.getPlayerDecision());
       }
       // Next turn
       playTurn++;
@@ -484,6 +482,135 @@ public class SPController extends Thread {
 
   }
 
+  /***
+   * This method is a more testabe variant of the method created by the original authors. It returns a value to be
+   * able to easier test it aswell as it takes in a GameController and the AI players in the parameters so that they
+   * don't need to be initialised before.
+   *
+   * @author Fabian Kjellberg
+   * @param gController
+   * @param aiPlayers
+   * @return
+   */
+  public String checkWinner(GameController gController, List<Ai> aiPlayers) {
+    // if someone has gone all in, check winners through the all-in method instead.
+    if (doAllInCheck) {
+      checkAllInWinners();
+    } else {
+      // List of "second winners", on the rare occasion of people having the same handstrength and
+      // highcard.
+      ArrayList<Integer> secWin = new ArrayList<Integer>();
+
+      String winner = "";
+      int bestHand = 0;
+      Ai bestHandPlayer = new Ai(0, "");
+      /*
+       * Go through all AI players that have not folded, check which player has the best hand. That
+       * player is now the bestHandPlayer
+       */
+      for (Ai ai : aiPlayers) {
+        if (!ai.getDecision().equals("fold")) {
+          if (ai.handStrength() > bestHand) {
+            bestHandPlayer = ai;
+            bestHand = ai.handStrength();
+            secWin.clear();
+          } else if (ai.handStrength() == bestHand) {
+            if (ai.getHighCard() > bestHandPlayer.getHighCard()) {
+              bestHandPlayer = ai;
+              bestHand = ai.handStrength();
+              secWin.clear();
+            } else if (ai.getHighCard() == bestHandPlayer.getHighCard()) {
+              secWin.add(aiPlayers.indexOf((ai)));
+            }
+          }
+        }
+      }
+      // If the player hasn't folded, compare the players hand to that of the best AI player.
+      if (!gController.getPlayerDecision().contains("fold")) {
+        // Player wins
+        if (gController.getHandStrength() > bestHand) {
+          gController.setPlayerPot(currentPotSize);
+          winner = gController.getUsername() + " med " + getWinnerCards(bestHandPlayer);
+          System.out.println("set winner lbl 3");
+          System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
+
+          gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
+          return winner;
+          // draw
+        } else if (gController.getHandStrength() == bestHand) {
+          // Player wins
+          if (gController.getGetHighCard() > bestHandPlayer.getHighCard()) {
+            gController.setPlayerPot(currentPotSize);
+            winner = gController.getUsername() + " med " + getWinnerCards(bestHandPlayer);
+            System.out.println("set winner lbl 4");
+            System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
+            gController.setWinnerLabel(winner, gController.getHandStrength(), winnerCallback);
+            return winner;
+            // Draw
+          } else if (gController.getGetHighCard() == bestHandPlayer.getHighCard()) {
+            bestHandPlayer.updateWinner(currentPotSize / 2);
+            gController.setPlayerPot(currentPotSize / 2);
+            winner = gController.getUsername() + " och " + bestHandPlayer.getName() + " med " + getWinnerCards(bestHandPlayer);
+            System.out.println("set winner lbl 5");
+            System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
+            gController.setWinnerLabel(winner, bestHand, winnerCallback);
+            return winner;
+            // AI wins and there are second winners.
+          } else {
+            if (!secWin.isEmpty()) {
+              int divBy = currentPotSize = secWin.size();
+              for (int i : secWin) {
+                aiPlayers.get(i).updateWinner(divBy);
+              }
+              // Ai wins and there aren't
+            } else {
+              bestHandPlayer.updateWinner(currentPotSize);
+              winner = bestHandPlayer.getName() + " med " + getWinnerCards(bestHandPlayer);
+              System.out.println("set winner lbl 6");
+              System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
+              gController.setWinnerLabel(winner, bestHand, winnerCallback);
+              return winner;
+            }
+          }
+          // Same thing as above but the player lost and no draw.
+        } else {
+          if (!secWin.isEmpty()) {
+            int divBy = currentPotSize = secWin.size();
+            for (int i : secWin) {
+              aiPlayers.get(i).updateWinner(divBy);
+            }
+          } else {
+            bestHandPlayer.updateWinner(currentPotSize);
+            winner = bestHandPlayer.getName() + " med " + getWinnerCards(bestHandPlayer);
+            System.out.println("set winner lbl 7");
+            System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
+            gController.setWinnerLabel(winner, bestHand, winnerCallback);
+            return winner;
+          }
+        }
+        // Same thing as above but the player had folded.
+      } else {
+        if (!secWin.isEmpty()) {
+          int divBy = currentPotSize = secWin.size();
+          for (int i : secWin) {
+            aiPlayers.get(i).updateWinner(divBy);
+          }
+        } else {
+          bestHandPlayer.updateWinner(currentPotSize);
+          winner = bestHandPlayer.getName() + " med " + getWinnerCards(bestHandPlayer);
+          System.out.println("set winner lbl 8");
+          System.out.println(getWinnerCards(bestHandPlayer) + " was the winning hand");
+
+          gController.setWinnerLabel(winner, bestHand, winnerCallback);
+          return winner;
+        }
+      }
+    }
+    return "null";
+  }
+
+
+
   /**
    * Method which returns the winning cards for the winner.
    * @param winner winner of the round
@@ -661,7 +788,27 @@ public class SPController extends Thread {
       gController.askForPlayerDecision();
       playerAction();
     } else {
-      allCallorFold();
+      allCallorFold(aiPlayers, gController.getPlayerDecision());
+    }
+  }
+
+  /***
+   * This method was suggested to change to make the method more testable. It is currently not working due to the
+   * variables needed to be initialized in the gController. gController needs to be set up better to more easily test
+   *
+   * @param gController
+   * @param aiPlayers
+   * @author Fabian Kjellberg
+   * @return
+   */
+  private String askForPlayerDecision(GameController gController, ArrayList<Ai> aiPlayers) {
+    if (!gController.getPlayerDecision().contains("allin")) {
+      gController.askForPlayerDecision();
+      playerAction();
+      return gController.getPlayerDecision();
+    } else {
+      allCallorFold(aiPlayers, gController.getPlayerDecision());
+      return gController.getPlayerDecision();
     }
   }
 
@@ -727,7 +874,7 @@ public class SPController extends Thread {
       }
     }
     // Check all call or fold
-    allCallorFold();
+    allCallorFold(aiPlayers, gController.getPlayerDecision());
   }
 
 
@@ -755,7 +902,7 @@ public class SPController extends Thread {
       aiAction(currentPlayer);
     }
     // Check all call or fold
-    allCallorFold();
+    allCallorFold(aiPlayers, gController.getPlayerDecision());
   }
 
 
@@ -918,6 +1065,7 @@ public class SPController extends Thread {
 
   /**
    * Method which checks if everyone has folded or checked/called.
+   * UNUSED METHOD SUGGESTED UPDATE
    */
   public void allCallorFold() {
 
@@ -954,6 +1102,89 @@ public class SPController extends Thread {
         allCalledorFolded = false;
       }
     }
+  }
+
+  /***
+   * Suggested update to the already existing allCallOrFold method which is testable.
+   *
+   * @param aiPlayers
+   * @param playerDecision
+   * @return returns a boolean for test purposes aswell as changes the allCalledOrFolded variable.
+   * @author Fabian Kjellberg
+   */
+  public boolean allCallorFold(List<Ai> aiPlayers, String playerDecision){
+
+    //If any player is not call or fold, return false
+    for (Ai aiPlayer: aiPlayers){
+      if (isFoldedOrLost(aiPlayer));
+      else if (isCalledOrCheckedOrAllIn(aiPlayer));
+      else {
+        allCalledorFolded = false;
+        return false;
+      }
+    }
+
+    //If all ai players are call or fold, and player is call or fold return true
+    if(isPlayerDecisionValid(playerDecision)) {
+      allCalledorFolded = true;
+      return true;
+    }
+
+    //if player is not call or fold, return false
+    allCalledorFolded = false;
+    return false;
+  }
+
+  /***
+   * This method checks if an AI has decided to choose fold or lost.
+   *
+   * @param ai
+   * @return returns true if ai decision is fold or lost
+   * @author Fabian Kjellberg
+   */
+  private boolean isFoldedOrLost(Ai ai) {
+    return ai.getDecision().contains("fold") || ai.getDecision().contains("lost");
+  }
+
+  /***
+   * this method checks if an AI has decided to choose call, check or all-in
+   *
+   * @param ai
+   * @return returns true if ai decision is call, check or all-in
+   * @author Fabian Kjellberg
+   */
+  private boolean isCalledOrCheckedOrAllIn(Ai ai) {
+     if (ai.getDecision().contains("call") && ai.getPaidThisTurn() == currentMaxBet
+            || ai.getDecision().contains("check") && ai.getPaidThisTurn() == currentMaxBet
+            || ai.getDecision().contains("all-in")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Checks to see if the player decision is valid.
+   *
+   * @param playerDecision
+   * @return returns true if player decision is fold, call, raise, check, or all-in
+   * @author Fabian Kjellberg
+   */
+  private boolean isPlayerDecisionValid(String playerDecision) {
+      String[] split = playerDecision.split(",");
+
+      if (playerDecision.contains("fold")
+              || playerDecision.contains("call")) {
+        return true;
+      } else if (playerDecision.contains("raise")
+              && Integer.parseInt(split[1]) == currentMaxBet) {
+        return true;
+      } else if (playerDecision.contains("check")
+              || playerDecision.contains("allin")) {
+        return true;
+      } else {
+        return false;
+      }
   }
 
   /**
