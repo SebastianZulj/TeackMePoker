@@ -201,13 +201,13 @@ public class Sprint3Test {
     }
 
     @Test
-    void testtesttest(){
+    void testWinnerBox_PlayerWinner(){
         final CountDownLatch latch = new CountDownLatch(1);
 
         Platform.runLater(() -> {
             try {
                 WinnerBox winnerBox = new WinnerBox();
-                System.out.println(winnerBox.displayWinner("hej", "hej", "hej", 2));
+                assertEquals(winnerBox.displayWinner("test","test","test", 1),"Rundan vanns av test som hade test");
             } finally {
                 latch.countDown();
             }
@@ -222,4 +222,121 @@ public class Sprint3Test {
         }
 
     }
+
+    @Test
+    void testWinnerBox_AiWin(){
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            try {
+                WinnerBox winnerBox = new WinnerBox();
+                assertEquals(winnerBox.displayWinner("test","test","test", 2),"Grattis test, du vann den här rundan! Du vann med test");
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        try {
+            boolean await = latch.await(5, TimeUnit.SECONDS);
+            assertTrue(await, "Timeout waiting for Platform.runLater()");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Interrupted waiting for Platform.runLater()", e);
+        }
+
+    }
+
+    @Test
+    void testWinnerBox_PlayerWinAiFold(){
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            try {
+                WinnerBox winnerBox = new WinnerBox();
+                assertEquals(winnerBox.displayWinner("test","test","test", 3),"Grattis test. test");
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        try {
+            boolean await = latch.await(5, TimeUnit.SECONDS);
+            assertTrue(await, "Timeout waiting for Platform.runLater()");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Interrupted waiting for Platform.runLater()", e);
+        }
+
+    }
+
+    @Test
+    void testWinnerBox_PlayerAiWinOtherFold(){
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            try {
+                WinnerBox winnerBox = new WinnerBox();
+                assertEquals(winnerBox.displayWinner("test","test","test", 4),"Rundan vanns av test test");
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        try {
+            boolean await = latch.await(5, TimeUnit.SECONDS);
+            assertTrue(await, "Timeout waiting for Platform.runLater()");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Interrupted waiting for Platform.runLater()", e);
+        }
+
+    }
+
+    @Test
+    void testWinnerBox_PlayerLose(){
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            try {
+                WinnerBox winnerBox = new WinnerBox();
+                assertEquals(winnerBox.displayWinner("test","test","test", 5),"test");
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        try {
+            boolean await = latch.await(5, TimeUnit.SECONDS);
+            assertTrue(await, "Timeout waiting for Platform.runLater()");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Interrupted waiting for Platform.runLater()", e);
+        }
+
+    }
+
+    @Test
+    void testWinnerBox_Invalid(){
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            try {
+                WinnerBox winnerBox = new WinnerBox();
+                assertEquals(winnerBox.displayWinner("test","test","test", 6),"");
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        try {
+            boolean await = latch.await(5, TimeUnit.SECONDS);
+            assertTrue(await, "Timeout waiting for Platform.runLater()");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Interrupted waiting for Platform.runLater()", e);
+        }
+
+    }
+
+
 }
