@@ -148,6 +148,7 @@ public class SettingsController {
 
 	/**
 	 * calls to shows history from settings menu
+	 * @author Tiffany Dizdar, HT24.
 	 */
 	public void showHistory() {
 		if (tfNameInput.getText().isEmpty()) {
@@ -165,6 +166,7 @@ public class SettingsController {
 	/**
 	 * shows win and loss history for specific player
 	 * @param playerName name of player input through settings menu
+	 * @author Tiffany Dizdar, HT24.
 	 */
 	public void showPlayerHistory(String playerName) {
 		int totalWins = 0;
@@ -199,6 +201,7 @@ public class SettingsController {
 	 * @param totalWins total wins for player
 	 * @param losses total losses for player
 	 * @return win percentage
+	 * @author Tiffany Dizdar, Nicklas Svensson, HT24.
 	 */
 	public double calculateWinPercentage(int totalWins, int losses) {
 		if (totalWins < 0 || losses < 0) {
@@ -220,10 +223,9 @@ public class SettingsController {
 	}
 
 	/**
-	 * Starts the game and checks so the Username it not empty and checks if the Tutorial should be playing at the beginning. 
-	 * @throws IOException
+	 * Starts the game and checks so the Username it not empty and checks if the Tutorial should be playing at the beginning.
 	 */
-	public void startGame() throws IOException {
+	public void startGame() {
 		potSliderChange();
 		aiSliderChange();
 		if (!tfNameInput.getText().isEmpty()) {
@@ -329,7 +331,7 @@ public class SettingsController {
 	}
 
 	/**
-	 *  Tells class changeScene to perform the swithScene-action. 
+	 * Tells class changeScene to perform the swithScene-action.
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
@@ -386,7 +388,7 @@ public class SettingsController {
 	 * @param cbOn
 	 * @param cbOff
 	 * @param ivSound
-	 * @Author Fabian Kjellberg
+	 * @author Fabian Kjellberg
 	 */
 	public void initMockController(Sound sound, CheckBox cbOn, CheckBox cbOff, ImageView ivSound) {
 		this.sound = sound;

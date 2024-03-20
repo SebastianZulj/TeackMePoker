@@ -9,14 +9,12 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class contains all test cases related to the HandCalculation class.
+ * That encompasses TF15-24 as well as some extra checking high cards and straight.
+ * @author Tiffany Dizdar, HT24
+ */
 class   HandCalculationTest {
-    @Test
-    void checkPairAndMore() {
-    }
-
-    @Test
-    void checkSuit() {
-    }
 
     @Test
     void checkHighCardsTrue() {
@@ -36,14 +34,6 @@ class   HandCalculationTest {
         HandCalculation handCalculator = new HandCalculation(playingCards);
         boolean result = handCalculator.checkHighCards();
         assertEquals(false, result);
-    }
-
-    public static void main(String[] args) {
-        ArrayList<String> playingCards = new ArrayList<>();
-        playingCards.add("2,h");
-        playingCards.add("9,d");
-        HandCalculation handCalculator = new HandCalculation(playingCards);
-        handCalculator.checkSuit();
     }
 
     @Test
